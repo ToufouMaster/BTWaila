@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "btwaila",
+  "version": "${version}",
+
+  "name": "Better Than Waila",
+  "description": "Add custom tooltips for Blocks, TileEntities and Mobs from minecraft and other mods.",
+  "authors": [
+    "ToufouMaster"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "toufoumaster.btwaila.BTWaila"
+    ],
+    "btwaila": [
+    "toufoumaster.btwaila.BTWailaPlugin"
+    ]
+  },
+  "mixins": [
+    "btwaila.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3"
+  },
+  "suggests": {
+  }
+}

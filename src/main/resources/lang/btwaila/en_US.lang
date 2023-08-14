@@ -1,0 +1,11 @@
+# --Options--
+
+btwaila.options.category = Better Than Waila!
+btwaila.options.title = Better Than Waila!
+btwaila.options.blocktooltips = Show Block Tooltips
+btwaila.options.entitytooltips = Show Entity Tooltips
+btwaila.options.blockadvancedtooltips = Advanced Tooltips
+btwaila.options.entityadvancedtooltips = Advanced Tooltips
+
+# --Keys--
+btwaila.key.menu = Open Menu

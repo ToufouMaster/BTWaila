@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "toufoumaster.btwaila.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "GameSettingsMixin",
+    "GuiIngameMixin",
+    "GuiOptionsPageBaseMixin",
+    "GuiOptionsPageControlsMixin",
+    "IPlayerControllerMixin",
+    "NetClientHandlerMixin",
+    "NetServerHandlerMixin",
+    "PacketMixin",
+    "RenderGlobalMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
