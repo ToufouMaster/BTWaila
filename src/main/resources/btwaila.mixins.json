@@ -12,7 +12,8 @@
     "NetClientHandlerMixin",
     "NetServerHandlerMixin",
     "PacketMixin",
-    "RenderGlobalMixin"
+    "RenderGlobalMixin",
+    "NetLoginHandlerMixin"
   ],
   "client": [
   ],

@@ -12,6 +12,7 @@ import toufoumaster.btwaila.mixin.PacketMixin;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
+import toufoumaster.btwaila.network.packet.PacketServerCheck;
 
 
 public class BTWaila implements ModInitializer {
@@ -25,15 +26,19 @@ public class BTWaila implements ModInitializer {
     public static HitResult blockToDraw = null;
     public static int blockMetadata = 0;
     public static Entity entityToDraw;
+    public static boolean canUseAdvancedTooltips = false;
 
 
     public BTWaila() {
+        //TODO: Packet 223 canUseAdvancedTooltips is maybe always true after joining a valid server
         PacketMixin.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
         PacketMixin.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
         PacketMixin.callAddIdClassMapping(222, true, false, PacketEntityData.class);
+        PacketMixin.callAddIdClassMapping(223, true, false, PacketServerCheck.class);
         Object instance = FabricLoader.getInstance().getGameInstance();
-        if (instance instanceof Minecraft)
+        if (instance instanceof Minecraft) {
             blockOverlay.setMinecraftInstance((Minecraft) instance);
+        }
     }
 
     // Implementation Test Block
@@ -46,7 +51,7 @@ public class BTWaila implements ModInitializer {
         FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTootltipPlugin.class).forEach(plugin -> {
             plugin.getEntrypoint().initializePlugin(LOGGER);
         });
-        //LOGGER.info(String.format("Registered %d tooltips",RecipeRegistry.getRecipeAmount(),RecipeRegistry.getGroupAmount()));
+        //LOGGER.info(String.format("Registered %d tooltips",RecipeRegistry.getRecipeAmount(),RecipeRegistry.getGroupAmount()))
 
         LOGGER.info("BTWaila initialized.");
     }

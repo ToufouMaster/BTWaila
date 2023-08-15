@@ -8,8 +8,10 @@ import net.minecraft.core.entity.monster.EntityMonster;
 import net.minecraft.core.entity.monster.EntityZombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.INetClientHandler;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
+import toufoumaster.btwaila.network.packet.PacketServerCheck;
 
 @Mixin(
         value = NetClientHandler.class,
@@ -29,5 +31,10 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
             packet.tag.putByte("SkinVariant", entityTag.getByte("SkinVariant"));
             entity.readAdditionalSaveData(packet.tag);
         }
+    }
+
+    @Override
+    public void handleServerCheck(PacketServerCheck packet) {
+        BTWaila.canUseAdvancedTooltips = true;
     }
 }

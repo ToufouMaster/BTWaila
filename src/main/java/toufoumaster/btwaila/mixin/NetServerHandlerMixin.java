@@ -31,7 +31,6 @@ import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 public class NetServerHandlerMixin implements INetServerHandler {
     @Shadow private EntityPlayerMP playerEntity;
 
-
     //TODO: Future update need to send tileEntity data only once the data is different.
     @Override
     public void handleRequestTileEntityData(PacketRequestTileEntityData packet) {

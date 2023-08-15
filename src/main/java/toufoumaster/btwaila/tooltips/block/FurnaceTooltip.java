@@ -3,6 +3,7 @@ package toufoumaster.btwaila.tooltips.block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityBlastFurnace;
 import net.minecraft.core.block.entity.TileEntityFurnace;
+import net.minecraft.core.block.entity.TileEntityTrommel;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.lang.I18n;
 import toufoumaster.btwaila.*;
@@ -21,15 +22,13 @@ public class FurnaceTooltip implements IBTWailaCustomBlockTooltip {
 
     @Override
     public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
-        I18n stringTranslate = I18n.getInstance();
         TileEntityFurnace furnace = (TileEntityFurnace) tileEntity;
         ItemStack input = furnace.getStackInSlot(0);
         ItemStack fuel = furnace.getStackInSlot(1);
         ItemStack output = furnace.getStackInSlot(2);
+        guiBlockOverlay.drawProgressBarWithText("Progress: ", furnace.getCookProgressScaled(100), 100, true, true, 32);
         guiBlockOverlay.drawStringWithShadow("Burn time: "+furnace.currentBurnTime+"t", 0);
-        guiBlockOverlay.drawStringWithShadow("Progress: "+furnace.getCookProgressScaled(100)+"%", 0);
-        guiBlockOverlay.drawStringWithShadow("Input item: "+((input != null) ? stringTranslate.translateKey(input.getItemTranslateKey()) : "No item"), 0);
-        guiBlockOverlay.drawStringWithShadow("Fuel item: "+((fuel != null) ? stringTranslate.translateKey(fuel.getItemTranslateKey()) : "No item"), 0);
-        guiBlockOverlay.drawStringWithShadow("Output item: "+ ((output != null) ? stringTranslate.translateKey(output.getItemTranslateKey()) : "No item"), 0);
+        ItemStack[] stacks = new ItemStack[] {input, fuel, output};
+        guiBlockOverlay.drawItemList(stacks, 0);
     }
 }

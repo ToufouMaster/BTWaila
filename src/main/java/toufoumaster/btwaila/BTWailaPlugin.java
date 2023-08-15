@@ -17,6 +17,7 @@ public class BTWailaPlugin implements BTWailaCustomTootltipPlugin {
         new MobSpawnerTooltip().addTooltip();
         new NoteBlockTooltip().addTooltip();
         new RecordPlayerTooltip().addTooltip();
+        new TrommelTooltip().addTooltip();
 
         new MonsterTooltip().addTooltip();
         new PlayerTooltip().addTooltip();

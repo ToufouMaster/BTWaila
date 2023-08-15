@@ -32,6 +32,7 @@ import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 
+import java.awt.*;
 import java.util.*;
 
 public class GuiBlockOverlay extends Gui {
@@ -69,14 +70,74 @@ public class GuiBlockOverlay extends Gui {
     public void addOffY(int offset) {
         this.offY += offset;
     }
+    public void subOffY(int offset) {
+        this.offY -= offset;
+    }
+
+    public int getOffY() { return offY; }
+    public int getPosX() { return posX; }
+
+    public void setOffY(int y) { this.offY = y; }
+    public void setPosX(int x) { this.posX = x; }
 
     public void drawStringWithShadow(String text, int offX, int color) {
         this.theGame.fontRenderer.drawStringWithShadow(text, posX+32+offX, offY, color);
-        offY+=8;
+        addOffY(8);
     }
 
     public void drawStringWithShadow(String text, int offX) {
         drawStringWithShadow(text, offX, Colors.WHITE);
+    }
+
+    public void drawProgressBar(int value, int max, int boxWidth, int bgColor, int fgColor, int offX) {
+        float ratio = (float) value / (float) max;
+        final int offset = 2;
+        final int sizeY = 16;
+        int progress = (int)((boxWidth-offset*2)*ratio);
+        this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgColor);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, 0xff000000+fgColor);
+        addOffY(sizeY);
+    }
+
+    private String generateTemplateString(String text, int max, boolean values, boolean percentage) {
+        String template = text;
+        if (values) {
+            template += max + "/" + max;
+            if (percentage) template += " ";
+        }
+        if (percentage) {
+            template += "("+String.format("%.1f",100f)+"%)";
+        }
+        return template;
+    }
+
+    private String generateProgressBarString(String text, int value, int max, boolean values , boolean percentage) {
+        float ratio = (float) value / (float) max;
+        String template = text;
+        if (values) {
+            template += value + "/" + max;
+            if (percentage) template += " ";
+        }
+        if (percentage) {
+            template += "("+String.format("%.1f",ratio*100)+"%)";
+        }
+        return template;
+    }
+
+    public void drawProgressBarWithText(String text, int value, int max, int bgColor, int fgColor, boolean values, boolean percentage, int offX) {
+        int stringPadding = 5;
+        int stringWidth = this.theGame.fontRenderer.getStringWidth(generateTemplateString(text, max, values, percentage));
+        drawProgressBar(value, max, stringWidth + stringPadding * 2, bgColor, fgColor, offX);
+        subOffY(12);
+        String toDrawText = generateProgressBarString(text, value, max, values, percentage);
+        int textWidthDif = stringWidth - this.theGame.fontRenderer.getStringWidth(toDrawText);
+        drawStringWithShadow(toDrawText, offX-32+stringPadding + textWidthDif/2);
+        addOffY(4);
+    }
+
+    public void drawProgressBarWithText(String text, int value, int max, boolean values, boolean percentage, int offX) {
+        drawProgressBarWithText(text, value, max, Colors.GRAY, Colors.LIGHT_GRAY, values, percentage, offX);
     }
 
     public void drawInfiniteStackSizeInventory(IInventory inventory, int offX) {
@@ -114,7 +175,7 @@ public class GuiBlockOverlay extends Gui {
                 }
             }
         }
-        offY += 8*(1+itemY);
+        addOffY(8*(1+itemY));
     }
 
     public void drawInventory(IInventory inventory, int offX) {
@@ -133,7 +194,7 @@ public class GuiBlockOverlay extends Gui {
                 }
             }
         }
-        offY += 8*(1+itemY);
+        addOffY(8*(1+itemY));
     }
 
     private void init() {
@@ -242,7 +303,7 @@ public class GuiBlockOverlay extends Gui {
         HitResult hitResult = BTWaila.blockToDraw;
         TileEntity tileEntity = world.getBlockTileEntity(hitResult.x, hitResult.y, hitResult.z);
         if (tileEntity != null) {
-            if (this.theGame.thePlayer instanceof EntityClientPlayerMP) {
+            if (this.theGame.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) this.theGame.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
             }
@@ -282,8 +343,7 @@ public class GuiBlockOverlay extends Gui {
         drawStringWithShadow(entityName, 0, color);
 
         if (gameSettings.getEntityAdvancedTooltips().value) {
-            //drawStringWithShadow("Health: "+entity.health, 0, Colors.WHITE);
-            if (this.theGame.thePlayer instanceof EntityClientPlayerMP) {
+            if (this.theGame.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) this.theGame.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestEntityData(entity.id));
             }
