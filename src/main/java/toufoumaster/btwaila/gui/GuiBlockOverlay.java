@@ -89,17 +89,6 @@ public class GuiBlockOverlay extends Gui {
         drawStringWithShadow(text, offX, Colors.WHITE);
     }
 
-    public void drawProgressBar(int value, int max, int boxWidth, int bgColor, int fgColor, int offX) {
-        float ratio = (float) value / (float) max;
-        final int offset = 2;
-        final int sizeY = 16;
-        int progress = (int)((boxWidth-offset*2)*ratio);
-        this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgColor);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, 0xff000000+fgColor);
-        addOffY(sizeY);
-    }
-
     private String generateTemplateString(String text, int max, boolean values, boolean percentage) {
         String template = text;
         if (values) {
@@ -123,6 +112,17 @@ public class GuiBlockOverlay extends Gui {
             template += "("+String.format("%.1f",ratio*100)+"%)";
         }
         return template;
+    }
+
+    public void drawProgressBar(int value, int max, int boxWidth, int bgColor, int fgColor, int offX) {
+        float ratio = (float) value / (float) max;
+        final int offset = 2;
+        final int sizeY = 16;
+        int progress = (int)((boxWidth-offset*2)*ratio);
+        this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgColor);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, 0xff000000+fgColor);
+        addOffY(sizeY);
     }
 
     public void drawProgressBarWithText(String text, int value, int max, int bgColor, int fgColor, boolean values, boolean percentage, int offX) {
