@@ -1,18 +1,13 @@
 package toufoumaster.btwaila.gui;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiToggleButton;
 import net.minecraft.client.option.BooleanOption;
-import net.minecraft.client.option.GameSettings;
-import net.minecraft.client.option.ToggleableOption;
 import net.minecraft.core.lang.I18n;
-import net.minecraft.core.net.command.TextFormatting;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.IOptions;
-import toufoumaster.btwaila.mixin.GameSettingsMixin;
+import toufoumaster.btwaila.util.Colors;
 
 public class GuiBTWailaOption extends GuiScreen {
 
@@ -75,7 +70,7 @@ public class GuiBTWailaOption extends GuiScreen {
         I18n i18n = I18n.getInstance();
         GL11.glPushMatrix();
         this.drawRect(0, 0, width, height, 0x7F000000);
-        this.drawString(this.fontRenderer, "*if text is not displayed correctly, download halplibe*", 10, 10, GuiBlockOverlay.Colors.LIGHT_GRAY);
+        this.drawString(this.fontRenderer, "*if text is not displayed correctly, download halplibe*", 10, 10, Colors.LIGHT_GRAY);
         GL11.glScalef(2.0F, 2.0F, 2.0F);
         this.drawStringCentered(this.fontRenderer, i18n.translateKey("btwaila.options.title"), this.width / 2 / 2, 30, stringColor);
         GL11.glPopMatrix();

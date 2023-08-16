@@ -4,8 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityClientPlayerMP;
 import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.player.controller.PlayerControllerMP;
+import net.minecraft.client.render.RenderEngine;
+import net.minecraft.client.render.TextureFX;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
+import net.minecraft.core.Global;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.*;
 import net.minecraft.core.block.entity.*;
@@ -18,6 +20,7 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.block.ItemBlockLamp;
 import net.minecraft.core.item.block.ItemBlockPainted;
 import net.minecraft.core.item.block.ItemBlockSlabPainted;
 import net.minecraft.core.item.block.ItemBlockStairsPainted;
@@ -31,8 +34,11 @@ import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
+import toufoumaster.btwaila.util.ColorOptions;
+import toufoumaster.btwaila.util.Colors;
+import toufoumaster.btwaila.util.ProgressBarOptions;
+import toufoumaster.btwaila.util.TextureOptions;
 
-import java.awt.*;
 import java.util.*;
 
 public class GuiBlockOverlay extends Gui {
@@ -43,18 +49,6 @@ public class GuiBlockOverlay extends Gui {
     private final int paddingY = 8;
     private int offY = paddingY;
     private int posX = 0;
-
-    public static class Colors {
-        public static final int WHITE = 0xFFFFFF;
-        public static final int GRAY = 0x7F7F7F;
-        public static final int GREEN = 0x7FFF7F;
-        public static final int RED = 0xFF7F7F;
-        public static final int BLUE = 0x7F7FFF;
-        public static final int LIGHT_GRAY = 0xAFAFAF;
-        public static final int LIGHT_GREEN = 0xAFFFAF;
-        public static final int LIGHT_RED = 0xFFAFAF;
-        public static final int LIGHT_BLUE = 0xAFAFFF;
-    }
 
     public GuiBlockOverlay() {
         this.itemRender = new ItemEntityRenderer();
@@ -89,6 +83,22 @@ public class GuiBlockOverlay extends Gui {
         drawStringWithShadow(text, offX, Colors.WHITE);
     }
 
+    public void drawTextureRectRepeat(int x, int y, int w, int h, int texX, int texY, int tileWidth, int color) {
+        float r = (float)(color >> 16 & 0xFF) / 255.0f;
+        float g = (float)(color >> 8 & 0xFF) / 255.0f;
+        float b = (float)(color & 0xFF) / 255.0f;
+        GL11.glColor4f(r, g, b, 1f);
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        GL11.glScissor(0, this.theGame.resolution.height - h * this.theGame.resolution.scale, w * this.theGame.resolution.scale, this.theGame.resolution.height);
+
+        for (int i = x; i < w; i += tileWidth) {
+            for (int j = y; j < h; j += tileWidth) {
+                this.itemRender.renderTexturedQuad(i, j, texX, texY, tileWidth, tileWidth);
+            }
+        }
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+    }
+
     private String generateTemplateString(String text, int max, boolean values, boolean percentage) {
         String template = text;
         if (values) {
@@ -114,30 +124,76 @@ public class GuiBlockOverlay extends Gui {
         return template;
     }
 
-    public void drawProgressBar(int value, int max, int boxWidth, int bgColor, int fgColor, int offX) {
+    public void drawProgressBar(int value, int max, int boxWidth, ColorOptions bgOptions, ColorOptions fgOptions, int offX) {
         float ratio = (float) value / (float) max;
         final int offset = 2;
         final int sizeY = 16;
         int progress = (int)((boxWidth-offset*2)*ratio);
+
         this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgColor);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, 0xff000000+fgColor);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgOptions.color);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, 0xff000000+fgOptions.color);
         addOffY(sizeY);
     }
 
-    public void drawProgressBarWithText(String text, int value, int max, int bgColor, int fgColor, boolean values, boolean percentage, int offX) {
+    public void drawProgressBarTexture(int value, int max, int boxWidth, TextureOptions bgOptions, TextureOptions fgOptions, int offX) {
+        float ratio = (float) value / (float) max;
+        final int offset = 2;
+        final int sizeY = 16;
+        int progress = (int)((boxWidth-offset*2)*ratio);
+
+        RenderEngine renderEngine = this.theGame.renderEngine;
+        renderEngine.bindTexture(renderEngine.getTexture("/terrain.png"));
+        int tileWidth = TextureFX.tileWidthTerrain;
+        int bgTexId = Block.getBlock(bgOptions.blockId).getBlockTextureFromSideAndMetadata(bgOptions.side, bgOptions.metadata);
+        int bgTexX = bgTexId % Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
+        int bgTexY = bgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
+        int fgTexId = Block.getBlock(fgOptions.blockId).getBlockTextureFromSideAndMetadata(fgOptions.side, fgOptions.metadata);
+        int fgTexX = fgTexId % Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
+        int fgTexY = fgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
+
+        //this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgColor);
+        this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
+        drawTextureRectRepeat(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, bgTexX, bgTexY, tileWidth, bgOptions.color);
+        drawTextureRectRepeat(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, fgTexX, fgTexY, tileWidth, fgOptions.color);
+        addOffY(sizeY);
+    }
+
+    public void drawProgressBarWithText(int value, int max, ProgressBarOptions options, int offX) {
         int stringPadding = 5;
-        int stringWidth = this.theGame.fontRenderer.getStringWidth(generateTemplateString(text, max, values, percentage));
-        drawProgressBar(value, max, stringWidth + stringPadding * 2, bgColor, fgColor, offX);
-        subOffY(12);
-        String toDrawText = generateProgressBarString(text, value, max, values, percentage);
+        int stringWidth = this.theGame.fontRenderer.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));
+        String toDrawText = generateProgressBarString(options.text, value, max, options.values, options.percentage);
         int textWidthDif = stringWidth - this.theGame.fontRenderer.getStringWidth(toDrawText);
+        int width = options.boxWidth;
+        if (width == 0) {
+            width = stringWidth + stringPadding * 2;
+        } else {
+            stringPadding = (width-stringWidth)/2;
+        }
+
+        drawProgressBar(value, max, width, options.bgOptions, options.fgOptions, offX);
+        subOffY(12);
         drawStringWithShadow(toDrawText, offX-32+stringPadding + textWidthDif/2);
         addOffY(4);
     }
 
-    public void drawProgressBarWithText(String text, int value, int max, boolean values, boolean percentage, int offX) {
-        drawProgressBarWithText(text, value, max, Colors.GRAY, Colors.LIGHT_GRAY, values, percentage, offX);
+    // TODO: rework all the functions to include ProgressBarOptions class
+    public void drawProgressBarTextureWithText(int value, int max, ProgressBarOptions options, int offX) {
+        int stringPadding = 5;
+        int stringWidth = this.theGame.fontRenderer.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));
+        String toDrawText = generateProgressBarString(options.text, value, max, options.values, options.percentage);
+        int textWidthDif = stringWidth - this.theGame.fontRenderer.getStringWidth(toDrawText);
+        int width = options.boxWidth;
+        if (width == 0) {
+            width = stringWidth + stringPadding * 2;
+        } else {
+            stringPadding = (width-stringWidth)/2;
+        }
+
+        drawProgressBarTexture(value, max, width, (TextureOptions) options.bgOptions, (TextureOptions) options.fgOptions, offX);
+        subOffY(12);
+        drawStringWithShadow(toDrawText, offX-32+stringPadding + textWidthDif/2);
+        addOffY(4);
     }
 
     public void drawInfiniteStackSizeInventory(IInventory inventory, int offX) {
@@ -231,7 +287,7 @@ public class GuiBlockOverlay extends Gui {
         if (!gameSettings.getBlockTooltips().value) return;
         if (this.theGame.fontRenderer != null) {
             String languageKey = block.getLanguageKey(BTWaila.blockMetadata);
-            if (block.asItem() instanceof ItemBlockPainted || block.asItem() instanceof ItemBlockSlabPainted || block.asItem() instanceof ItemBlockStairsPainted)
+            if (block.asItem() instanceof ItemBlockPainted || block.asItem() instanceof ItemBlockSlabPainted || block.asItem() instanceof ItemBlockStairsPainted || block.asItem() instanceof ItemBlockLamp)
                 languageKey = block.asItem().getLanguageKey(new ItemStack(block.asItem(), 1, BTWaila.blockMetadata));
             String blockName = stringTranslate.translateNameKey(languageKey);
             String blockDesc = stringTranslate.translateDescKey(languageKey);

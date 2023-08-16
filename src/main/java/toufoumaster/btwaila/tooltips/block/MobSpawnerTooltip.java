@@ -4,6 +4,7 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityMobSpawner;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.util.Colors;
 
 public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
 
@@ -19,13 +20,13 @@ public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
     public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
         TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) tileEntity;
         boolean canSpawn = true;
-        int canSpawnColor = GuiBlockOverlay.Colors.LIGHT_GREEN;
+        int canSpawnColor = Colors.LIGHT_GREEN;
         if ((guiBlockOverlay.getGame().theWorld.difficultySetting == 0)
                 || (mobSpawner.getMobID() == null)
                 || (mobSpawner.getMobID().equalsIgnoreCase("none"))
         ) {
             canSpawn = false;
-            canSpawnColor = GuiBlockOverlay.Colors.LIGHT_RED;
+            canSpawnColor = Colors.LIGHT_RED;
         }
         int delay = mobSpawner.delay;
         String entityName = mobSpawner.getMobID();

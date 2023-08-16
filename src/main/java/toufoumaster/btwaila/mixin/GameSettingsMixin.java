@@ -1,18 +1,12 @@
 package toufoumaster.btwaila.mixin;
 
-import com.b100.utils.ReflectUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.options.GuiOptionsPageControls;
 import net.minecraft.client.option.BooleanOption;
 import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.Option;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import toufoumaster.btwaila.IKeyBindings;
 import toufoumaster.btwaila.IOptions;
-
-import java.io.File;
 
 @Mixin(value = GameSettings.class, remap = false)
 public abstract class GameSettingsMixin implements IKeyBindings, IOptions {
