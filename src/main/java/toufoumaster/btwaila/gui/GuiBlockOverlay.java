@@ -1,5 +1,6 @@
 package toufoumaster.btwaila.gui;
 
+import com.mojang.nbt.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityClientPlayerMP;
 import net.minecraft.client.entity.player.EntityPlayerSP;
@@ -29,6 +30,7 @@ import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.gamemode.Gamemode;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.world.World;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
@@ -177,7 +179,6 @@ public class GuiBlockOverlay extends Gui {
         addOffY(4);
     }
 
-    // TODO: rework all the functions to include ProgressBarOptions class
     public void drawProgressBarTextureWithText(int value, int max, ProgressBarOptions options, int offX) {
         int stringPadding = 5;
         int stringWidth = this.theGame.fontRenderer.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));

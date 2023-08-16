@@ -4,14 +4,16 @@ import com.mojang.nbt.CompoundTag;
 import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
-import net.minecraft.core.entity.monster.EntityMonster;
-import net.minecraft.core.entity.monster.EntityZombie;
+import net.minecraft.core.net.packet.Packet3Chat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.INetClientHandler;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
-import toufoumaster.btwaila.network.packet.PacketServerCheck;
 
 @Mixin(
         value = NetClientHandler.class,
@@ -33,8 +35,12 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
         }
     }
 
-    @Override
-    public void handleServerCheck(PacketServerCheck packet) {
-        BTWaila.canUseAdvancedTooltips = true;
+
+    @Inject( method = "handleChat", at = @At("HEAD"), cancellable = true)
+    public void handleChat(Packet3Chat packet3chat, CallbackInfo ci) {
+        if (!packet3chat.encrypted && packet3chat.message.equals(BTWaila.checkString)) {
+            BTWaila.canUseAdvancedTooltips = true;
+            ci.cancel();
+        }
     }
 }
