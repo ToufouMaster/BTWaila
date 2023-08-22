@@ -48,10 +48,10 @@ public class NetServerHandlerMixin implements INetServerHandler {
     public void handleRequestEntityData(PacketRequestEntityData packet) {
         MinecraftServer server = MinecraftServer.getInstance();
         WorldServer worldserver = server.getWorldManager(this.playerEntity.dimension);
-        EntityLiving entity = (EntityLiving) worldserver.func_6158_a(packet.id);
+        Entity entity = worldserver.func_6158_a(packet.id);
         if (entity != null) {
             CompoundTag tag = new CompoundTag();
-            entity.addAdditionalSaveData(tag);
+            ((EntityAccessor) entity).callAddAdditionalSaveData(tag);
             PacketEntityData newPacket = new PacketEntityData(packet.id, tag);
             this.playerEntity.playerNetServerHandler.sendPacket(newPacket);
         }

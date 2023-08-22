@@ -30,7 +30,7 @@ public class BTWaila implements ModInitializer {
     public static Entity entityToDraw;
     public static boolean canUseAdvancedTooltips = false;
 
-    public static VersionHelper modVersion = new VersionHelper(0, 2, 0);
+    public static VersionHelper modVersion = new VersionHelper(0, 2, 1);
     public static String checkString = modVersion.generateCheckString();
 
     public BTWaila() {

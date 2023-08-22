@@ -26,13 +26,13 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
 
     @Override
     public void handleEntityData(PacketEntityData packet) {
-        EntityLiving entity = (EntityLiving) getEntityByID(packet.id);
+        Entity entity = getEntityByID(packet.id);
         if (entity != null) {
             CompoundTag entityTag = new CompoundTag();
-            entity.addAdditionalSaveData(entityTag);
+            ((EntityAccessor) entity).callAddAdditionalSaveData(entityTag);
             // TODO: find a way to avoid using CompoundTag to get SkinVariant
             packet.tag.putByte("SkinVariant", entityTag.getByte("SkinVariant"));
-            entity.readAdditionalSaveData(packet.tag);
+            ((EntityAccessor) entity).callReadAdditionalSaveData(packet.tag);
         }
     }
 
