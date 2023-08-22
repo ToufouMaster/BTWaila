@@ -12,12 +12,14 @@ import net.minecraft.core.Global;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.*;
 import net.minecraft.core.block.entity.*;
+import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.EntityPainting;
 import net.minecraft.core.entity.animal.*;
 import net.minecraft.core.entity.monster.*;
 import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
@@ -275,6 +277,7 @@ public class GuiBlockOverlay extends Gui {
             put(EntitySheep.class, Block.wool.asItem());
             put(EntitySquid.class, Item.dye);
             put(EntityWolf.class, Item.bone);
+            put(EntityMinecart.class, Item.minecart);
         }};
     }
 
@@ -378,14 +381,17 @@ public class GuiBlockOverlay extends Gui {
         int OverlayWidth = this.theGame.resolution.scaledWidth;
         IOptions gameSettings = (IOptions)this.theGame.gameSettings;
 
-        if (!(BTWaila.entityToDraw instanceof EntityLiving)) return;
         if (!gameSettings.getEntityTooltips().value) return;
 
-        EntityLiving entity = (EntityLiving) BTWaila.entityToDraw;
-        String entityName = entity.getDisplayName();
+        Entity entity = BTWaila.entityToDraw;
+        boolean isLivingEntity = (entity instanceof EntityLiving);
+        EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
+
+        String entityName = isLivingEntity ? entityLiving.getDisplayName() : null;
         if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(entity);
 
-        int maxTextWidth = Math.max(entity.health*5, this.theGame.fontRenderer.getStringWidth(entityName));
+        int maxTextWidth = this.theGame.fontRenderer.getStringWidth(entityName);
+        if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5,maxTextWidth);
         posX = OverlayWidth / 2 - maxTextWidth / 2 - 50; // TODO: find a way to replace this 50
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -393,9 +399,12 @@ public class GuiBlockOverlay extends Gui {
         Item itemToRender = (entityIconMap.containsKey(entity.getClass())) ? entityIconMap.get(entity.getClass()) : Item.eggChicken;
         this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, new ItemStack(itemToRender, 1, 0), posX+8, offY, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
-        int color = Colors.GREEN;
-        if (entity instanceof EntityMonster) color = Colors.RED;
-        else if (entity instanceof EntityPlayer) color = (int) entity.chatColor;
+        int color = Colors.WHITE;
+        if (isLivingEntity) {
+            color = Colors.GREEN;
+            if (entity instanceof EntityMonster) color = Colors.RED;
+            else if (entity instanceof EntityPlayer) color = (int) entityLiving.chatColor;
+        }
 
         drawStringWithShadow(entityName, 0, color);
 
@@ -405,7 +414,7 @@ public class GuiBlockOverlay extends Gui {
                 playerMP.sendQueue.addToSendQueue(new PacketRequestEntityData(entity.id));
             }
 
-            drawEntityHealth(entity);
+            if (isLivingEntity) drawEntityHealth(entityLiving);
             for (TooltipGroup e : TooltipRegistry.tooltipMap) {
                 if (e.getInterfaceClass().isInstance(entity) && e.isInList(entity.getClass()) && e.getCustomTooltip() instanceof IBTWailaCustomEntityTooltip) {
                     IBTWailaCustomEntityTooltip tooltip = (IBTWailaCustomEntityTooltip) e.getCustomTooltip();

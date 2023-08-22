@@ -1,5 +1,6 @@
 package toufoumaster.btwaila.tooltips.entity;
 
+import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.monster.*;
 import toufoumaster.btwaila.*;
@@ -24,6 +25,6 @@ public class MonsterTooltip implements IBTWailaCustomEntityTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(EntityLiving entityLiving, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(Entity entity, GuiBlockOverlay guiBlockOverlay) {
     }
 }
