@@ -44,8 +44,8 @@ public class VersionHelper {
             serverOutDated = true;
         }
         if (serverOutDated) serverOutDatedPrint(versionHelper); else
-        if (!isUpToDate) upgradeAvailabePrint(versionHelper); else
-        if (!isValid) outDatedPrint(versionHelper);
+        if (!isValid) outDatedPrint(versionHelper); else
+        if (!isUpToDate) upgradeAvailabePrint(versionHelper);
         return isValid;
     }
 
