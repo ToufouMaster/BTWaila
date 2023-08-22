@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.server.net.ChatEmotes;
+import org.lwjgl.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.gui.GuiBlockOverlay;
@@ -13,6 +14,7 @@ import toufoumaster.btwaila.mixin.PacketMixin;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
+import toufoumaster.btwaila.util.VersionHelper;
 
 
 public class BTWaila implements ModInitializer {
@@ -28,7 +30,8 @@ public class BTWaila implements ModInitializer {
     public static Entity entityToDraw;
     public static boolean canUseAdvancedTooltips = false;
 
-    public static String checkString = "§6This server uses BetterThanWaila to display advanced tooltips.[§50.1.2§0] Link:§4 github.com/ToufouMaster/BTWaila/releases";
+    public static VersionHelper modVersion = new VersionHelper(0, 1, 2);
+    public static String checkString = modVersion.generateCheckString();
 
     public BTWaila() {
         //TODO: canUseAdvancedTooltips is maybe always true after joining a valid server
@@ -48,8 +51,8 @@ public class BTWaila implements ModInitializer {
         FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTootltipPlugin.class).forEach(plugin -> {
             plugin.getEntrypoint().initializePlugin(LOGGER);
         });
-        //LOGGER.info(String.format("Registered %d tooltips",RecipeRegistry.getRecipeAmount(),RecipeRegistry.getGroupAmount()))
 
         LOGGER.info("BTWaila initialized.");
+        System.out.println(modVersion);
     }
 }

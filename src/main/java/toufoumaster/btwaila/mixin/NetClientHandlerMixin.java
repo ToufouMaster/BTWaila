@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.INetClientHandler;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
+import toufoumaster.btwaila.util.VersionHelper;
 
 @Mixin(
         value = NetClientHandler.class,
@@ -38,9 +39,15 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
 
     @Inject( method = "handleChat", at = @At("HEAD"), cancellable = true)
     public void handleChat(Packet3Chat packet3chat, CallbackInfo ci) {
-        if (!packet3chat.encrypted && packet3chat.message.equals(BTWaila.checkString)) {
-            BTWaila.canUseAdvancedTooltips = true;
-            ci.cancel();
+        if (!packet3chat.encrypted) {
+            String message = packet3chat.message;
+            VersionHelper version = VersionHelper.getModVersionBasedOnString(message);
+            if (version != null) {
+                if (VersionHelper.checkModVersion(version)) {
+                    BTWaila.canUseAdvancedTooltips = true;
+                }
+                ci.cancel();
+            }
         }
     }
 }
