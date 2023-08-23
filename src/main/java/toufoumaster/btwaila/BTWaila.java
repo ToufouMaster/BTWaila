@@ -30,11 +30,10 @@ public class BTWaila implements ModInitializer {
     public static Entity entityToDraw;
     public static boolean canUseAdvancedTooltips = false;
 
-    public static VersionHelper modVersion = new VersionHelper(0, 2, 1);
+    public static VersionHelper modVersion = new VersionHelper(0, 2, 2);
     public static String checkString = modVersion.generateCheckString();
 
     public BTWaila() {
-        //TODO: canUseAdvancedTooltips is maybe always true after joining a valid server
         PacketMixin.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
         PacketMixin.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
         PacketMixin.callAddIdClassMapping(222, true, false, PacketEntityData.class);
