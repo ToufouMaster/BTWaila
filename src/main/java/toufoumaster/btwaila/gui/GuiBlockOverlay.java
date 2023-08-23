@@ -32,7 +32,6 @@ import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.gamemode.Gamemode;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.world.World;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
@@ -50,9 +49,10 @@ public class GuiBlockOverlay extends Gui {
     private final ItemEntityRenderer itemRender;
     private HashMap<Class, Item> entityIconMap;
     private boolean entityIconMapReady = false;
-    private final int paddingY = 8;
-    private int offY = paddingY;
+    private final int padding = 8;
+    private int offY = padding;
     private int posX = 0;
+    private float scale = 1f;
 
     public GuiBlockOverlay() {
         this.itemRender = new ItemEntityRenderer();
@@ -77,6 +77,24 @@ public class GuiBlockOverlay extends Gui {
 
     public void setOffY(int y) { this.offY = y; }
     public void setPosX(int x) { this.posX = x; }
+
+    private void setScale(float scale) { this.scale = scale; }
+    public float getScale() { return this.scale; }
+
+    public int generateOriginalPosY() {
+        int optionOffY = ((IOptions)this.theGame.gameSettings).getOffsetYTooltips().value;
+        return optionOffY*padding;
+    }
+
+    public int generateOriginalPosX(int centeredValue) {
+        boolean isCentered = ((IOptions)this.theGame.gameSettings).getCenteredTooltips().value;
+        int optionOffX = ((IOptions)this.theGame.gameSettings).getOffsetXTooltips().value;
+        if (isCentered) {
+            return centeredValue;
+        } else {
+            return optionOffX*padding;
+        }
+    }
 
     public void drawStringWithShadow(String text, int offX, int color) {
         this.theGame.fontRenderer.drawStringWithShadow(text, posX+32+offX, offY, color);
@@ -284,9 +302,10 @@ public class GuiBlockOverlay extends Gui {
     public void updateBlockOverlayWindow() {
         init();
         I18n stringTranslate = I18n.getInstance();
-        int OverlayWidth = this.theGame.resolution.scaledWidth;
-        HitResult hitResult = BTWaila.blockToDraw;
         IOptions gameSettings = (IOptions)this.theGame.gameSettings;
+        setScale(gameSettings.getScaleTooltips().value+0.5f);
+        int OverlayWidth = (int) (this.theGame.resolution.scaledWidth);
+        HitResult hitResult = BTWaila.blockToDraw;
         Block block = Block.getBlock(this.theGame.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
         if (!gameSettings.getBlockTooltips().value) return;
         if (this.theGame.fontRenderer != null) {
@@ -296,7 +315,7 @@ public class GuiBlockOverlay extends Gui {
             String blockName = stringTranslate.translateNameKey(languageKey);
             String blockDesc = stringTranslate.translateDescKey(languageKey);
             int maxTextWidth = Math.max(this.theGame.fontRenderer.getStringWidth("Cannot be harvested with current tool"), Math.max(this.theGame.fontRenderer.getStringWidth(blockName), this.theGame.fontRenderer.getStringWidth(blockDesc)));
-            posX = OverlayWidth/2 - maxTextWidth/2;
+            posX = generateOriginalPosX(OverlayWidth/2 - maxTextWidth/2);
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBlendFunc(770, 771);
@@ -355,7 +374,7 @@ public class GuiBlockOverlay extends Gui {
 
             if (gameSettings.getBlockAdvancedTooltips().value) drawFunctionalBlocksData(block);
         }
-        offY = paddingY;
+        offY = generateOriginalPosY();
     }
 
     private void drawFunctionalBlocksData(Block block) {
@@ -378,9 +397,10 @@ public class GuiBlockOverlay extends Gui {
 
     public void updateEntityOverlayWindow() {
         init();
-        int OverlayWidth = this.theGame.resolution.scaledWidth;
-        IOptions gameSettings = (IOptions)this.theGame.gameSettings;
 
+        IOptions gameSettings = (IOptions)this.theGame.gameSettings;
+        setScale(gameSettings.getScaleTooltips().value+0.5f);
+        int OverlayWidth = (int) (this.theGame.resolution.scaledWidth);
         if (!gameSettings.getEntityTooltips().value) return;
 
         Entity entity = BTWaila.entityToDraw;
@@ -392,7 +412,7 @@ public class GuiBlockOverlay extends Gui {
 
         int maxTextWidth = this.theGame.fontRenderer.getStringWidth(entityName);
         if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5,maxTextWidth);
-        posX = OverlayWidth / 2 - maxTextWidth / 2 - 50; // TODO: find a way to replace this 50
+        posX = generateOriginalPosX(OverlayWidth / 2 - maxTextWidth / 2 - 50); // TODO: find a way to replace this 50
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glBlendFunc(770, 771);
@@ -422,9 +442,14 @@ public class GuiBlockOverlay extends Gui {
                 }
             }
         }
-        offY = paddingY;
+        offY = generateOriginalPosY();
     }
-    
+
+    /*private void setGlScale(float v) {
+        float scale = this.scale*v;
+        GL11.glScalef(scale, scale, scale);
+    }*/
+
     private void drawEntityHealth(EntityLiving entity) {
         boolean heartsFlash = this.theGame.thePlayer.heartsFlashTime / 3 % 2 == 1;
         if (this.theGame.thePlayer.heartsFlashTime < 10) {

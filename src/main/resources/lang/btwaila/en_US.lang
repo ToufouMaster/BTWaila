@@ -2,10 +2,14 @@
 
 btwaila.options.category = Better Than Waila!
 btwaila.options.title = Better Than Waila!
-btwaila.options.blocktooltips = Show Block Tooltips
-btwaila.options.entitytooltips = Show Entity Tooltips
+btwaila.options.blocktooltips = Show Blocks
+btwaila.options.entitytooltips = Show Entities
 btwaila.options.blockadvancedtooltips = Advanced Tooltips
 btwaila.options.entityadvancedtooltips = Advanced Tooltips
+btwaila.options.offsetxtooltips = Offset X
+btwaila.options.offsetytooltips = Offset Y
+btwaila.options.centeredtooltips = Centered Tooltips
+btwaila.options.scaletooltips = Scale
 
 # --Keys--
 btwaila.key.menu = Open Menu
