@@ -19,6 +19,7 @@ import net.minecraft.core.entity.EntityPainting;
 import net.minecraft.core.entity.animal.*;
 import net.minecraft.core.entity.monster.*;
 import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.vehicle.EntityBoat;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
@@ -296,6 +297,7 @@ public class GuiBlockOverlay extends Gui {
             put(EntitySquid.class, Item.dye);
             put(EntityWolf.class, Item.bone);
             put(EntityMinecart.class, Item.minecart);
+            put(EntityBoat.class, Item.boat);
         }};
     }
 
