@@ -3,6 +3,7 @@ package toufoumaster.btwaila.tooltips.block;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityTrommel;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.Side;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.IBTWailaCustomBlockTooltip;
@@ -29,5 +30,6 @@ public class TrommelTooltip implements IBTWailaCustomBlockTooltip {
 
         ProgressBarOptions options = new ProgressBarOptions().setText("Progress: ");
         guiBlockOverlay.drawProgressBarWithText((int) trommel.getCookProgressPercent(100), 100, options, 32);
+        guiBlockOverlay.drawItemList(new ItemStack[] {trommel.getStackInSlot(4), trommel.getStackInSlot(0), trommel.getStackInSlot(1), trommel.getStackInSlot(2), trommel.getStackInSlot(3)}, 0);
     }
 }
