@@ -33,6 +33,7 @@ import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.gamemode.Gamemode;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.world.World;
+import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
@@ -47,12 +48,12 @@ import java.util.*;
 
 public class GuiBlockOverlay extends Gui {
     private Minecraft theGame;
-    private final ItemEntityRenderer itemRender;
+    public final ItemEntityRenderer itemRender;
     private HashMap<Class, Item> entityIconMap;
     private boolean entityIconMapReady = false;
     private final int padding = 8;
     private int offY = padding;
-    private int posX = 0;
+    public int posX = 0;
     private float scale = 1f;
 
     public GuiBlockOverlay() {
@@ -279,6 +280,8 @@ public class GuiBlockOverlay extends Gui {
         if (entityIconMapReady) return;
         entityIconMap = new HashMap<Class, Item>() {{
             put(EntityPlayer.class, Item.flag);
+            put(EntityPlayerSP.class, Item.flag);
+            put(EntityPlayerMP.class, Item.flag);
             put(EntityArmoredZombie.class, Item.chainlink);
             put(EntityCreeper.class, Item.sulphur);
             put(EntityGhast.class, Item.ammoFireball);
@@ -384,7 +387,8 @@ public class GuiBlockOverlay extends Gui {
         HitResult hitResult = BTWaila.blockToDraw;
         TileEntity tileEntity = world.getBlockTileEntity(hitResult.x, hitResult.y, hitResult.z);
         if (tileEntity != null) {
-            if (this.theGame.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips) {
+            boolean askTileEntity = !(BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) : false);
+            if (this.theGame.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) this.theGame.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
             }

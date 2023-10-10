@@ -4,9 +4,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HitResult;
+import net.minecraft.core.block.entity.*;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.server.net.ChatEmotes;
-import org.lwjgl.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.gui.GuiBlockOverlay;
@@ -15,6 +14,9 @@ import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BTWaila implements ModInitializer {
@@ -29,9 +31,16 @@ public class BTWaila implements ModInitializer {
     public static int blockMetadata = 0;
     public static Entity entityToDraw;
     public static boolean canUseAdvancedTooltips = false;
-
     public static VersionHelper modVersion = new VersionHelper(0, 2, 2);
     public static String checkString = modVersion.generateCheckString();
+    public static Map<Class<TileEntity>, Boolean> excludeContinousTileEntityData = new HashMap<Class<TileEntity>, Boolean>();
+    public static void excludeContinuousTileEntityPacketUpdateClass(Class tileEntityClass) {
+        excludeContinousTileEntityData.put(tileEntityClass, true);
+    }
+    static {
+        excludeContinuousTileEntityPacketUpdateClass(TileEntitySign.class);
+        excludeContinuousTileEntityPacketUpdateClass(TileEntityFlag.class);
+    }
 
     public BTWaila() {
         PacketMixin.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
