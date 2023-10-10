@@ -16,10 +16,12 @@ import net.minecraft.server.world.WorldServer;
 import org.checkerframework.checker.units.qual.C;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.INetServerHandler;
+import toufoumaster.btwaila.IPlayerPacketData;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
@@ -39,7 +41,12 @@ public class NetServerHandlerMixin implements INetServerHandler {
         TileEntity tileEntity = worldserver.getBlockTileEntity(packet.x, packet.y, packet.z);
         if (tileEntity != null) {
             Packet140TileEntityData newPacket = new Packet140TileEntityData(tileEntity);
-            this.playerEntity.playerNetServerHandler.sendPacket(newPacket);
+            IPlayerPacketData playerPacketData = (IPlayerPacketData)playerEntity;
+            if (playerPacketData.getPreviousTileEntityData() == null || !playerPacketData.getPreviousTileEntityData().tag.equals(newPacket.tag)){
+                this.playerEntity.playerNetServerHandler.sendPacket(newPacket);
+                playerPacketData.setPreviousTileEntityData(newPacket);
+            }
+
         }
     }
 
