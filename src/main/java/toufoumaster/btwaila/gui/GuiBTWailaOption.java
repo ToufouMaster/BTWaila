@@ -88,6 +88,7 @@ public class GuiBTWailaOption extends GuiScreen {
     public void drawScreen(int x, int y, float renderPartialTicks) {
         I18n i18n = I18n.getInstance();
         GL11.glPushMatrix();
+        this.drawDefaultBackground();
         this.drawRect(0, 0, width, height, 0x7F000000);
         this.drawString(this.fontRenderer, "*if text is not displayed correctly, download halplibe*", 10, 10, Colors.LIGHT_GRAY);
         GL11.glScalef(2.0F, 2.0F, 2.0F);

@@ -22,6 +22,9 @@
     ],
     "btwaila": [
     "toufoumaster.btwaila.BTWailaPlugin"
+    ],
+    "modmenu": [
+      "toufoumaster.btwaila.modcontainer.modmenu.ModMenuModule"
     ]
   },
   "mixins": [
