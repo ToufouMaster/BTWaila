@@ -27,7 +27,7 @@ public class RecordPlayerTooltip implements IBTWailaCustomBlockTooltip {
         guiBlockOverlay.drawStringWithShadow(text, 0);
         if (Item.itemsList[recordPlayer.record] != null){
             ItemStack stack = new ItemStack(Item.itemsList[recordPlayer.record]);
-            int x = guiBlockOverlay.posX + guiBlockOverlay.getGame().fontRenderer.getStringWidth(text) + 33;
+            int x = guiBlockOverlay.getPosX() + guiBlockOverlay.getGame().fontRenderer.getStringWidth(text) + 33;
             y -= 3;
             guiBlockOverlay.itemRender.renderItemIntoGUI(guiBlockOverlay.getGame().fontRenderer, guiBlockOverlay.getGame().renderEngine, stack, x, y, 1.0F);
             guiBlockOverlay.itemRender.renderItemOverlayIntoGUI(guiBlockOverlay.getGame().fontRenderer, guiBlockOverlay.getGame().renderEngine, stack, x, y, 1.0F);

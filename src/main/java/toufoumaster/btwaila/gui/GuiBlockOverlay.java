@@ -53,7 +53,7 @@ public class GuiBlockOverlay extends Gui {
     private boolean entityIconMapReady = false;
     private final int padding = 8;
     private int offY = padding;
-    public int posX = 0;
+    private int posX = 0;
     private float scale = 1f;
 
     public GuiBlockOverlay() {
