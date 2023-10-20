@@ -2,6 +2,7 @@ package toufoumaster.btwaila;
 
 import org.slf4j.Logger;
 import toufoumaster.btwaila.tooltips.block.*;
+import toufoumaster.btwaila.tooltips.entity.ChickenTooltip;
 import toufoumaster.btwaila.tooltips.entity.MinecartTooltip;
 import toufoumaster.btwaila.tooltips.entity.MonsterTooltip;
 import toufoumaster.btwaila.tooltips.entity.PlayerTooltip;
@@ -21,6 +22,7 @@ public class BTWailaPlugin implements BTWailaCustomTootltipPlugin {
         new TrommelTooltip().addTooltip();
 
         new MonsterTooltip().addTooltip();
+        new ChickenTooltip().addTooltip();
         new PlayerTooltip().addTooltip();
         new MinecartTooltip().addTooltip();
     }
