@@ -22,9 +22,8 @@ import java.util.Map;
 public class BTWaila implements ModInitializer {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
     public static final GuiBlockOverlay blockOverlay = new GuiBlockOverlay();
-
+    public static boolean isHalpPresent = FabricLoader.getInstance().isModLoaded("halplibe");
     public static boolean showBlockOverlay = false;
     public static boolean showEntityOverlay = false;
     public static HitResult blockToDraw = null;
