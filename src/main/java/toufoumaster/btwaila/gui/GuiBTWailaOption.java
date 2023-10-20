@@ -81,8 +81,8 @@ public class GuiBTWailaOption extends GuiScreen {
         if (option != null) {
             option.toggle();
             option.onUpdate();
+            initGui();
         }
-        initGui();
     }
 
     @Override
