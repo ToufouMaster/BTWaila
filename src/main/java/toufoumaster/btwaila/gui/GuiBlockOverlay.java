@@ -426,7 +426,7 @@ public class GuiBlockOverlay extends Gui {
         HitResult hitResult = BTWaila.blockToDraw;
         TileEntity tileEntity = world.getBlockTileEntity(hitResult.x, hitResult.y, hitResult.z);
         if (tileEntity != null) {
-            boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
+            boolean askTileEntity = !(BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) : false);
             if (this.theGame.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) this.theGame.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
