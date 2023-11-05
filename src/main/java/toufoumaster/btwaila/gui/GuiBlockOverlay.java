@@ -359,7 +359,7 @@ public class GuiBlockOverlay extends Gui {
 
 
             ItemStack[] items = block.getBreakResult(this.theGame.theWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, this.theGame.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
-            int renderItem = block.asItem().id;
+            int renderItem = block.id;
             if (items != null && items.length > 0) renderItem = items[0].itemID;
 
             if (block != null) {
