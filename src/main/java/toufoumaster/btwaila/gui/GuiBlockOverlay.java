@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityClientPlayerMP;
 import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.render.Lighting;
 import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.TextureFX;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
@@ -257,22 +258,43 @@ public class GuiBlockOverlay extends Gui {
     }
 
     public void drawInventory(IInventory inventory, int offX) {
+        Lighting.enableInventoryLight();
+        GL11.glEnable(32826);
+
+        int invWidth = (9 * 16);
+        int invHeight = (3 * 16);
+        int invArea = invHeight * invWidth;
+        int iconLength = (int) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
+        int itemsWide = invWidth/iconLength;
+        double scale = iconLength/16d;
+
+        GL11.glScaled(scale, scale, scale);
+
         int itemX = 0;
         int itemY = 0;
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack itemStack = inventory.getStackInSlot(i);
             if (itemStack != null) {
-                this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, itemStack, 32+posX+offX + itemX*16, offY + itemY*16, 1.0F);
-                this.itemRender.renderItemOverlayIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, itemStack, 32+posX+offX + itemX*16, offY + itemY*16, 1.0F);
-                GL11.glDisable(GL11.GL_LIGHTING);
+                int renderX = (int) ((32 + posX + offX + itemX * iconLength) /scale);
+                int renderY = (int) ((offY + itemY * iconLength)/scale);
+                this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, itemStack, renderX, renderY, 1.0F);
+                this.itemRender.renderItemOverlayIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, itemStack, renderX, renderY, 1.0F);
                 itemX++;
-                if (itemX >= 9) {
+                if (itemX >= itemsWide) {
                     itemX = 0;
                     itemY += 1;
                 }
             }
         }
+
+        GL11.glScaled(1/scale, 1/scale, 1/scale);
+
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_LIGHTING);
         addOffY(8*(1+itemY));
+
+        Lighting.disable();
     }
 
     private void init() {
@@ -304,6 +326,11 @@ public class GuiBlockOverlay extends Gui {
     }
 
     public void updateBlockOverlayWindow() {
+
+        Lighting.enableInventoryLight();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glEnable(32826);
+
         init();
         I18n stringTranslate = I18n.getInstance();
         IOptions gameSettings = (IOptions)this.theGame.gameSettings;
@@ -330,7 +357,11 @@ public class GuiBlockOverlay extends Gui {
             if (items != null && items.length > 0) renderItem = items[0].itemID;
 
             if (block != null) {
-                this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, new ItemStack(renderItem, 1, BTWaila.blockMetadata), posX+8, offY, 1.0F);
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                this.itemRender.renderItemIntoGUI(theGame.fontRenderer, theGame.renderEngine, new ItemStack(renderItem, 1, 0), posX+8, offY, 1f, 1.0F);
+                this.itemRender.renderItemOverlayIntoGUI(theGame.fontRenderer, theGame.renderEngine, new ItemStack(renderItem, 1, 0), posX+8, offY, 1f);
+                //this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, new ItemStack(renderItem, 1, BTWaila.blockMetadata), posX+8, offY, 0.5f, 1.0F);
+                GL11.glDisable(GL11.GL_DEPTH_TEST);
                 GL11.glDisable(GL11.GL_LIGHTING);
             }
 
@@ -365,7 +396,9 @@ public class GuiBlockOverlay extends Gui {
                 }
 
                 if (itemId != 0) {
+                    GL11.glEnable(GL11.GL_DEPTH_TEST);
                     this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, new ItemStack(itemId, 1, 0), posX+8, offY, 1.0F);
+                    GL11.glDisable(GL11.GL_DEPTH_TEST);
                     GL11.glDisable(GL11.GL_LIGHTING);
                 }
                 drawStringWithShadow(harvestString, 0, miningLevelColor);
@@ -379,6 +412,7 @@ public class GuiBlockOverlay extends Gui {
             if (gameSettings.getBlockAdvancedTooltips().value) drawFunctionalBlocksData(block);
         }
         offY = generateOriginalPosY();
+        Lighting.disable();
     }
 
     private void drawFunctionalBlocksData(Block block) {
