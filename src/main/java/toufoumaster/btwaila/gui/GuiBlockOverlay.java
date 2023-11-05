@@ -239,6 +239,10 @@ public class GuiBlockOverlay extends Gui {
     }
 
     public void drawItemList(ItemStack[] itemList, int offX) {
+        Lighting.enableInventoryLight();
+        GL11.glEnable(32826);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+
         int itemX = 0;
         int itemY = 0;
         for (int i = 0; i < itemList.length; i++) {
@@ -246,7 +250,6 @@ public class GuiBlockOverlay extends Gui {
             if (itemStack != null) {
                 this.itemRender.renderItemIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, itemStack, 32+posX+offX + itemX*16, offY + itemY*16, 1.0F);
                 this.itemRender.renderItemOverlayIntoGUI(this.theGame.fontRenderer, this.theGame.renderEngine, itemStack, 32+posX+offX + itemX*16, offY + itemY*16, 1.0F);
-                GL11.glDisable(GL11.GL_LIGHTING);
                 itemX++;
                 if (itemX >= 9) {
                     itemX = 0;
@@ -255,6 +258,9 @@ public class GuiBlockOverlay extends Gui {
             }
         }
         addOffY(8*(1+itemY));
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        Lighting.disable();
     }
 
     public void drawInventory(IInventory inventory, int offX) {
