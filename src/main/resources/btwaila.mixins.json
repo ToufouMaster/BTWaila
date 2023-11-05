@@ -15,7 +15,10 @@
     "NetClientHandlerMixin",
     "NetLoginHandlerMixin",
     "NetServerHandlerMixin",
-    "RenderGlobalMixin"
+    "PacketMixin",
+    "EntityAccessor",
+    "RenderGlobalMixin",
+    "NetLoginHandlerMixin"
   ],
   "client": [
   ],
