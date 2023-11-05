@@ -9,11 +9,11 @@ import net.minecraft.core.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.gui.GuiBlockOverlay;
-import toufoumaster.btwaila.mixin.PacketMixin;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
+import turniplabs.halplibe.helper.NetworkHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +32,9 @@ public class BTWaila implements ModInitializer {
     public static boolean canUseAdvancedTooltips = false;
     public static VersionHelper modVersion = new VersionHelper(0, 2, 2);
     public static String checkString = modVersion.generateCheckString();
-    public static Map<Class<TileEntity>, Boolean> excludeContinousTileEntityData = new HashMap<Class<TileEntity>, Boolean>();
+    public static Map<Class<TileEntity>, Boolean> excludeContinuousTileEntityData = new HashMap<Class<TileEntity>, Boolean>();
     public static void excludeContinuousTileEntityPacketUpdateClass(Class tileEntityClass) {
-        excludeContinousTileEntityData.put(tileEntityClass, true);
+        excludeContinuousTileEntityData.put(tileEntityClass, true);
     }
     static {
         excludeContinuousTileEntityPacketUpdateClass(TileEntitySign.class);
@@ -42,9 +42,9 @@ public class BTWaila implements ModInitializer {
     }
 
     public BTWaila() {
-        PacketMixin.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
-        PacketMixin.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
-        PacketMixin.callAddIdClassMapping(222, true, false, PacketEntityData.class);
+        NetworkHelper.register(PacketRequestTileEntityData.class, true, false);
+        NetworkHelper.register(PacketRequestEntityData.class, true, false);
+        NetworkHelper.register(PacketEntityData.class, false, true);
         Object instance = FabricLoader.getInstance().getGameInstance();
         if (instance instanceof Minecraft) {
             blockOverlay.setMinecraftInstance((Minecraft) instance);
