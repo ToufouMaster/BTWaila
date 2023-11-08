@@ -271,6 +271,7 @@ public class GuiBlockOverlay extends Gui {
         int invHeight = (3 * 16);
         int invArea = invHeight * invWidth;
         int iconLength = (int) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
+        iconLength = Math.min(16, iconLength);
         int itemsWide = invWidth/iconLength;
         double scale = iconLength/16d;
 
