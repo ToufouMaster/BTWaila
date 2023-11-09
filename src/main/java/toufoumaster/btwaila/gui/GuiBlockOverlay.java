@@ -379,8 +379,9 @@ public class GuiBlockOverlay extends Gui {
                 languageKey = block.asItem().getLanguageKey(new ItemStack(block.asItem(), 1, BTWaila.blockMetadata));
             String blockName = stringTranslate.translateNameKey(languageKey);
             String blockDesc = stringTranslate.translateDescKey(languageKey);
-            int maxTextWidth = Math.max(this.theGame.fontRenderer.getStringWidth("Cannot be harvested with current tool"), Math.max(this.theGame.fontRenderer.getStringWidth(blockName), this.theGame.fontRenderer.getStringWidth(blockDesc)));
-            posX = generateOriginalPosX(OverlayWidth/2 - maxTextWidth/2);
+            //int maxTextWidth = Math.max(this.theGame.fontRenderer.getStringWidth("Cannot be harvested with current tool"), Math.max(this.theGame.fontRenderer.getStringWidth(blockName), this.theGame.fontRenderer.getStringWidth(blockDesc)));
+            int maxTextWidth = 16 * 9;
+            posX = generateOriginalPosX((OverlayWidth - maxTextWidth)/2 - 16 - 16);
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBlendFunc(770, 771);
