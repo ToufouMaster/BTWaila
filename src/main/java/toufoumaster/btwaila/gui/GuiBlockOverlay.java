@@ -485,8 +485,8 @@ public class GuiBlockOverlay extends Gui {
         if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(entity);
 
         int maxTextWidth = this.theGame.fontRenderer.getStringWidth(entityName);
-        if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5,maxTextWidth);
-        posX = generateOriginalPosX(OverlayWidth / 2 - maxTextWidth / 2 - 50); // TODO: find a way to replace this 50
+        if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5 + 32,maxTextWidth);
+        posX = generateOriginalPosX((OverlayWidth - maxTextWidth) / 2); // TODO: find a way to replace this 50
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glBlendFunc(770, 771);
