@@ -1,5 +1,6 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityChest;
 import net.minecraft.core.block.entity.TileEntityDispenser;
@@ -22,6 +23,9 @@ public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
     @Override
     public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
         IInventory inventory = (IInventory) tileEntity;
+        if (tileEntity instanceof TileEntityChest){
+            inventory = BlockChest.getInventory(tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+        }
         int max = inventory.getSizeInventory();
         int current = 0;
         for (int i = 0; i < max; i++) {

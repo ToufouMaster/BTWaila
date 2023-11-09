@@ -20,7 +20,7 @@ public class ChickenTooltip implements IBTWailaCustomEntityTooltip {
     @Override
     public void drawAdvancedTooltip(Entity entity, GuiBlockOverlay guiBlockOverlay) {
         EntityChicken chicken = (EntityChicken) entity;
-        String text = String.format("Egg Delay: %d", chicken.timeUntilNextEgg);
+        String text = String.format("Next egg: %d seconds", chicken.timeUntilNextEgg/20);
         guiBlockOverlay.drawStringWithShadow(text, 0);
     }
 }
