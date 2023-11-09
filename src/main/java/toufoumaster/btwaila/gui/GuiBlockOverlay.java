@@ -106,6 +106,32 @@ public class GuiBlockOverlay extends Gui {
     public void drawStringWithShadow(String text, int offX) {
         drawStringWithShadow(text, offX, Colors.WHITE);
     }
+    public void drawStringJustified(String text, int offX, int maxWidth, int color){
+        String[] words = text.split(" ");
+        StringBuilder line = new StringBuilder();
+        StringBuilder prevline;
+        int wordCount = 0;
+        for (String word: words) {
+            prevline = new StringBuilder(line.toString());
+            line.append(word).append(" ");
+            wordCount++;
+            if (theGame.fontRenderer.getStringWidth(line.toString().trim()) > maxWidth){
+                if (wordCount <= 1){
+                    drawStringWithShadow(line.toString(), offX, color);
+                    line = new StringBuilder(word).append(" ");
+                    wordCount = 0;
+                    continue;
+                }
+                drawStringWithShadow(prevline.toString(), offX, color);
+                line = new StringBuilder(word).append(" ");
+                wordCount = 0;
+            }
+        }
+        String remainder = line.toString();
+        if (remainder.length() > 0){
+            drawStringWithShadow(remainder, offX, color);
+        }
+    }
 
     public void drawTextureRectRepeat(int x, int y, int w, int h, int texX, int texY, int tileWidth, int color) {
         float r = (float)(color >> 16 & 0xFF) / 255.0f;
@@ -330,6 +356,7 @@ public class GuiBlockOverlay extends Gui {
             put(EntityMinecart.class, Item.minecart);
             put(EntityBoat.class, Item.boat);
         }};
+        entityIconMapReady = true;
     }
 
     public void updateBlockOverlayWindow() {
@@ -372,8 +399,8 @@ public class GuiBlockOverlay extends Gui {
                 GL11.glDisable(GL11.GL_LIGHTING);
             }
 
-            drawStringWithShadow(blockName, 0);
-            drawStringWithShadow(blockDesc, 0, Colors.LIGHT_GRAY);
+            drawStringJustified(blockName, 0, maxTextWidth, Colors.WHITE);
+            drawStringJustified(blockDesc, 0, maxTextWidth, Colors.LIGHT_GRAY);
             EntityPlayerSP player = this.theGame.thePlayer;
             int itemId = 0;
             if (player != null && player.getGamemode() == Gamemode.survival) {
