@@ -1,11 +1,11 @@
 # --Options--
 
-btwaila.options.category = Better Than Waila!
+btwaila.options.category = Better Than Waila Options
 btwaila.options.title = Better Than Waila!
-btwaila.options.blocktooltips = Show Blocks
-btwaila.options.entitytooltips = Show Entities
-btwaila.options.blockadvancedtooltips = Advanced Tooltips
-btwaila.options.entityadvancedtooltips = Advanced Tooltips
+btwaila.options.blocktooltips = Show Blocks Info
+btwaila.options.entitytooltips = Show Entities Info
+btwaila.options.blockadvancedtooltips = Extra Block Info
+btwaila.options.entityadvancedtooltips = Extra Entity Info
 btwaila.options.offsetxtooltips = Offset X
 btwaila.options.offsetytooltips = Offset Y
 btwaila.options.centeredtooltips = Centered Tooltips

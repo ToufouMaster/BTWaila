@@ -15,6 +15,6 @@ public class ModMenuModule implements ModMenuApi {
 
     @Override
     public Function<GuiScreen, ? extends GuiScreen> getConfigScreenFactory() {
-        return (screenBase -> new GuiBTWailaOption());
+        return (screenBase -> GuiBTWailaOption.getOptionsPage(screenBase));
     }
 }
