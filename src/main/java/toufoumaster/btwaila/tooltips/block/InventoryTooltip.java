@@ -7,6 +7,7 @@ import net.minecraft.core.block.entity.TileEntityDispenser;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import toufoumaster.btwaila.*;
+import toufoumaster.btwaila.demo.TileEntityDemoChest;
 import toufoumaster.btwaila.gui.GuiBlockOverlay;
 
 public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
@@ -17,6 +18,7 @@ public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
         TooltipGroup tooltipGroup = new TooltipGroup("minecraft", IInventory.class, this);
         tooltipGroup.addTooltip(TileEntityChest.class);
         tooltipGroup.addTooltip(TileEntityDispenser.class);
+        tooltipGroup.addTooltip(TileEntityDemoChest.class);
         TooltipRegistry.tooltipMap.add(tooltipGroup);
     }
 

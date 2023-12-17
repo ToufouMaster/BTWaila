@@ -12,8 +12,7 @@
     "GuiIngameMenuMixin",
     "GuiIngameMixin",
     "IPlayerControllerMixin",
-    "NetClientHandlerMixin",
-    "RenderGlobalMixin"
+    "NetClientHandlerMixin"
   ],
   "server": [
     "NetLoginHandlerMixin",

@@ -17,18 +17,6 @@ import toufoumaster.btwaila.gui.GuiBTWailaOption;
 public class GuiIngameMixin extends Gui {
 
     @Shadow protected Minecraft mc;
-
-    @Inject( method = "renderGameOverlay", at = @At("TAIL"))
-    public void renderGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
-        if (BTWaila.showEntityOverlay) {
-            BTWailaClient.blockOverlay.updateEntityOverlayWindow();
-        } else if (BTWaila.showBlockOverlay) {
-            BTWailaClient.blockOverlay.updateBlockOverlayWindow();
-        }
-        BTWaila.showBlockOverlay = false;
-        BTWaila.showEntityOverlay = false;
-    }
-
     @Inject( method = "updateTick", at = @At("TAIL"))
     public void updateTick(CallbackInfo ci) {
         if (((IOptions)this.mc.gameSettings).getKeyOpenBTWailaMenu().isPressed() && this.mc.currentScreen == null) {

@@ -24,11 +24,6 @@ import java.util.Map;
 public class BTWaila implements ModInitializer, GameStartEntrypoint {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static boolean showBlockOverlay = false;
-    public static boolean showEntityOverlay = false;
-    public static HitResult blockToDraw = null;
-    public static int blockMetadata = 0;
-    public static Entity entityToDraw;
     public static boolean canUseAdvancedTooltips = false;
     public static VersionHelper modVersion = new VersionHelper(0, 2, 2);
     public static String checkString = modVersion.generateCheckString();
