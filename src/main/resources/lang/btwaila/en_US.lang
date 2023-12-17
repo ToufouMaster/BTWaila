@@ -7,4 +7,8 @@ options.blockAdvancedTooltips=Show Advanced Block Tooltip
 options.entityAdvancedTooltips=Show Advanced Entity Tooltip
 
 # --Keys--
-btwaila.key.menu = Open Menu
+btwaila.key.menu=Open Menu
+
+# --Gui--
+btwaila.noitem=No Item
+btwaila.tooltip.flag.color=Color {d}:
