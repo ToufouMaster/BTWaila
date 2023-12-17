@@ -90,9 +90,6 @@ public class GuiBTWailaOption extends GuiScreen {
         I18n i18n = I18n.getInstance();
         GL11.glPushMatrix();
         this.drawDefaultBackground();
-        if (!BTWaila.isHalpPresent){ // Show Download Halp prompt only when Halp is not present
-            this.drawString(this.fontRenderer, "*if text is not displayed correctly, download halplibe*", 10, 10, Colors.LIGHT_GRAY);
-        }
         GL11.glScalef(2.0F, 2.0F, 2.0F);
         this.drawStringCentered(this.fontRenderer, i18n.translateKey("btwaila.options.title"), this.width / 2 / 2, 30, stringColor);
         GL11.glPopMatrix();

@@ -15,17 +15,15 @@ import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
-import turniplabs.halplibe.helper.NetworkHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class BTWaila implements ModInitializer,GameStartEntrypoint {
+public class BTWaila implements ModInitializer, GameStartEntrypoint {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static boolean isHalpPresent = FabricLoader.getInstance().isModLoaded("halplibe");
     public static boolean showBlockOverlay = false;
     public static boolean showEntityOverlay = false;
     public static HitResult blockToDraw = null;
