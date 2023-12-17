@@ -157,6 +157,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
         renderBlockOverlay(Block.chestPlanksOakPainted, meta, demoChest, new ItemStack[]{new ItemStack(Block.chestPlanksOakPainted, 1, meta)});
     }
     private void renderBlockOverlay(Block block, int blockMetadata, TileEntity tileEntity, ItemStack[] blockDrops){
+        offY = generateOriginalPosY();
         Lighting.enableInventoryLight();
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glEnable(32826);
@@ -235,10 +236,10 @@ public class GuiBlockOverlay extends MovableHudComponent {
                 drawFunctionalBlocksData(tileEntity);
             }
         }
-        offY = generateOriginalPosY();
         Lighting.disable();
     }
     private void renderEntityOverlay(Entity entity){
+        offY = generateOriginalPosY();
         IOptions gameSettings = (IOptions)minecraft.gameSettings;
         setScale(gameSettings.getScaleTooltips().value+0.5f);
         if (!gameSettings.getEntityTooltips().value) return;
@@ -281,7 +282,6 @@ public class GuiBlockOverlay extends MovableHudComponent {
                 }
             }
         }
-        offY = generateOriginalPosY();
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
         if (tileEntity != null) {
