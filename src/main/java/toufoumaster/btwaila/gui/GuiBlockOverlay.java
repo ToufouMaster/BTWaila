@@ -5,6 +5,7 @@ import net.minecraft.client.entity.player.EntityClientPlayerMP;
 import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
 import net.minecraft.client.render.Lighting;
@@ -114,6 +115,13 @@ public class GuiBlockOverlay extends MovableHudComponent {
     public GuiBlockOverlay(String key, Layout layout) {
         super(key, 16 * 9, 100, layout);
     }
+    @Override
+    public int getAnchorY(ComponentAnchor anchor) {
+        if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
+            return super.getAnchorY(anchor) + 8;
+        }
+        return super.getAnchorY(anchor);
+    }
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
@@ -176,22 +184,8 @@ public class GuiBlockOverlay extends MovableHudComponent {
             drawStringJustified(blockName, 0, getXSize(minecraft), Colors.WHITE);
             drawStringJustified(blockDesc, 0, getXSize(minecraft), Colors.LIGHT_GRAY);
             EntityPlayer player = minecraft.thePlayer;
-            Item itemHarvestTool = null;
-            if (player != null && player.getGamemode() == Gamemode.survival) {
-                if (Item.toolPickaxeSteel.canHarvestBlock(block)) {
-                    itemHarvestTool = Item.toolPickaxeSteel;
-                } else if (Item.toolShearsSteel.canHarvestBlock(block)) {
-                    itemHarvestTool = Item.toolShearsSteel;
-                } else if (Item.toolAxeSteel.canHarvestBlock(block)) {
-                    itemHarvestTool = Item.toolAxeSteel;
-                } else if (Item.toolSwordSteel.canHarvestBlock(block)) {
-                    itemHarvestTool = Item.toolSwordSteel;
-                } else if (Item.toolShovelSteel.canHarvestBlock(block)) {
-                    itemHarvestTool = Item.toolShovelSteel;
-                } else if (Item.toolHoeSteel.canHarvestBlock(block)) {
-                    itemHarvestTool = Item.toolHoeSteel;
-                }
 
+            if (player != null && player.getGamemode() == Gamemode.survival) {
                 int miningLevelColor = Colors.LIGHT_GREEN;
                 String harvestString = "Harvestable with current tool";
                 if (!player.canHarvestBlock(block)) {
@@ -202,19 +196,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
                 if (damage != 0) {
                     harvestString = "Harvesting: "+(int)(damage*100)+"%";
                 }
-
-                if (itemHarvestTool != null) {
-                    GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemHarvestTool.getDefaultStack(), posX+8, offY, 1.0F);
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
-                    GL11.glDisable(GL11.GL_LIGHTING);
-                }
                 drawStringWithShadow(harvestString, 0, miningLevelColor);
-                if (itemHarvestTool == ItemToolPickaxe.toolPickaxeSteel) {
-                    Object miningLevel = ItemToolPickaxe.miningLevels.get(block);
-                    if (miningLevel == null) miningLevel = 0;
-                    drawStringWithShadow("Required mining level: " + miningLevel, 0, miningLevelColor);
-                }
             }
 
             if (modSettings.getBlockAdvancedTooltips().value) {

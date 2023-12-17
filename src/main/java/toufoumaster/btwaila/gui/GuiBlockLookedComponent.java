@@ -22,8 +22,8 @@ import static toufoumaster.btwaila.gui.GuiBlockOverlay.itemRender;
 public class GuiBlockLookedComponent extends MovableHudComponent {
     public Minecraft minecraft;
 
-    public GuiBlockLookedComponent(String key, int xSize, int ySize, Layout layout) {
-        super(key, xSize, ySize, layout);
+    public GuiBlockLookedComponent(String key, Layout layout) {
+        super(key, 18, 18, layout);
     }
 
     @Override
@@ -65,8 +65,8 @@ public class GuiBlockLookedComponent extends MovableHudComponent {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
 
-        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + 8, y + 8, 1f, 1.0F);
-        itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + 8, y + 8, 1f);
+        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f, 1.0F);
+        itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
         Lighting.disable();
@@ -75,6 +75,6 @@ public class GuiBlockLookedComponent extends MovableHudComponent {
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
         int y = getLayout().getComponentY(minecraft, this, yScreenSize);
         ItemStack itemToRender = entityIconMap.containsKey(entity.getClass()) ? entityIconMap.get(entity.getClass()) : Item.eggChicken.getDefaultStack();
-        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemToRender, x+8, y + 8, 1.0F);
+        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemToRender, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1.0F);
     }
 }
