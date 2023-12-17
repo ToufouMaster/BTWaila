@@ -1,6 +1,5 @@
 package toufoumaster.btwaila.gui;
 
-import com.mojang.nbt.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityClientPlayerMP;
 import net.minecraft.client.entity.player.EntityPlayerSP;
@@ -17,8 +16,6 @@ import net.minecraft.core.Global;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.block.entity.TileEntityBasket;
-import net.minecraft.core.block.entity.TileEntityChest;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
@@ -47,10 +44,6 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.item.block.ItemBlockLamp;
-import net.minecraft.core.item.block.ItemBlockPainted;
-import net.minecraft.core.item.block.ItemBlockSlabPainted;
-import net.minecraft.core.item.block.ItemBlockStairsPainted;
 import net.minecraft.core.item.tool.ItemToolPickaxe;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.gamemode.Gamemode;
@@ -72,7 +65,6 @@ import toufoumaster.btwaila.util.Colors;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 import toufoumaster.btwaila.util.TextureOptions;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -84,7 +76,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
     private float scale = 1f;
 
     public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
-    private static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
+    public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
     public Minecraft minecraft;
     private Gui activeGUI;
     private int xScreenSize;
@@ -119,8 +111,8 @@ public class GuiBlockOverlay extends MovableHudComponent {
     public static void addEntityIcon(Class<? extends Entity> entityClass, ItemStack displayStack){
         entityIconMap.put(entityClass, displayStack);
     }
-    public GuiBlockOverlay(String key, int xSize, int ySize, Layout layout) {
-        super(key, xSize, ySize, layout);
+    public GuiBlockOverlay(String key, Layout layout) {
+        super(key, 16 * 9, 100, layout);
     }
 
     @Override
@@ -170,26 +162,19 @@ public class GuiBlockOverlay extends MovableHudComponent {
         if (minecraft.fontRenderer != null) {
             ItemStack renderItem = new ItemStack(block, 1, blockMetadata);
             if (blockDrops != null && blockDrops.length > 0) renderItem = blockDrops[0];
-            renderItem.stackSize = 1;
 
             String languageKey = renderItem.getItemName();
 
             String blockName = stringTranslate.translateNameKey(languageKey);
             String blockDesc = stringTranslate.translateDescKey(languageKey);
-            int maxTextWidth = 16 * 9;
             posX = generateOriginalPosX();
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBlendFunc(770, 771);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-
-            itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, renderItem, posX+8, offY, 1f, 1.0F);
-            itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, renderItem, posX+8, offY, 1f);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDisable(GL11.GL_LIGHTING);
 
-            drawStringJustified(blockName, 0, maxTextWidth, Colors.WHITE);
-            drawStringJustified(blockDesc, 0, maxTextWidth, Colors.LIGHT_GRAY);
+            drawStringJustified(blockName, 0, getXSize(minecraft), Colors.WHITE);
+            drawStringJustified(blockDesc, 0, getXSize(minecraft), Colors.LIGHT_GRAY);
             EntityPlayer player = minecraft.thePlayer;
             Item itemHarvestTool = null;
             if (player != null && player.getGamemode() == Gamemode.survival) {
@@ -251,13 +236,11 @@ public class GuiBlockOverlay extends MovableHudComponent {
         if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(entity);
 
         int maxTextWidth = minecraft.fontRenderer.getStringWidth(entityName);
-        if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5 + 32,maxTextWidth);
+        if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5,maxTextWidth);
         posX = generateOriginalPosX();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glBlendFunc(770, 771);
-        ItemStack itemToRender = entityIconMap.containsKey(entity.getClass()) ? entityIconMap.get(entity.getClass()) : Item.eggChicken.getDefaultStack();
-        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemToRender, posX+8, offY, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
         int color = Colors.WHITE;
         if (isLivingEntity) {
@@ -327,7 +310,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
     }
 
     public void drawStringWithShadow(String text, int offX, int color) {
-        minecraft.fontRenderer.drawStringWithShadow(text, posX+32+offX, offY, color);
+        minecraft.fontRenderer.drawStringWithShadow(text, posX+offX, offY, color);
         addOffY(8);
     }
 
@@ -450,7 +433,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
 
         drawProgressBar(value, max, width, options.bgOptions, options.fgOptions, offX);
         subOffY(12);
-        drawStringWithShadow(toDrawText, offX-32+stringPadding + textWidthDif/2);
+        drawStringWithShadow(toDrawText, offX+stringPadding + textWidthDif/2);
         addOffY(4);
     }
 
@@ -468,7 +451,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
 
         drawProgressBarTexture(value, max, width, (TextureOptions) options.bgOptions, (TextureOptions) options.fgOptions, offX);
         subOffY(12);
-        drawStringWithShadow(toDrawText, offX-32+stringPadding + textWidthDif/2);
+        drawStringWithShadow(toDrawText, offX+stringPadding + textWidthDif/2);
         addOffY(4);
     }
 
@@ -500,8 +483,8 @@ public class GuiBlockOverlay extends MovableHudComponent {
         int itemY = 0;
         for (ItemStack itemStack : itemList) {
             if (itemStack != null) {
-                itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, 32 + posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
-                itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, 32 + posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
+                itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
+                itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
                 itemX++;
                 if (itemX >= 9) {
                     itemX = 0;
@@ -535,7 +518,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack itemStack = inventory.getStackInSlot(i);
             if (itemStack != null) {
-                int renderX = (int) ((32 + posX + offX + itemX * iconLength) /scale);
+                int renderX = (int) ((posX + offX + itemX * iconLength) /scale);
                 int renderY = (int) ((offY + itemY * iconLength)/scale);
                 itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
                 itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
@@ -575,7 +558,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
                 heartOffset = 1;
             }
 
-            int x = posX + 32 + index * 8;
+            int x = posX + index * 8;
             if (health <= 4) {
                 y += rand.nextInt(2);
             }
