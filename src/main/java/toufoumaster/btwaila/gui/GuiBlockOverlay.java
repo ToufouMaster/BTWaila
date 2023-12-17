@@ -45,7 +45,6 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.item.tool.ItemToolPickaxe;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.gamemode.Gamemode;
 import net.minecraft.core.player.inventory.IInventory;
@@ -71,14 +70,15 @@ import java.util.Random;
 
 public class GuiBlockOverlay extends MovableHudComponent {
 
-    private final int padding = 8;
-    private int offY = padding;
-    private int posX = 0;
-    private float scale = 1f;
+    private  final int padding = 8;
+    private  int offY = padding;
+    private  int posX = 0;
+    private  float scale = 1f;
 
     public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
     public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
-    public Minecraft minecraft;
+    public static I18n translator = I18n.getInstance();
+    public  Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
     private Gui activeGUI;
     private int xScreenSize;
     private int yScreenSize;
@@ -113,15 +113,15 @@ public class GuiBlockOverlay extends MovableHudComponent {
         entityIconMap.put(entityClass, displayStack);
     }
     public GuiBlockOverlay(String key, Layout layout) {
-        super(key, 16 * 9, 100, layout);
+        super(key, 16 * 9, 100 - 32, layout);
     }
-    @Override
-    public int getAnchorY(ComponentAnchor anchor) {
-        if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
-            return super.getAnchorY(anchor) + 8;
-        }
-        return super.getAnchorY(anchor);
-    }
+//    @Override
+//    public int getAnchorY(ComponentAnchor anchor) {
+//        if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
+//            return super.getAnchorY(anchor) + 8;
+//        }
+//        return super.getAnchorY(anchor);
+//    }
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
@@ -137,11 +137,8 @@ public class GuiBlockOverlay extends MovableHudComponent {
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null) {return;}
         if (hitResult.hitType == HitResult.HitType.TILE) {
-            Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
-            int meta = minecraft.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z);
             TileEntity tileEntity = minecraft.theWorld.getBlockTileEntity(hitResult.x, hitResult.y, hitResult.z);
-            ItemStack[] drops = block.getBreakResult(minecraft.theWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
-            renderBlockOverlay(block, meta, tileEntity, drops);
+            renderBlockOverlay(tileEntity);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
             renderEntityOverlay(hitResult.entity);
         }
@@ -154,51 +151,19 @@ public class GuiBlockOverlay extends MovableHudComponent {
         this.yScreenSize = yScreenSize;
         TileEntityDemoChest demoChest = TileEntityDemoChest.getDemoChest((int) (System.currentTimeMillis() / (1000 * 60 * 60 * 24)));
         int meta = 8 * 16;
-        renderBlockOverlay(Block.chestPlanksOakPainted, meta, demoChest, new ItemStack[]{new ItemStack(Block.chestPlanksOakPainted, 1, meta)});
+        renderBlockOverlay(demoChest);
     }
-    private void renderBlockOverlay(Block block, int blockMetadata, TileEntity tileEntity, ItemStack[] blockDrops){
+    private void renderBlockOverlay(TileEntity tileEntity){
         offY = generateOriginalPosY();
+        posX = generateOriginalPosX();
         Lighting.enableInventoryLight();
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glEnable(32826);
-
-        I18n stringTranslate = I18n.getInstance();
         IOptions modSettings = (IOptions)minecraft.gameSettings;
         setScale(modSettings.getScaleTooltips().value+0.5f);
 
         if (!modSettings.getBlockTooltips().value) return;
         if (minecraft.fontRenderer != null) {
-            ItemStack renderItem = new ItemStack(block, 1, blockMetadata);
-            if (blockDrops != null && blockDrops.length > 0) renderItem = blockDrops[0];
-
-            String languageKey = renderItem.getItemName();
-
-            String blockName = stringTranslate.translateNameKey(languageKey);
-            String blockDesc = stringTranslate.translateDescKey(languageKey);
-            posX = generateOriginalPosX();
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glBlendFunc(770, 771);
-            GL11.glDisable(GL11.GL_LIGHTING);
-
-            drawStringJustified(blockName, 0, getXSize(minecraft), Colors.WHITE);
-            drawStringJustified(blockDesc, 0, getXSize(minecraft), Colors.LIGHT_GRAY);
-            EntityPlayer player = minecraft.thePlayer;
-
-            if (player != null && player.getGamemode() == Gamemode.survival) {
-                int miningLevelColor = Colors.LIGHT_GREEN;
-                String harvestString = "Harvestable with current tool";
-                if (!player.canHarvestBlock(block)) {
-                    harvestString = "Cannot be harvested with current tool";
-                    miningLevelColor = Colors.LIGHT_RED;
-                }
-                float damage = ((IPlayerControllerMixin)minecraft.playerController).getCurrentDamage();
-                if (damage != 0) {
-                    harvestString = "Harvesting: "+(int)(damage*100)+"%";
-                }
-                drawStringWithShadow(harvestString, 0, miningLevelColor);
-            }
-
             if (modSettings.getBlockAdvancedTooltips().value) {
                 drawFunctionalBlocksData(tileEntity);
             }
@@ -207,31 +172,13 @@ public class GuiBlockOverlay extends MovableHudComponent {
     }
     private void renderEntityOverlay(Entity entity){
         offY = generateOriginalPosY();
+        posX = generateOriginalPosX();
         IOptions gameSettings = (IOptions)minecraft.gameSettings;
         setScale(gameSettings.getScaleTooltips().value+0.5f);
-        if (!gameSettings.getEntityTooltips().value) return;
 
+        if (!gameSettings.getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
         EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
-
-        String entityName = isLivingEntity ? entityLiving.getDisplayName() : null;
-        if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(entity);
-
-        int maxTextWidth = minecraft.fontRenderer.getStringWidth(entityName);
-        if (isLivingEntity) maxTextWidth = Math.max(entityLiving.health*5,maxTextWidth);
-        posX = generateOriginalPosX();
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glBlendFunc(770, 771);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        int color = Colors.WHITE;
-        if (isLivingEntity) {
-            color = Colors.GREEN;
-            if (entity instanceof EntityMonster) color = Colors.RED;
-            else if (entity instanceof EntityPlayer) color = entityLiving.chatColor;
-        }
-
-        drawStringWithShadow(entityName, 0, color);
 
         if (gameSettings.getEntityAdvancedTooltips().value) {
             if (minecraft.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips) {
@@ -267,24 +214,24 @@ public class GuiBlockOverlay extends MovableHudComponent {
         return minecraft;
     }
 
-    public void addOffY(int offset) {
-        this.offY += offset;
+    public  void addOffY(int offset) {
+        offY += offset;
     }
-    public void subOffY(int offset) {
-        this.offY -= offset;
+    public  void subOffY(int offset) {
+        offY -= offset;
     }
 
-    public int getOffY() { return offY; }
-    public int getPosX() { return posX; }
+    public  int getOffY() { return offY; }
+    public  int getPosX() { return posX; }
 
-    public void setOffY(int y) { this.offY = y; }
-    public void setPosX(int x) { this.posX = x; }
+    public  void setOffY(int y) { offY = y; }
+    public  void setPosX(int x) { posX = x; }
 
-    private void setScale(float scale) { this.scale = scale; }
-    public float getScale() { return this.scale; }
+    private  void setScale(float scale) { this.scale = scale; }
+    public  float getScale() { return scale; }
 
-    public int generateOriginalPosY() {
-        return 8 + getLayout().getComponentY(minecraft, this, yScreenSize);
+    public  int generateOriginalPosY() {
+        return /*8 + */getLayout().getComponentY(minecraft, this, yScreenSize);
     }
 
     public int generateOriginalPosX() {
