@@ -22,14 +22,14 @@ public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
         boolean canSpawn = true;
         int canSpawnColor = Colors.LIGHT_GREEN;
         if ((guiBlockOverlay.getGame().theWorld.difficultySetting == 0)
-                || (mobSpawner.getMobID() == null)
-                || (mobSpawner.getMobID().equalsIgnoreCase("none"))
+                || (mobSpawner.getMobId() == null)
+                || (mobSpawner.getMobId().equalsIgnoreCase("none"))
         ) {
             canSpawn = false;
             canSpawnColor = Colors.LIGHT_RED;
         }
         int delay = mobSpawner.delay;
-        String entityName = mobSpawner.getMobID();
+        String entityName = mobSpawner.getMobId();
         guiBlockOverlay.drawStringWithShadow("Binded entity: "+entityName, 0);
         guiBlockOverlay.drawStringWithShadow("Can spawn: "+canSpawn, 0, canSpawnColor);
         guiBlockOverlay.drawStringWithShadow("Delay before spawn: "+delay+"t", 0, canSpawnColor);

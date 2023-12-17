@@ -20,6 +20,9 @@
     "main": [
       "toufoumaster.btwaila.BTWaila"
     ],
+    "afterGameStart": [
+      "toufoumaster.btwaila.BTWaila"
+    ],
     "btwaila": [
     "toufoumaster.btwaila.BTWailaPlugin"
     ],

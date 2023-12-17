@@ -26,7 +26,7 @@ public class GuiBTWailaOption extends GuiScreen {
     int buttonPosY;
 
     @Override
-    public void initGui() {
+    public void init() {
         leftButtonPosX = this.width / 2 - 100;
         rightButtonPosX = this.width / 2 + 100-buttonWidth;
         buttonPosY = this.height / 4 + 72;
@@ -81,7 +81,7 @@ public class GuiBTWailaOption extends GuiScreen {
         if (option != null) {
             option.toggle();
             option.onUpdate();
-            initGui();
+            init();
         }
     }
 

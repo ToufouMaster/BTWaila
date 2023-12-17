@@ -458,7 +458,7 @@ public class GuiBlockOverlay extends Gui {
             boolean askTileEntity = !(BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) : false);
             if (this.theGame.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) this.theGame.thePlayer;
-                playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
+                playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
             }
             for (TooltipGroup e : TooltipRegistry.tooltipMap) {
                 if (e.getInterfaceClass().isInstance(tileEntity) && e.isInList(tileEntity.getClass()) && e.getCustomTooltip() instanceof IBTWailaCustomBlockTooltip) {

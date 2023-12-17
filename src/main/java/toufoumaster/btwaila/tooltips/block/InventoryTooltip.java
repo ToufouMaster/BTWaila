@@ -24,7 +24,7 @@ public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
     public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
         IInventory inventory = (IInventory) tileEntity;
         if (tileEntity instanceof TileEntityChest){
-            inventory = BlockChest.getInventory(tileEntity.worldObj, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+            inventory = BlockChest.getInventory(tileEntity.worldObj, tileEntity.x, tileEntity.y, tileEntity.z);
         }
         int max = inventory.getSizeInventory();
         int current = 0;

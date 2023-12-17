@@ -1,16 +1,21 @@
 package toufoumaster.btwaila.mixin;
 
-import net.minecraft.client.option.*;
+import net.minecraft.client.option.BooleanOption;
+import net.minecraft.client.option.FloatOption;
+import net.minecraft.client.option.GameSettings;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.option.RangeOption;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import toufoumaster.btwaila.IKeyBindings;
 import toufoumaster.btwaila.IOptions;
 
+import static org.lwjgl.input.Keyboard.KEY_NUMPAD0;
+
 @Mixin(value = GameSettings.class, remap = false)
-public abstract class GameSettingsMixin implements IKeyBindings, IOptions {
+public abstract class GameSettingsMixin implements IOptions {
 
     @Unique
-    public KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu", 82);
+    public KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bindKeyboard(KEY_NUMPAD0);
 
     @Unique
     public BooleanOption blockTooltips = new BooleanOption((GameSettings) ((Object)this), "blockTooltips", true);

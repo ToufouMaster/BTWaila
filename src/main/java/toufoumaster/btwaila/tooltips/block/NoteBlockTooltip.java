@@ -29,7 +29,7 @@ public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
             put(Material.glass, "Glass");
             put(Material.wood, "Wood");
         }};
-        Material material = guiBlockOverlay.getGame().theWorld.getBlockMaterial(noteEntity.xCoord, noteEntity.yCoord - 1, noteEntity.zCoord);
+        Material material = guiBlockOverlay.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
         if (material != null && materialList.containsKey(material)) {
             blockModifier = materialList.get(material);
         }

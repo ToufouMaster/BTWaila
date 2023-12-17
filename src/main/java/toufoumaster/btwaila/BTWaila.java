@@ -2,27 +2,29 @@ package toufoumaster.btwaila;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.Global;
 import net.minecraft.core.HitResult;
-import net.minecraft.core.block.entity.*;
+import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.block.entity.TileEntityFlag;
+import net.minecraft.core.block.entity.TileEntitySign;
 import net.minecraft.core.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
 import toufoumaster.btwaila.mixin.PacketMixin;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
+import turniplabs.halplibe.helper.NetworkHelper;
+import turniplabs.halplibe.util.GameStartEntrypoint;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class BTWaila implements ModInitializer {
+public class BTWaila implements ModInitializer,GameStartEntrypoint {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final GuiBlockOverlay blockOverlay = new GuiBlockOverlay();
     public static boolean isHalpPresent = FabricLoader.getInstance().isModLoaded("halplibe");
     public static boolean showBlockOverlay = false;
     public static boolean showEntityOverlay = false;
@@ -40,20 +42,18 @@ public class BTWaila implements ModInitializer {
         excludeContinuousTileEntityPacketUpdateClass(TileEntitySign.class);
         excludeContinuousTileEntityPacketUpdateClass(TileEntityFlag.class);
     }
+    @Override
+    public void beforeGameStart() {
 
-    public BTWaila() {
-        PacketMixin.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
-        PacketMixin.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
-        PacketMixin.callAddIdClassMapping(222, true, false, PacketEntityData.class);
-        Object instance = FabricLoader.getInstance().getGameInstance();
-        if (instance instanceof Minecraft) {
-            blockOverlay.setMinecraftInstance((Minecraft) instance);
-        }
     }
 
     @Override
-    public void onInitialize() {
+    public void afterGameStart() {
         LOGGER.info("Loading implementations.");
+
+        if (!Global.isServer){
+            BTWailaClient.onLoad();
+        }
 
         FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTootltipPlugin.class).forEach(plugin -> {
             plugin.getEntrypoint().initializePlugin(LOGGER);
@@ -61,5 +61,12 @@ public class BTWaila implements ModInitializer {
 
         LOGGER.info("BTWaila initialized.");
         System.out.println(modVersion);
+    }
+
+    @Override
+    public void onInitialize() {
+        PacketMixin.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
+        PacketMixin.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
+        PacketMixin.callAddIdClassMapping(222, true, false, PacketEntityData.class);
     }
 }

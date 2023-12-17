@@ -35,7 +35,7 @@ public class NetServerHandlerMixin implements INetServerHandler {
     @Override
     public void handleRequestTileEntityData(PacketRequestTileEntityData packet) {
         MinecraftServer server = MinecraftServer.getInstance();
-        WorldServer worldserver = server.getWorldManager(this.playerEntity.dimension);
+        WorldServer worldserver = server.getDimensionWorld(this.playerEntity.dimension);
         TileEntity tileEntity = worldserver.getBlockTileEntity(packet.x, packet.y, packet.z);
         if (tileEntity != null) {
             Packet140TileEntityData newPacket = new Packet140TileEntityData(tileEntity);
@@ -47,7 +47,7 @@ public class NetServerHandlerMixin implements INetServerHandler {
     @Override
     public void handleRequestEntityData(PacketRequestEntityData packet) {
         MinecraftServer server = MinecraftServer.getInstance();
-        WorldServer worldserver = server.getWorldManager(this.playerEntity.dimension);
+        WorldServer worldserver = server.getDimensionWorld(this.playerEntity.dimension);
         Entity entity = worldserver.func_6158_a(packet.id);
         if (entity != null) {
             CompoundTag tag = new CompoundTag();
