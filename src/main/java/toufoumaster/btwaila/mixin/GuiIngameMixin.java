@@ -19,7 +19,7 @@ public class GuiIngameMixin extends Gui {
     @Inject( method = "updateTick", at = @At("TAIL"))
     public void updateTick(CallbackInfo ci) {
         if (((IOptions)this.mc.gameSettings).getKeyOpenBTWailaMenu().isPressed() && this.mc.currentScreen == null) {
-            this.mc.displayGuiScreen(GuiBTWailaOption.getOptionsPage(new GuiIngameMenu()));
+            this.mc.displayGuiScreen(GuiBTWailaOption.getOptionsPage(null));
         }
     }
 }
