@@ -58,7 +58,7 @@ public class DemoUtil {
 
         TileEntityFlag demoFlag = new TileEntityFlag();
         demoFlag.items = new ItemStack[]{new ItemStack(Item.dye, 1, random.nextInt(16)), new ItemStack(Item.dye, 1, random.nextInt(16)), new ItemStack(Item.dye, 1, random.nextInt(16))};
-        demoFlag.owner = names.get(random.nextInt(names.size()));
+        demoFlag.owner = getRandomName(random);
         demoEntries.add(new DemoEntry(Block.flag, 0, demoFlag, new ItemStack[]{Item.flag.getDefaultStack()}));
 
         TileEntityFurnace demoFurnace = new TileEntityFurnace();
@@ -98,7 +98,7 @@ public class DemoUtil {
 
         TileEntitySeat demoSeat = new TileEntitySeat();
         EntityLiving demoHuman = new EntityHuman(null);
-        demoHuman.nickname = names.get(random.nextInt(names.size()));
+        demoHuman.nickname = getRandomName(random);
         demoSeat.setPassenger(demoHuman);
         Block seat = Block.seat;
         demoEntries.add(new DemoEntry(seat, 0, demoSeat, new ItemStack[]{seat.getDefaultStack()}));
@@ -144,6 +144,9 @@ public class DemoUtil {
             meta = 0;
         }
         return new ItemStack(item, stackSize, meta);
+    }
+    public static String getRandomName(Random random){
+        return names.get(random.nextInt(names.size()));
     }
 
 }

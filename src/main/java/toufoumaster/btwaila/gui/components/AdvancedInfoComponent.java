@@ -146,7 +146,11 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         this.yScreenSize = yScreenSize;
         if (Keyboard.isKeyDown(Keyboard.KEY_F9)){
             if (!keyPressed){
-                DemoUtil.demoOffset += 1;
+                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+                    DemoUtil.demoOffset -= 1;
+                } else {
+                    DemoUtil.demoOffset += 1;
+                }
                 keyPressed = true;
             }
         } else {
