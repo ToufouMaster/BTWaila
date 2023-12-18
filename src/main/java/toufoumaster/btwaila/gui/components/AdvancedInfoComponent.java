@@ -49,6 +49,7 @@ import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWaila;
+import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
@@ -111,7 +112,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         entityIconMap.put(entityClass, displayStack);
     }
     public AdvancedInfoComponent(String key, Layout layout) {
-        super(key, 16 * 9, 100 - 32, layout);
+        super(key, BTWailaClient.componentTextWidth, 100 - 32, layout);
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
@@ -435,8 +436,8 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         Lighting.enableInventoryLight();
         GL11.glEnable(32826);
 
-        int invWidth = (9 * 16);
-        int invHeight = (3 * 16);
+        int invWidth = getXSize(minecraft);
+        int invHeight = getYSize(minecraft) - (offY - generateOriginalPosY());
         int invArea = invHeight * invWidth;
         int iconLength = (int) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
         iconLength = Math.min(16, iconLength);

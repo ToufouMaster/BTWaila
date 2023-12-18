@@ -15,6 +15,7 @@ import net.minecraft.core.entity.monster.EntityMonster;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
+import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.util.Colors;
@@ -24,7 +25,7 @@ import static toufoumaster.btwaila.BTWaila.translator;
 public class BaseInfoComponent extends MovableHudComponent {
     private int ySize;
     public BaseInfoComponent(String key, Layout layout) {
-        super(key, 16 * 9, 24, layout);
+        super(key, BTWailaClient.componentTextWidth, 24, layout);
     }
 
     @Override
