@@ -18,6 +18,8 @@ btwaila.component.harvest.info.harvesting=Harvesting: {progress}%
 btwaila.util.template.values={current}/{max}
 btwaila.util.template.percentage=({value}%)
 
+btwaila.tooltip.general.entity.null=None
+
 # --Tooltips--
 btwaila.tooltip.minecart.passenger=Passenger: {name}
 btwaila.tooltip.minecart.storage=Stored items: {current}/{max}

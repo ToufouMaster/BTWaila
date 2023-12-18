@@ -5,6 +5,7 @@ import net.minecraft.client.entity.player.EntityClientPlayerMP;
 import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
 import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
@@ -18,6 +19,7 @@ import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.Entity;
+import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.EntityPainting;
 import net.minecraft.core.entity.animal.EntityChicken;
@@ -551,6 +553,26 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         tessellator.draw();
         GL11.glEnable(3553);
         GL11.glDisable(3042);
+    }
+    public static String getEntityName(Entity entity){
+        if (entity == null){
+            return translator.translateKey("btwaila.tooltip.general.entity.null");
+        }
+        String entityName = entity instanceof EntityLiving ? ((EntityLiving)entity).getDisplayName() : null;
+
+        if (entityName == null || entityName.equalsIgnoreCase("§0")) {
+            MobInfoRegistry.MobInfo info = MobInfoRegistry.getMobInfo(entity.getClass());
+            if (info != null){
+                entityName = translator.translateKey(info.getNameTranslationKey());
+            } else {
+                entityName = EntityDispatcher.classToKeyMap.get(entity.getClass());
+            }
+        }
+
+        if (entityName == null){
+            entityName = entity.getClass().getSimpleName();
+        }
+        return entityName;
     }
 
 }

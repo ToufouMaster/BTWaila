@@ -104,19 +104,6 @@ public class BaseInfoComponent extends MovableHudComponent {
         boolean isLivingEntity = (entity instanceof EntityLiving);
         EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
 
-        String entityName = isLivingEntity ? entityLiving.getDisplayName() : null;
-        if (entityName == null || entityName.equalsIgnoreCase("§0")) {
-            MobInfoRegistry.MobInfo info = MobInfoRegistry.getMobInfo(entity.getClass());
-            if (info != null){
-                entityName = translator.translateKey(info.getNameTranslationKey());
-            } else {
-                entityName = EntityDispatcher.classToKeyMap.get(entity.getClass());
-            }
-        }
-        if (entityName == null){
-            entityName = entity.getClass().getSimpleName();
-        }
-
         int color = Colors.WHITE;
         if (isLivingEntity) {
             color = Colors.GREEN;
@@ -128,7 +115,7 @@ public class BaseInfoComponent extends MovableHudComponent {
             }
         }
 
-        minecraft.fontRenderer.drawStringWithShadow(entityName, x, y, color);
+        minecraft.fontRenderer.drawStringWithShadow(AdvancedInfoComponent.getEntityName(entity), x, y, color);
         y += 8;
         ySize = y - startY;
     }

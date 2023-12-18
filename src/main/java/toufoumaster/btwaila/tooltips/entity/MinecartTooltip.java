@@ -29,13 +29,7 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
         EntityMinecart entityMinecart = (EntityMinecart) entity;
         switch (entityMinecart.minecartType) {
             case 0: // Minecart
-                final Entity passenger = entityMinecart.passenger;
-                if (passenger == null) break;
-                boolean isLivingEntity = (passenger instanceof EntityLiving);
-                EntityLiving entityLiving = isLivingEntity ? (EntityLiving) passenger : null;
-                String entityName = isLivingEntity ? entityLiving.getDisplayName() : null;
-                if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(passenger);
-
+                String entityName = AdvancedInfoComponent.getEntityName(entityMinecart.passenger);
                 advancedInfoComponent.drawStringWithShadow(
                         translator.translateKey("btwaila.tooltip.minecart.passenger")
                                 .replace("{name}", entityName), 0);
