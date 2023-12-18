@@ -127,6 +127,9 @@ public class DemoUtil {
         demoEntries.add(new DemoEntry(demoMinecart));
     }
     public static DemoEntry getCurrentEntry(){
+        if (demoOffset < 0){
+            demoOffset += demoEntries.size();
+        }
         return demoEntries.get(demoOffset % demoEntries.size());
     }
     public static ItemStack randomStack(Random random){
