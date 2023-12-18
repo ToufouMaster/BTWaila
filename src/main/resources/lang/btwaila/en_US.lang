@@ -1,15 +1,63 @@
 # --Options--
-
-btwaila.options.category = Better Than Waila!
-btwaila.options.title = Better Than Waila!
-btwaila.options.blocktooltips = Show Blocks
-btwaila.options.entitytooltips = Show Entities
-btwaila.options.blockadvancedtooltips = Advanced Tooltips
-btwaila.options.entityadvancedtooltips = Advanced Tooltips
-btwaila.options.offsetxtooltips = Offset X
-btwaila.options.offsetytooltips = Offset Y
-btwaila.options.centeredtooltips = Centered Tooltips
-btwaila.options.scaletooltips = Scale
+btwaila.options.title=Better Than Waila!
+btwaila.options.category=Better Than Waila Options
+options.blockTooltips=Show Basic Block Tooltip
+options.entityTooltips=Show Basic Entity Tooltip
+options.blockAdvancedTooltips=Show Advanced Block Tooltip
+options.entityAdvancedTooltips=Show Advanced Entity Tooltip
+options.showBlockId=Show Block ID
 
 # --Keys--
-btwaila.key.menu = Open Menu
+btwaila.key.menu=Open Menu
+
+# --Gui--
+btwaila.component.harvest.info.harvestable=Harvestable with current tool
+btwaila.component.harvest.info.notharvestable=Cannot be harvested with current tool
+btwaila.component.harvest.info.harvesting=Harvesting: {progress}%
+
+# These are used as templates to measure theoretical string sizes, changing them could result in spacing issues
+btwaila.util.template.values={current}/{max}
+btwaila.util.template.percentage=({value}%)
+
+btwaila.tooltip.general.entity.null=None
+
+# --Tooltips--
+btwaila.tooltip.minecart.passenger=Passenger: {name}
+btwaila.tooltip.minecart.storage=Stored items: {current}/{max}
+btwaila.tooltip.minecart.fuel=Fuel: {fuel}
+
+btwaila.tooltip.chicken.egg=Next egg: {timer} seconds
+
+btwaila.tooltip.basket.storage=Stored items: {current}/{max}
+
+btwaila.tooltip.flag.owner=Owner: {name}
+btwaila.tooltip.flag.owner.none=None
+btwaila.tooltip.flag.color=Color {id}:
+btwaila.tooltip.flag.empty=No Item
+
+btwaila.tooltip.furnace.progress=Progress: §r
+btwaila.tooltip.furnace.burntime=Burn time: {current}t
+
+btwaila.tooltip.inventory.storage=Stored items: {current}/{max}
+
+btwaila.tooltip.spawner.bound=Bound entity: {name}
+btwaila.tooltip.spawner.canspawn=Can spawn: {flag}
+btwaila.tooltip.spawner.spawndelay=Delay before spawn: {delay}t
+btwaila.tooltip.spawner.name.default=None
+
+btwaila.tooltip.noteblock.pitch=Note pitch: #{note}
+btwaila.tooltip.noteblock.modifier=Block modifier: {modifier}
+btwaila.tooltip.noteblock.material.stone=Stone
+btwaila.tooltip.noteblock.material.sand=Sand
+btwaila.tooltip.noteblock.material.glass=Glass
+btwaila.tooltip.noteblock.material.wood=Wood
+btwaila.tooltip.noteblock.material.none=None
+
+btwaila.tooltip.jukebox.disc=Disc id: {id}
+
+btwaila.tooltip.trommel.progress=Progress: §r
+
+btwaila.tooltip.seat.passenger=Passenger: {name}
+
+btwaila.tooltip.jar.planted=Planted: {name}
+btwaila.tooltip.jar.item.none=None

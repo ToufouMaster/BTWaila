@@ -1,38 +1,46 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityBlastFurnace;
 import net.minecraft.core.block.entity.TileEntityFurnace;
-import net.minecraft.core.block.entity.TileEntityTrommel;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.lang.I18n;
-import toufoumaster.btwaila.*;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.demo.DemoEntry;
+import toufoumaster.btwaila.demo.DemoManager;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 
-public class FurnaceTooltip implements IBTWailaCustomBlockTooltip {
+import java.util.Random;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
+public class FurnaceTooltip extends TileTooltip<TileEntityFurnace> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityFurnace.class, this);
-        tooltipGroup.addTooltip(TileEntityFurnace.class);
-        tooltipGroup.addTooltip(TileEntityBlastFurnace.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityFurnace.class);
+        addClass(TileEntityBlastFurnace.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
-        TileEntityFurnace furnace = (TileEntityFurnace) tileEntity;
+    public void drawAdvancedTooltip(TileEntityFurnace furnace, AdvancedInfoComponent advancedInfoComponent) {
         ItemStack input = furnace.getStackInSlot(0);
         ItemStack fuel = furnace.getStackInSlot(1);
         ItemStack output = furnace.getStackInSlot(2);
 
-        ProgressBarOptions options = new ProgressBarOptions().setText("Progress: ");
-        guiBlockOverlay.drawProgressBarWithText(furnace.getCookProgressScaled(100), 100, options, 32);
+        ProgressBarOptions options = new ProgressBarOptions().setText(translator.translateKey("btwaila.tooltip.furnace.progress"));
+        advancedInfoComponent.drawProgressBarWithText(furnace.getCookProgressScaled(100), 100, options, 0);
 
-        guiBlockOverlay.drawStringWithShadow("Burn time: "+furnace.currentBurnTime+"t", 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.furnace.burntime").replace("{current}", String.valueOf(furnace.currentBurnTime)), 0);
         ItemStack[] stacks = new ItemStack[] {input, fuel, output};
-        guiBlockOverlay.drawItemList(stacks, 0);
+        advancedInfoComponent.drawItemList(stacks, 0);
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        TileEntityFurnace demoFurnace = new TileEntityFurnace();
+        demoFurnace.setInventorySlotContents(0, DemoManager.randomStack(random));
+        demoFurnace.setInventorySlotContents(1, DemoManager.randomStack(random));
+        demoFurnace.setInventorySlotContents(2, DemoManager.randomStack(random));
+        demoFurnace.currentBurnTime = DemoManager.getRandomFuelTime(random);
+        demoFurnace.currentCookTime = random.nextInt(demoFurnace.maxCookTime);
+        return new DemoEntry(Block.furnaceStoneActive, 0, demoFurnace, new ItemStack[]{Block.furnaceStoneIdle.getDefaultStack()});
     }
 }

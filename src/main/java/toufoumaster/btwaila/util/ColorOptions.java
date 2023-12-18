@@ -1,7 +1,5 @@
 package toufoumaster.btwaila.util;
 
-import net.minecraft.core.util.helper.Side;
-
 public class ColorOptions {
     public int color = Colors.WHITE;
 

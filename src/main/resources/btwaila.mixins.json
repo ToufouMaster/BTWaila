@@ -1,26 +1,22 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "toufoumaster.btwaila.mixin",
+  "package": "toufoumaster.btwaila.mixin.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ChunkMixin",
-    "EntityAccessor",
+    "accessors.EntityAccessor",
+    "accessors.PacketAccessor"
+  ],
+  "client": [
     "GameSettingsMixin",
     "GuiIngameMenuMixin",
     "GuiIngameMixin",
-    "GuiOptionsPageBaseMixin",
-    "GuiOptionsPageControlsMixin",
-    "IPlayerControllerMixin",
-    "NetClientHandlerMixin",
-    "NetLoginHandlerMixin",
-    "NetServerHandlerMixin",
-    "PacketMixin",
-    "EntityAccessor",
-    "RenderGlobalMixin",
-    "NetLoginHandlerMixin"
+    "accessors.IPlayerControllerAccessor",
+    "NetClientHandlerMixin"
   ],
-  "client": [
+  "server": [
+    "NetLoginHandlerMixin",
+    "NetServerHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

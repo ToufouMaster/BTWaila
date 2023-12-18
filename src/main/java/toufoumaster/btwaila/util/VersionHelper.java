@@ -1,15 +1,12 @@
 package toufoumaster.btwaila.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.EntityPlayerSP;
-import net.minecraft.core.net.command.TextFormatting;
-import net.minecraft.core.world.World;
 import toufoumaster.btwaila.BTWaila;
 
 public class VersionHelper {
-    int major;
-    int minor;
-    int patch;
+    final int major;
+    final int minor;
+    final int patch;
 
     public VersionHelper(int major, int minor, int patch) {
         this.major = major;
@@ -45,7 +42,7 @@ public class VersionHelper {
         }
         if (serverOutDated) serverOutDatedPrint(versionHelper); else
         if (!isValid) outDatedPrint(versionHelper); else
-        if (!isUpToDate) upgradeAvailabePrint(versionHelper);
+        if (!isUpToDate) upgradeAvailablePrint(versionHelper);
         return isValid;
     }
 
@@ -58,7 +55,7 @@ public class VersionHelper {
         mc.ingameGUI.addChatMessage((text2));
     }
 
-    private static void upgradeAvailabePrint(VersionHelper versionHelper) {
+    private static void upgradeAvailablePrint(VersionHelper versionHelper) {
         String text = "§4The current BTWaila version installed §0[§5"+BTWaila.modVersion.major+"."+BTWaila.modVersion.minor+"."+BTWaila.modVersion.patch+"§0]§4 got an update. ";
         String text2 = "§4The actual server is using it §0[§5"+versionHelper.major+"."+versionHelper.minor+"."+versionHelper.patch+"§0]§4, don't forget to update";
         BTWaila.LOGGER.info(text+text2);

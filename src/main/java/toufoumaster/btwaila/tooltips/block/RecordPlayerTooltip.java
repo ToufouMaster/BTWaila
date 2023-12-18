@@ -1,38 +1,44 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityRecordPlayer;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.*;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.demo.DemoEntry;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
-public class RecordPlayerTooltip implements IBTWailaCustomBlockTooltip {
+import java.util.Random;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
+
+public class RecordPlayerTooltip extends TileTooltip<TileEntityRecordPlayer> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityRecordPlayer.class, this);
-        tooltipGroup.addTooltip(TileEntityRecordPlayer.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityRecordPlayer.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
-        TileEntityRecordPlayer recordPlayer = (TileEntityRecordPlayer) tileEntity;
-        String text = "Disk id: "+recordPlayer.record;
-        int y = guiBlockOverlay.getOffY() + 1;
-        guiBlockOverlay.setOffY(y);
-        guiBlockOverlay.drawStringWithShadow(text, 0);
+    public void drawAdvancedTooltip(TileEntityRecordPlayer recordPlayer, AdvancedInfoComponent advancedInfoComponent) {
+        String text = translator.translateKey("btwaila.tooltip.jukebox.disc").replace("{id}", String.valueOf(recordPlayer.record));
+        int y = advancedInfoComponent.getOffY() + 1;
+        advancedInfoComponent.setOffY(y);
+        advancedInfoComponent.drawStringWithShadow(text, 0);
         if (Item.itemsList[recordPlayer.record] != null){
             ItemStack stack = new ItemStack(Item.itemsList[recordPlayer.record]);
-            int x = guiBlockOverlay.getPosX() + guiBlockOverlay.getGame().fontRenderer.getStringWidth(text) + 33;
-            y -= 3;
-            guiBlockOverlay.itemRender.renderItemIntoGUI(guiBlockOverlay.getGame().fontRenderer, guiBlockOverlay.getGame().renderEngine, stack, x, y, 1.0F);
-            guiBlockOverlay.itemRender.renderItemOverlayIntoGUI(guiBlockOverlay.getGame().fontRenderer, guiBlockOverlay.getGame().renderEngine, stack, x, y, 1.0F);
+            int x = advancedInfoComponent.getPosX() + advancedInfoComponent.getGame().fontRenderer.getStringWidth(text) + 2;
+            y -= 4;
+            itemRender.renderItemIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
+            itemRender.renderItemOverlayIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
             GL11.glDisable(GL11.GL_LIGHTING);
         }
-
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        TileEntityRecordPlayer demoJukeBox = new TileEntityRecordPlayer();
+        demoJukeBox.record = Item.record13.id + random.nextInt(11);
+        Block jukeBox = Block.jukebox;
+        return new DemoEntry(jukeBox, 0, demoJukeBox, new ItemStack[]{jukeBox.getDefaultStack()});
     }
 }

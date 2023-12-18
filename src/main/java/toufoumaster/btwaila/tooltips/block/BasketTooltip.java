@@ -1,28 +1,32 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityBasket;
-import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.IBTWailaCustomBlockTooltip;
-import toufoumaster.btwaila.TooltipGroup;
-import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemStack;
+import toufoumaster.btwaila.demo.DemoEntry;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
-public class BasketTooltip implements IBTWailaCustomBlockTooltip {
+import java.util.Random;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
+public class BasketTooltip extends TileTooltip<TileEntityBasket> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityBasket.class, this);
-        tooltipGroup.addTooltip(TileEntityBasket.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityBasket.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
-        TileEntityBasket basket = (TileEntityBasket) tileEntity;
+    public void drawAdvancedTooltip(TileEntityBasket basket, AdvancedInfoComponent advancedInfoComponent) {
         int max = basket.getMaxUnits();
         int current = basket.getNumUnitsInside();
-        guiBlockOverlay.drawStringWithShadow("Stored items: "+current+"/"+max, 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.minecart.storage")
+                .replace("{current}", String.valueOf(current))
+                .replace("{max}", String.valueOf(max)), 0);
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        return new DemoEntry(Block.basket, 0, new TileEntityBasket(), new ItemStack[]{Item.basket.getDefaultStack()});
     }
 }

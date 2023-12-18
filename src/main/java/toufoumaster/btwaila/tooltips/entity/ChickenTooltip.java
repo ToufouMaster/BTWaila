@@ -1,26 +1,27 @@
 package toufoumaster.btwaila.tooltips.entity;
 
-import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.animal.EntityChicken;
-import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
-import toufoumaster.btwaila.TooltipGroup;
-import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.demo.DemoEntry;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.EntityTooltip;
 
-public class ChickenTooltip implements IBTWailaCustomEntityTooltip {
+import java.util.Random;
+
+import static toufoumaster.btwaila.BTWaila.translator;
+
+public class ChickenTooltip extends EntityTooltip<EntityChicken> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", EntityChicken.class, this);
-        tooltipGroup.addTooltip(EntityChicken.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(EntityChicken.class);
     }
 
     @Override
-    public void drawAdvancedTooltip(Entity entity, GuiBlockOverlay guiBlockOverlay) {
-        EntityChicken chicken = (EntityChicken) entity;
-        String text = String.format("Next egg: %d seconds", chicken.timeUntilNextEgg/20);
-        guiBlockOverlay.drawStringWithShadow(text, 0);
+    public void drawAdvancedTooltip(EntityChicken chicken, AdvancedInfoComponent advancedInfoComponent) {
+        String text = translator.translateKey("btwaila.tooltip.chicken.egg").replace("{timer}", String.valueOf(chicken.timeUntilNextEgg/20));
+        advancedInfoComponent.drawStringWithShadow(text, 0);
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        return new DemoEntry(new EntityChicken(null));
     }
 }
