@@ -4,6 +4,7 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntitySeat;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.monster.EntityHuman;
+import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.demo.DemoManager;
@@ -34,6 +35,6 @@ public class SeatTooltip extends TileTooltip<TileEntitySeat> {
         demoHuman.nickname = DemoManager.getRandomName(random);
         demoSeat.setPassenger(demoHuman);
         Block seat = Block.seat;
-        return new DemoEntry(seat, 0, demoSeat, new ItemStack[]{seat.getDefaultStack()});
+        return new DemoEntry(seat, 0, demoSeat, new ItemStack[]{Item.seat.getDefaultStack()});
     }
 }

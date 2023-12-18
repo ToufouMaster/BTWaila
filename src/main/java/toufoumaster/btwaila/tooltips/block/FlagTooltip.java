@@ -26,9 +26,9 @@ public class FlagTooltip extends TileTooltip<TileEntityFlag> {
         ItemStack color3 = flag.items[2];
         advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.flag.owner").replace("{name}", flag.owner.isEmpty() ? translator.translateKey("btwaila.tooltip.flag.owner.none") : flag.owner), 0);
         advancedInfoComponent.addOffY(2);
-        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    " +  ((color1 != null) ? translator.translateKey(color1.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color1);
-        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "2") + "    " +  ((color2 != null) ? translator.translateKey(color2.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color2);
-        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "3") + "    " +  ((color3 != null) ? translator.translateKey(color3.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color3);
+        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    " +  ((color1 != null) ? translator.translateNameKey(color1.getItemName()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color1);
+        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "2") + "    " +  ((color2 != null) ? translator.translateNameKey(color2.getItemName()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color2);
+        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "3") + "    " +  ((color3 != null) ? translator.translateNameKey(color3.getItemName()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color3);
     }
     @SuppressWarnings("SameParameterValue")
     protected void renderStringAndStack(AdvancedInfoComponent advancedInfoComponent, String s, int offX, ItemStack stack){
