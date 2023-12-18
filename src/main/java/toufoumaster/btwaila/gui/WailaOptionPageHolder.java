@@ -9,7 +9,7 @@ import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.option.GameSettings;
-import toufoumaster.btwaila.IOptions;
+import toufoumaster.btwaila.mixin.interfaces.IOptions;
 
 public class WailaOptionPageHolder extends GuiScreen {
     public static GameSettings gameSettings = Minecraft.getMinecraft(Minecraft.class).gameSettings;

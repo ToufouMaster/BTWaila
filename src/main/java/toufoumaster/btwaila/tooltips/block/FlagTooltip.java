@@ -6,6 +6,9 @@ import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.translator;
 

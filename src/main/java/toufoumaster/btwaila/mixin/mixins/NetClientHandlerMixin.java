@@ -1,27 +1,22 @@
-package toufoumaster.btwaila.mixin;
+package toufoumaster.btwaila.mixin.mixins;
 
 import com.mojang.nbt.CompoundTag;
 import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.net.packet.Packet3Chat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.INetClientHandler;
+import toufoumaster.btwaila.mixin.interfaces.INetClientHandler;
+import toufoumaster.btwaila.mixin.mixins.accessors.EntityAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
 
-@Mixin(
-        value = NetClientHandler.class,
-        remap = false
-)
+@Mixin(value = NetClientHandler.class, remap = false)
 public abstract class NetClientHandlerMixin implements INetClientHandler {
-
     @Shadow protected abstract Entity getEntityByID(int i);
 
     @Override

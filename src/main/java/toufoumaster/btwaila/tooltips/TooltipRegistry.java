@@ -1,9 +1,6 @@
-package toufoumaster.btwaila;
-
-import net.minecraft.core.block.entity.TileEntity;
+package toufoumaster.btwaila.tooltips;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class TooltipRegistry {

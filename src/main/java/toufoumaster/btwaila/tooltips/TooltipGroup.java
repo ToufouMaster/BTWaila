@@ -1,8 +1,7 @@
-package toufoumaster.btwaila;
+package toufoumaster.btwaila.tooltips;
 
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.block.entity.TileEntityBlastFurnace;
-import net.minecraft.core.block.entity.TileEntityChest;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomTooltip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ public class TooltipGroup {
     private final String modId;
     private final Class interfaceClass;
     private final IBTWailaCustomTooltip customTooltip;
-    private List<Class<TileEntity>> tileEntityList = new ArrayList<>();
+    private final List<Class<TileEntity>> tileEntityList = new ArrayList<>();
     public TooltipGroup(String modId, Class interfaceClass, IBTWailaCustomTooltip customTooltip) {
         this.modId = modId;
         this.interfaceClass = interfaceClass;

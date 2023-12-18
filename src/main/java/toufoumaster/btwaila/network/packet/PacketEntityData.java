@@ -3,8 +3,7 @@ package toufoumaster.btwaila.network.packet;
 import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.net.handler.NetHandler;
 import net.minecraft.core.net.packet.Packet;
-import toufoumaster.btwaila.INetClientHandler;
-import toufoumaster.btwaila.INetServerHandler;
+import toufoumaster.btwaila.mixin.interfaces.INetClientHandler;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

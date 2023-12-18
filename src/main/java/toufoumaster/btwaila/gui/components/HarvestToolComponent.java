@@ -10,7 +10,7 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.player.gamemode.Gamemode;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.gui.demo.DemoEntry;
+import toufoumaster.btwaila.demo.DemoEntry;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 

@@ -7,9 +7,9 @@ import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
-import toufoumaster.btwaila.TooltipGroup;
-import toufoumaster.btwaila.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public class MinecartTooltip implements IBTWailaCustomEntityTooltip {

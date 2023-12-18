@@ -1,4 +1,4 @@
-package toufoumaster.btwaila;
+package toufoumaster.btwaila.entryplugins.waila;
 
 import org.slf4j.Logger;
 import toufoumaster.btwaila.tooltips.block.*;
@@ -7,7 +7,7 @@ import toufoumaster.btwaila.tooltips.entity.MinecartTooltip;
 import toufoumaster.btwaila.tooltips.entity.MonsterTooltip;
 import toufoumaster.btwaila.tooltips.entity.PlayerTooltip;
 
-public class BTWailaPlugin implements BTWailaCustomTootltipPlugin {
+public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
 
     @Override
     public void initializePlugin(Logger logger) {

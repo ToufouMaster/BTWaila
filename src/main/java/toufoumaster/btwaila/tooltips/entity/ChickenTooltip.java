@@ -3,9 +3,9 @@ package toufoumaster.btwaila.tooltips.entity;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.animal.EntityChicken;
 import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
-import toufoumaster.btwaila.TooltipGroup;
-import toufoumaster.btwaila.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public class ChickenTooltip implements IBTWailaCustomEntityTooltip {

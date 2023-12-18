@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.mixin;
+package toufoumaster.btwaila.mixin.mixins.accessors;
 
 import com.mojang.nbt.CompoundTag;
 import net.minecraft.client.player.controller.PlayerController;

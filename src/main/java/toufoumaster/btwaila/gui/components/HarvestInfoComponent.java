@@ -11,8 +11,8 @@ import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.gamemode.Gamemode;
-import toufoumaster.btwaila.gui.demo.DemoEntry;
-import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
+import toufoumaster.btwaila.demo.DemoEntry;
+import toufoumaster.btwaila.mixin.mixins.accessors.IPlayerControllerAccessor;
 import toufoumaster.btwaila.util.Colors;
 
 public class HarvestInfoComponent extends MovableHudComponent {
@@ -58,7 +58,7 @@ public class HarvestInfoComponent extends MovableHudComponent {
                 harvestString = "Cannot be harvested with current tool";
                 miningLevelColor = Colors.LIGHT_RED;
             }
-            float damage = ((IPlayerControllerMixin)minecraft.playerController).getCurrentDamage();
+            float damage = ((IPlayerControllerAccessor)minecraft.playerController).getCurrentDamage();
             if (damage != 0) {
                 harvestString = "Harvesting: "+(int)(damage*100)+"%";
             }

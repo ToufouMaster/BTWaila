@@ -1,4 +1,4 @@
-package toufoumaster.btwaila;
+package toufoumaster.btwaila.mixin.interfaces;
 
 
 import toufoumaster.btwaila.network.packet.PacketEntityData;

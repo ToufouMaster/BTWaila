@@ -9,6 +9,9 @@ import net.minecraft.core.player.inventory.IInventory;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.demo.TileEntityDemoChest;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
 public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
 

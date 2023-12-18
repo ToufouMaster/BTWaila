@@ -4,6 +4,9 @@ import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.monster.*;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
 
 public class MonsterTooltip implements IBTWailaCustomEntityTooltip {
 

@@ -1,4 +1,4 @@
-package toufoumaster.btwaila;
+package toufoumaster.btwaila.tooltips.interfaces;
 
 import net.minecraft.core.block.entity.TileEntity;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;

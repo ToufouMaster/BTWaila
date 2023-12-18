@@ -18,17 +18,17 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "beforeGameStart": [
       "toufoumaster.btwaila.BTWaila"
     ],
     "afterGameStart": [
       "toufoumaster.btwaila.BTWaila"
     ],
     "btwaila": [
-    "toufoumaster.btwaila.BTWailaPlugin"
+      "toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin"
     ],
     "modmenu": [
-      "toufoumaster.btwaila.modcontainer.modmenu.ModMenuModule"
+      "toufoumaster.btwaila.entryplugins.modmenu.ModMenuModule"
     ]
   },
   "mixins": [

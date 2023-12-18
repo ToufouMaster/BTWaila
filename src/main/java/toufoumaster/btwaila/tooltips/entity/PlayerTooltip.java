@@ -5,6 +5,9 @@ import net.minecraft.core.entity.Entity;
 import net.minecraft.core.item.ItemStack;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
 
 public class PlayerTooltip implements IBTWailaCustomEntityTooltip {
 

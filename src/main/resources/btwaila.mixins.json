@@ -1,17 +1,17 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "toufoumaster.btwaila.mixin",
+  "package": "toufoumaster.btwaila.mixin.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityAccessor",
-    "PacketMixin"
+    "accessors.EntityAccessor",
+    "accessors.PacketAccessor"
   ],
   "client": [
     "GameSettingsMixin",
     "GuiIngameMenuMixin",
     "GuiIngameMixin",
-    "IPlayerControllerMixin",
+    "accessors.IPlayerControllerAccessor",
     "NetClientHandlerMixin"
   ],
   "server": [

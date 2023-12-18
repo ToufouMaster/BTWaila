@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.modcontainer.modmenu;
+package toufoumaster.btwaila.entryplugins.modmenu;
 
 import io.github.prospector.modmenu.api.ModMenuApi;
 import net.minecraft.client.gui.GuiScreen;

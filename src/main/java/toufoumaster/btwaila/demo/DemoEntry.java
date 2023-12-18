@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.gui.demo;
+package toufoumaster.btwaila.demo;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
@@ -7,7 +7,6 @@ import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.animal.EntityPig;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import toufoumaster.btwaila.demo.TileEntityDemoChest;
 
 import java.util.ArrayList;
 

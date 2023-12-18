@@ -4,6 +4,9 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityMobSpawner;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 import toufoumaster.btwaila.util.Colors;
 
 public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {

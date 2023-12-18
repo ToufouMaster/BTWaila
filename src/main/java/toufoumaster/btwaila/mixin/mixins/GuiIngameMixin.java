@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.mixin;
+package toufoumaster.btwaila.mixin.mixins;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import toufoumaster.btwaila.IOptions;
+import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.gui.WailaOptionPageHolder;
 
 @Mixin(value = GuiIngame.class, remap = false)

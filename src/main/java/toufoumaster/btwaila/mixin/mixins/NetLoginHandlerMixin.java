@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.mixin;
+package toufoumaster.btwaila.mixin.mixins;
 
 import net.minecraft.core.net.NetworkManager;
 import net.minecraft.core.net.packet.Packet1Login;

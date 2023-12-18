@@ -13,7 +13,7 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.gui.demo.DemoEntry;
+import toufoumaster.btwaila.demo.DemoEntry;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;

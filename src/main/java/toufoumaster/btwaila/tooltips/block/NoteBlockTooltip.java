@@ -5,6 +5,9 @@ import net.minecraft.core.block.entity.TileEntityNote;
 import net.minecraft.core.block.material.Material;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
 import java.util.HashMap;
 

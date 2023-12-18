@@ -48,12 +48,12 @@ import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.IBTWailaCustomBlockTooltip;
-import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
-import toufoumaster.btwaila.IOptions;
-import toufoumaster.btwaila.TooltipGroup;
-import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.gui.demo.DemoEntry;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
+import toufoumaster.btwaila.mixin.interfaces.IOptions;
+import toufoumaster.btwaila.tooltips.TooltipGroup;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
+import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.ColorOptions;
@@ -198,7 +198,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
         if (tileEntity != null) {
-            boolean askTileEntity = !(BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinousTileEntityData.get(tileEntity.getClass()) : false);
+            boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
             if (minecraft.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));

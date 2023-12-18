@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.mixin;
+package toufoumaster.btwaila.mixin.mixins;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
