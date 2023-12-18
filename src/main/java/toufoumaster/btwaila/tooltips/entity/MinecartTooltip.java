@@ -1,32 +1,21 @@
 package toufoumaster.btwaila.tooltips.entity;
 
-import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityDispatcher;
-import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
-import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.EntityTooltip;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
-
+public class MinecartTooltip extends EntityTooltip<EntityMinecart> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", EntityMinecart.class, this);
-        tooltipGroup.addTooltip(EntityMinecart.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(EntityMinecart.class);
     }
 
     @Override
-    public void drawAdvancedTooltip(Entity entity, AdvancedInfoComponent advancedInfoComponent) {
-        EntityMinecart entityMinecart = (EntityMinecart) entity;
+    public void drawAdvancedTooltip(EntityMinecart entityMinecart, AdvancedInfoComponent advancedInfoComponent) {
         switch (entityMinecart.minecartType) {
             case 0: // Minecart
                 String entityName = AdvancedInfoComponent.getEntityName(entityMinecart.passenger);

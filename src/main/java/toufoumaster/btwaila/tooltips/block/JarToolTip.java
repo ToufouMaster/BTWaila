@@ -1,30 +1,22 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityFlowerJar;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
-public class JarToolTip implements IBTWailaCustomBlockTooltip {
+public class JarToolTip extends TileTooltip<TileEntityFlowerJar> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityFlowerJar.class, this);
-        tooltipGroup.addTooltip(TileEntityFlowerJar.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityFlowerJar.class);
     }
 
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntityFlowerJar flowerJar = (TileEntityFlowerJar) tileEntity;
+    public void drawAdvancedTooltip(TileEntityFlowerJar flowerJar, AdvancedInfoComponent advancedInfoComponent) {
         Item itemFlower = Item.itemsList[flowerJar.flowerInPot];
         ItemStack flower = null;
         String flowerName = translator.translateKey("btwaila.tooltip.jar.item.none");

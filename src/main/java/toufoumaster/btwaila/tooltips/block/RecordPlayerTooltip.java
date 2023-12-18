@@ -1,32 +1,22 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityRecordPlayer;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
-public class RecordPlayerTooltip implements IBTWailaCustomBlockTooltip {
-
+public class RecordPlayerTooltip extends TileTooltip<TileEntityRecordPlayer> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityRecordPlayer.class, this);
-        tooltipGroup.addTooltip(TileEntityRecordPlayer.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityRecordPlayer.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntityRecordPlayer recordPlayer = (TileEntityRecordPlayer) tileEntity;
+    public void drawAdvancedTooltip(TileEntityRecordPlayer recordPlayer, AdvancedInfoComponent advancedInfoComponent) {
         String text = translator.translateKey("btwaila.tooltip.jukebox.disc").replace("{id}", String.valueOf(recordPlayer.record));
         int y = advancedInfoComponent.getOffY() + 1;
         advancedInfoComponent.setOffY(y);

@@ -1,43 +1,33 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityNote;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.world.World;
-import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import java.util.HashMap;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
+public class NoteBlockTooltip extends TileTooltip<TileEntityNote> {
     public static HashMap<Material, String> materialList = new HashMap<Material, String>() {{
         put(Material.stone, translator.translateKey("btwaila.tooltip.noteblock.material.stone"));
         put(Material.sand, translator.translateKey("btwaila.tooltip.noteblock.material.sand"));
         put(Material.glass, translator.translateKey("btwaila.tooltip.noteblock.material.glass"));
         put(Material.wood, translator.translateKey("btwaila.tooltip.noteblock.material.wood"));
     }};
-
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityNote.class, this);
-        tooltipGroup.addTooltip(TileEntityNote.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityNote.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntityNote noteEntity = (TileEntityNote) tileEntity;
-        int note = noteEntity.note;
+    public void drawAdvancedTooltip(TileEntityNote entityNote, AdvancedInfoComponent advancedInfoComponent) {
+        int note = entityNote.note;
         String blockModifier = translator.translateKey("btwaila.tooltip.noteblock.material.none");
         World world = advancedInfoComponent.getGame().theWorld;
         if (world != null){
-            Material material = advancedInfoComponent.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
+            Material material = advancedInfoComponent.getGame().theWorld.getBlockMaterial(entityNote.x, entityNote.y - 1, entityNote.z);
             if (material != null && materialList.containsKey(material)) {
                 blockModifier = materialList.get(material);
             }

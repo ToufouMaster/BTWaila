@@ -1,30 +1,21 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityMobSpawner;
 import net.minecraft.core.world.World;
-import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 import toufoumaster.btwaila.util.Colors;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
-
+public class MobSpawnerTooltip extends TileTooltip<TileEntityMobSpawner> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityMobSpawner.class, this);
-        tooltipGroup.addTooltip(TileEntityMobSpawner.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityMobSpawner.class);
     }
 
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) tileEntity;
+    public void drawAdvancedTooltip(TileEntityMobSpawner mobSpawner, AdvancedInfoComponent advancedInfoComponent) {
         boolean canSpawn = true;
         int canSpawnColor = Colors.LIGHT_GREEN;
         World world = advancedInfoComponent.getGame().theWorld;

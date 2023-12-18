@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import toufoumaster.btwaila.tooltips.block.*;
 import toufoumaster.btwaila.tooltips.entity.ChickenTooltip;
 import toufoumaster.btwaila.tooltips.entity.MinecartTooltip;
-import toufoumaster.btwaila.tooltips.entity.MonsterTooltip;
 import toufoumaster.btwaila.tooltips.entity.PlayerTooltip;
 
 public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
@@ -12,20 +11,19 @@ public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
     @Override
     public void initializePlugin(Logger logger) {
         logger.info("Loading default tooltips..");
-        new InventoryTooltip().addTooltip();
-        new FlagTooltip().addTooltip();
-        new BasketTooltip().addTooltip();
-        new FurnaceTooltip().addTooltip();
-        new MobSpawnerTooltip().addTooltip();
-        new NoteBlockTooltip().addTooltip();
-        new RecordPlayerTooltip().addTooltip();
-        new TrommelTooltip().addTooltip();
-        new SeatTooltip().addTooltip();
-        new JarToolTip().addTooltip();
+        new InventoryTooltip();
+        new FlagTooltip();
+        new BasketTooltip();
+        new FurnaceTooltip();
+        new MobSpawnerTooltip();
+        new NoteBlockTooltip();
+        new RecordPlayerTooltip();
+        new TrommelTooltip();
+        new SeatTooltip();
+        new JarToolTip();
 
-        new MonsterTooltip().addTooltip();
-        new ChickenTooltip().addTooltip();
-        new PlayerTooltip().addTooltip();
-        new MinecartTooltip().addTooltip();
+        new ChickenTooltip();
+        new PlayerTooltip();
+        new MinecartTooltip();
     }
 }

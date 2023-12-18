@@ -44,20 +44,17 @@ import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomEntityTooltip;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
+import toufoumaster.btwaila.tooltips.EntityTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.util.ColorOptions;
 import toufoumaster.btwaila.util.Colors;
 import toufoumaster.btwaila.util.DemoUtil;
@@ -192,10 +189,9 @@ public class AdvancedInfoComponent extends MovableHudComponent {
             }
 
             if (isLivingEntity) drawEntityHealth(entityLiving);
-            for (TooltipGroup e : TooltipRegistry.tooltipMap) {
-                if (e.getInterfaceClass().isInstance(entity) && e.isInList(entity.getClass()) && e.getCustomTooltip() instanceof IBTWailaCustomEntityTooltip) {
-                    IBTWailaCustomEntityTooltip tooltip = (IBTWailaCustomEntityTooltip) e.getCustomTooltip();
-                    tooltip.drawAdvancedTooltip(entity, this);
+            for (EntityTooltip<?> tooltip : TooltipRegistry.entityTooltips) {
+                if (tooltip.isInstance(entity) && tooltip.isInList(entity.getClass())) {
+                    tooltip._drawAdvancedTooltip(entity, this);
                 }
             }
         }
@@ -207,10 +203,9 @@ public class AdvancedInfoComponent extends MovableHudComponent {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
             }
-            for (TooltipGroup e : TooltipRegistry.tooltipMap) {
-                if (e.getInterfaceClass().isInstance(tileEntity) && e.isInList(tileEntity.getClass()) && e.getCustomTooltip() instanceof IBTWailaCustomBlockTooltip) {
-                    IBTWailaCustomBlockTooltip tooltip = (IBTWailaCustomBlockTooltip) e.getCustomTooltip();
-                    tooltip.drawAdvancedTooltip(tileEntity, this);
+            for (TileTooltip<?> tooltip : TooltipRegistry.tileTooltips) {
+                if (tooltip.isInstance(tileEntity) && tooltip.isInList(tileEntity.getClass())) {
+                    tooltip._drawAdvancedTooltip(tileEntity, this);
                 }
             }
         }

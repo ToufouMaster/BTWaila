@@ -1,29 +1,18 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityBasket;
-import net.minecraft.core.player.inventory.IInventory;
-import toufoumaster.btwaila.BTWaila;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class BasketTooltip implements IBTWailaCustomBlockTooltip {
-
+public class BasketTooltip extends TileTooltip<TileEntityBasket> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityBasket.class, this);
-        tooltipGroup.addTooltip(TileEntityBasket.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityBasket.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntityBasket basket = (TileEntityBasket) tileEntity;
+    public void drawAdvancedTooltip(TileEntityBasket basket, AdvancedInfoComponent advancedInfoComponent) {
         int max = basket.getMaxUnits();
         int current = basket.getNumUnitsInside();
         advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.minecart.storage")
