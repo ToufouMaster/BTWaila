@@ -25,7 +25,7 @@ public class SeatTooltip implements IBTWailaCustomBlockTooltip {
         String entityName = AdvancedInfoComponent.getEntityName(seat.getPassenger());
 
         advancedInfoComponent.drawStringWithShadow(
-                translator.translateKey("btwaila.tooltip.minecart.passenger")
+                translator.translateKey("btwaila.tooltip.seat.passenger")
                         .replace("{name}", entityName), 0);
     }
 }

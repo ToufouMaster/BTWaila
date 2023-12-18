@@ -53,3 +53,8 @@ btwaila.tooltip.noteblock.material.none=None
 btwaila.tooltip.jukebox.disc=Disc id: {id}
 
 btwaila.tooltip.trommel.progress=Progress: §r
+
+btwaila.tooltip.seat.passenger=Passenger: {name}
+
+btwaila.tooltip.jar.planted=Planted: {name}
+btwaila.tooltip.jar.item.none=None

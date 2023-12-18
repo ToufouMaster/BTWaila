@@ -21,6 +21,7 @@ public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
         new RecordPlayerTooltip().addTooltip();
         new TrommelTooltip().addTooltip();
         new SeatTooltip().addTooltip();
+        new JarToolTip().addTooltip();
 
         new MonsterTooltip().addTooltip();
         new ChickenTooltip().addTooltip();
