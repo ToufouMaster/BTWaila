@@ -3,6 +3,7 @@ package toufoumaster.btwaila.tooltips.block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityNote;
 import net.minecraft.core.block.material.Material;
+import net.minecraft.core.world.World;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TooltipGroup;
@@ -14,6 +15,12 @@ import java.util.HashMap;
 import static toufoumaster.btwaila.BTWaila.translator;
 
 public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
+    public static HashMap<Material, String> materialList = new HashMap<Material, String>() {{
+        put(Material.stone, translator.translateKey("btwaila.tooltip.noteblock.material.stone"));
+        put(Material.sand, translator.translateKey("btwaila.tooltip.noteblock.material.sand"));
+        put(Material.glass, translator.translateKey("btwaila.tooltip.noteblock.material.glass"));
+        put(Material.wood, translator.translateKey("btwaila.tooltip.noteblock.material.wood"));
+    }};
 
     @Override
     public void addTooltip() {
@@ -28,15 +35,12 @@ public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
         TileEntityNote noteEntity = (TileEntityNote) tileEntity;
         int note = noteEntity.note;
         String blockModifier = translator.translateKey("btwaila.tooltip.noteblock.material.none");
-        HashMap<Material, String> materialList = new HashMap<Material, String>() {{
-            put(Material.stone, translator.translateKey("btwaila.tooltip.noteblock.material.stone"));
-            put(Material.sand, translator.translateKey("btwaila.tooltip.noteblock.material.sand"));
-            put(Material.glass, translator.translateKey("btwaila.tooltip.noteblock.material.glass"));
-            put(Material.wood, translator.translateKey("btwaila.tooltip.noteblock.material.wood"));
-        }};
-        Material material = advancedInfoComponent.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
-        if (material != null && materialList.containsKey(material)) {
-            blockModifier = materialList.get(material);
+        World world = advancedInfoComponent.getGame().theWorld;
+        if (world != null){
+            Material material = advancedInfoComponent.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
+            if (material != null && materialList.containsKey(material)) {
+                blockModifier = materialList.get(material);
+            }
         }
         String noteString = (Integer.toHexString(note).length() == 1) ? "0"+Integer.toHexString(note) : Integer.toHexString(note);
         advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.noteblock.pitch").replace("{note}", noteString), 0);

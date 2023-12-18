@@ -15,8 +15,7 @@ import java.util.Random;
 
 public class TileEntityDemoChest extends TileEntity implements IInventory {
     private ItemStack[] chestContents = new ItemStack[36 * 2];
-    private static final List<Item> allRealItems = new ArrayList<>();
-    private static TileEntityDemoChest demoInstance = null;
+    public static final List<Item> allRealItems = new ArrayList<>();
     static {
         for (int i = 0; i < Item.itemsList.length; i++) {
             if (Item.itemsList[i] != null){
@@ -27,27 +26,24 @@ public class TileEntityDemoChest extends TileEntity implements IInventory {
     public TileEntityDemoChest(int seed){
         Random rand = new Random(seed);
         for (int i = 0; i < chestContents.length; i++) {
-            Item item = allRealItems.get(rand.nextInt(allRealItems.size()));
-            int stackSize;
-            int meta;
-            if (item.getItemStackLimit() > 1){
-                stackSize = rand.nextInt(item.getItemStackLimit() - 1) + 1;
-            } else {
-                stackSize = 1;
-            }
-            if (item.getMaxDamage() > 0){
-                meta = rand.nextInt(item.getMaxDamage());
-            } else {
-                meta = 0;
-            }
-            chestContents[i] = new ItemStack(item, stackSize, meta);
+            chestContents[i] = randomStack(rand);
         }
     }
-    public static TileEntityDemoChest getDemoChest(int seed){
-        if (demoInstance == null) {
-            demoInstance = new TileEntityDemoChest(seed);
+    public static ItemStack randomStack(Random random){
+        Item item = allRealItems.get(random.nextInt(allRealItems.size()));
+        int stackSize;
+        int meta;
+        if (item.getItemStackLimit() > 1){
+            stackSize = random.nextInt(item.getItemStackLimit() - 1) + 1;
+        } else {
+            stackSize = 1;
         }
-        return demoInstance;
+        if (item.getMaxDamage() > 0){
+            meta = random.nextInt(item.getMaxDamage());
+        } else {
+            meta = 0;
+        }
+        return new ItemStack(item, stackSize, meta);
     }
 
     @Override

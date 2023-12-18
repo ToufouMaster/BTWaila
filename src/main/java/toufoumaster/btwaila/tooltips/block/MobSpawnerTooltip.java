@@ -2,6 +2,7 @@ package toufoumaster.btwaila.tooltips.block;
 
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityMobSpawner;
+import net.minecraft.core.world.World;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TooltipGroup;
@@ -26,10 +27,8 @@ public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
         TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) tileEntity;
         boolean canSpawn = true;
         int canSpawnColor = Colors.LIGHT_GREEN;
-        if ((advancedInfoComponent.getGame().theWorld.difficultySetting == 0)
-                || (mobSpawner.getMobId() == null)
-                || (mobSpawner.getMobId().equalsIgnoreCase("none"))
-        ) {
+        World world = advancedInfoComponent.getGame().theWorld;
+        if (world == null || world.difficultySetting == 0 || (mobSpawner.getMobId() == null) || (mobSpawner.getMobId().equalsIgnoreCase("none"))) {
             canSpawn = false;
             canSpawnColor = Colors.LIGHT_RED;
         }
