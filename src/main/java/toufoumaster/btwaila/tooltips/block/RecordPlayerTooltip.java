@@ -11,6 +11,7 @@ import toufoumaster.btwaila.tooltips.TooltipGroup;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
+import static toufoumaster.btwaila.BTWaila.translator;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
 public class RecordPlayerTooltip implements IBTWailaCustomBlockTooltip {
@@ -26,7 +27,7 @@ public class RecordPlayerTooltip implements IBTWailaCustomBlockTooltip {
     @Override
     public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         TileEntityRecordPlayer recordPlayer = (TileEntityRecordPlayer) tileEntity;
-        String text = "Disk id: "+recordPlayer.record;
+        String text = translator.translateKey("btwaila.tooltip.jukebox.disc").replace("{id}", String.valueOf(recordPlayer.record));
         int y = advancedInfoComponent.getOffY() + 1;
         advancedInfoComponent.setOffY(y);
         advancedInfoComponent.drawStringWithShadow(text, 0);

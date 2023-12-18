@@ -9,6 +9,8 @@ import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 import toufoumaster.btwaila.util.Colors;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
 
     @Override
@@ -33,8 +35,8 @@ public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
         }
         int delay = mobSpawner.delay;
         String entityName = mobSpawner.getMobId();
-        advancedInfoComponent.drawStringWithShadow("Binded entity: "+entityName, 0);
-        advancedInfoComponent.drawStringWithShadow("Can spawn: "+canSpawn, 0, canSpawnColor);
-        advancedInfoComponent.drawStringWithShadow("Delay before spawn: "+delay+"t", 0, canSpawnColor);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.spawner.bound").replace("{name}", entityName), 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.spawner.canspawn").replace("{flag}", String.valueOf(canSpawn)), 0, canSpawnColor);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.spawner.spawndelay").replace("{delay}", String.valueOf(delay)), 0, canSpawnColor);
     }
 }

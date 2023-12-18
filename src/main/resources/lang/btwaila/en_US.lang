@@ -10,5 +10,39 @@ options.entityAdvancedTooltips=Show Advanced Entity Tooltip
 btwaila.key.menu=Open Menu
 
 # --Gui--
-btwaila.noitem=No Item
-btwaila.tooltip.flag.color=Color {d}:
+btwaila.component.harvest.info.harvestable=Harvestable with current tool
+btwaila.component.harvest.info.notharvestable=Cannot be harvested with current tool
+btwaila.component.harvest.info.harvesting=Harvesting: {progress}%
+
+# --Tooltips--
+btwaila.tooltip.minecart.passenger=Passenger: {name}
+btwaila.tooltip.minecart.storage=Stored items: {current}/{max}
+btwaila.tooltip.minecart.fuel=Fuel: {fuel}
+
+btwaila.tooltip.chicken.egg=Next egg: {timer} seconds
+
+btwaila.tooltip.basket.storage=Stored items: {current}/{max}
+
+btwaila.tooltip.flag.color=Color {id}:
+btwaila.tooltip.flag.empty=No Item
+
+btwaila.tooltip.furnace.progress=Progress: §r
+btwaila.tooltip.furnace.burntime=Burn time: {current}t
+
+btwaila.tooltip.inventory.storage=Stored items: {current}/{max}
+
+btwaila.tooltip.spawner.bound=Bound entity: {name}
+btwaila.tooltip.spawner.canspawn=Can spawn: {flag}
+btwaila.tooltip.spawner.spawndelay=Delay before spawn: {delay}t
+
+btwaila.tooltip.noteblock.pitch=Note pitch: #{note}
+btwaila.tooltip.noteblock.modifier=Block modifier: {modifier}
+btwaila.tooltip.noteblock.material.stone=Stone
+btwaila.tooltip.noteblock.material.sand=Sand
+btwaila.tooltip.noteblock.material.glass=Glass
+btwaila.tooltip.noteblock.material.wood=Wood
+btwaila.tooltip.noteblock.material.none=No Block
+
+btwaila.tooltip.jukebox.disc=Disc id: {id}
+
+btwaila.tooltip.trommel.progress=Progress: §r

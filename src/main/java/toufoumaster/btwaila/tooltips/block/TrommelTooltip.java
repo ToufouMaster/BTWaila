@@ -10,6 +10,8 @@ import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class TrommelTooltip implements IBTWailaCustomBlockTooltip {
 
     @Override
@@ -24,8 +26,8 @@ public class TrommelTooltip implements IBTWailaCustomBlockTooltip {
     public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         TileEntityTrommel trommel = (TileEntityTrommel) tileEntity;
 
-        ProgressBarOptions options = new ProgressBarOptions().setText("Progress: ");
-        advancedInfoComponent.drawProgressBarWithText((int) trommel.getCookProgressPercent(100), 100, options, 32);
+        ProgressBarOptions options = new ProgressBarOptions().setText(translator.translateKey("btwaila.tooltip.trommel.progress"));
+        advancedInfoComponent.drawProgressBarWithText((int) trommel.getCookProgressPercent(100), 100, options, 0);
         advancedInfoComponent.drawItemList(new ItemStack[] {trommel.getStackInSlot(4), trommel.getStackInSlot(0), trommel.getStackInSlot(1), trommel.getStackInSlot(2), trommel.getStackInSlot(3)}, 0);
     }
 }

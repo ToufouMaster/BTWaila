@@ -8,6 +8,8 @@ import toufoumaster.btwaila.tooltips.TooltipGroup;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class ChickenTooltip implements IBTWailaCustomEntityTooltip {
     @Override
     public void addTooltip() {
@@ -20,7 +22,7 @@ public class ChickenTooltip implements IBTWailaCustomEntityTooltip {
     @Override
     public void drawAdvancedTooltip(Entity entity, AdvancedInfoComponent advancedInfoComponent) {
         EntityChicken chicken = (EntityChicken) entity;
-        String text = String.format("Next egg: %d seconds", chicken.timeUntilNextEgg/20);
+        String text = translator.translateKey("btwaila.tooltip.chicken.egg").replace("{timer}", String.valueOf(chicken.timeUntilNextEgg/20));
         advancedInfoComponent.drawStringWithShadow(text, 0);
     }
 }

@@ -21,7 +21,7 @@ import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.util.Colors;
 
-import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.translator;
+import static toufoumaster.btwaila.BTWaila.translator;
 
 public class BaseInfoComponent extends MovableHudComponent {
     private int ySize;

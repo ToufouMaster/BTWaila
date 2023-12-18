@@ -10,7 +10,7 @@ import toufoumaster.btwaila.tooltips.TooltipGroup;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
-import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.translator;
+import static toufoumaster.btwaila.BTWaila.translator;
 
 public class FlagTooltip implements IBTWailaCustomBlockTooltip {
 
@@ -28,15 +28,15 @@ public class FlagTooltip implements IBTWailaCustomBlockTooltip {
         ItemStack color1 = flag.items[0];
         ItemStack color2 = flag.items[1];
         ItemStack color3 = flag.items[2];
-        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{d}", "1") + "    " +  ((color1 != null) ? translator.translateKey(color1.getItemTranslateKey()) : translator.translateKey("btwaila.noitem")), 0, color1);
-        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{d}", "2") + "    " +  ((color2 != null) ? translator.translateKey(color2.getItemTranslateKey()) : translator.translateKey("btwaila.noitem")), 0, color2);
-        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{d}", "3") + "    " +  ((color3 != null) ? translator.translateKey(color3.getItemTranslateKey()) : translator.translateKey("btwaila.noitem")), 0, color3);
+        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    " +  ((color1 != null) ? translator.translateKey(color1.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color1);
+        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "2") + "    " +  ((color2 != null) ? translator.translateKey(color2.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color2);
+        renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "3") + "    " +  ((color3 != null) ? translator.translateKey(color3.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color3);
     }
     @SuppressWarnings("SameParameterValue")
     protected void renderStringAndStack(AdvancedInfoComponent advancedInfoComponent, String s, int offX, ItemStack stack){
         if (stack != null){
             int y = advancedInfoComponent.getOffY() - 1;
-            int x = advancedInfoComponent.getPosX() + 16 + advancedInfoComponent.minecraft.fontRenderer.getStringWidth(translator.translateKey("btwaila.tooltip.flag.color").replace("{d}", "1") + "    ");
+            int x = advancedInfoComponent.getPosX() + 16 + advancedInfoComponent.minecraft.fontRenderer.getStringWidth(translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    ");
             y -= 3;
             AdvancedInfoComponent.itemRender.renderItemIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
             AdvancedInfoComponent.itemRender.renderItemOverlayIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);

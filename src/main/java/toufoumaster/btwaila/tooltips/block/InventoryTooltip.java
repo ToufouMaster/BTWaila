@@ -13,6 +13,8 @@ import toufoumaster.btwaila.tooltips.TooltipGroup;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
 
     @Override
@@ -39,7 +41,9 @@ public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
                 current += itemStack.stackSize;
             }
         }
-        advancedInfoComponent.drawStringWithShadow("Stored items: " + current + "/" + max * inventory.getInventoryStackLimit(), 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.inventory.storage")
+                .replace("{current}", String.valueOf(current))
+                .replace("{max}", String.valueOf(max * inventory.getInventoryStackLimit())), 0);
         advancedInfoComponent.drawInventory(inventory, 0);
     }
 }

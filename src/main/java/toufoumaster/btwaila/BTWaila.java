@@ -5,6 +5,7 @@ import net.minecraft.core.Global;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityFlag;
 import net.minecraft.core.block.entity.TileEntitySign;
+import net.minecraft.core.lang.I18n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.entryplugins.waila.BTWailaCustomTooltipPlugin;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class BTWaila implements GameStartEntrypoint {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final I18n translator = I18n.getInstance();
     public static boolean canUseAdvancedTooltips = false;
     public static final VersionHelper modVersion = new VersionHelper(0, 2, 2);
     public static final String checkString = modVersion.generateCheckString();

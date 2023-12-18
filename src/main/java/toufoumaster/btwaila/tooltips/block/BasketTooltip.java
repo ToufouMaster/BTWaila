@@ -2,11 +2,14 @@ package toufoumaster.btwaila.tooltips.block;
 
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityBasket;
+import net.minecraft.core.player.inventory.IInventory;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 import toufoumaster.btwaila.tooltips.TooltipGroup;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+
+import static toufoumaster.btwaila.BTWaila.translator;
 
 public class BasketTooltip implements IBTWailaCustomBlockTooltip {
 
@@ -23,6 +26,8 @@ public class BasketTooltip implements IBTWailaCustomBlockTooltip {
         TileEntityBasket basket = (TileEntityBasket) tileEntity;
         int max = basket.getMaxUnits();
         int current = basket.getNumUnitsInside();
-        advancedInfoComponent.drawStringWithShadow("Stored items: "+current+"/"+max, 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.minecart.storage")
+                .replace("{current}", String.valueOf(current))
+                .replace("{max}", String.valueOf(max)), 0);
     }
 }

@@ -12,6 +12,8 @@ import toufoumaster.btwaila.tooltips.TooltipGroup;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
 
     @Override
@@ -34,7 +36,9 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
                 String entityName = isLivingEntity ? entityLiving.getDisplayName() : null;
                 if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(passenger);
 
-                advancedInfoComponent.drawStringWithShadow("Passenger: " + entityName, 0);
+                advancedInfoComponent.drawStringWithShadow(
+                        translator.translateKey("btwaila.tooltip.minecart.passenger")
+                                .replace("{name}", entityName), 0);
                 break;
             case 1: // Chest
                 int max = ((IInventory) entityMinecart).getSizeInventory();
@@ -45,11 +49,16 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
                         current += itemStack.stackSize;
                     }
                 }
-                advancedInfoComponent.drawStringWithShadow("Stored items: " + current + "/" + max * ((IInventory) entityMinecart).getInventoryStackLimit(), 0);
+                advancedInfoComponent.drawStringWithShadow(
+                        translator.translateKey("btwaila.tooltip.minecart.storage")
+                                .replace("{current}", String.valueOf(current))
+                                .replace("{max}", String.valueOf(max * ((IInventory) entityMinecart).getInventoryStackLimit())), 0);
+
                 advancedInfoComponent.drawInventory(entityMinecart, 0);
                 break;
             case 2: // Furnace
-                advancedInfoComponent.drawStringWithShadow("Fuel: " + entityMinecart.fuel, 0);
+                advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.minecart.fuel")
+                        .replace("{fuel}", String.valueOf(entityMinecart.fuel)), 0);
                 break;
         }
     }

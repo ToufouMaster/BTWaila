@@ -15,6 +15,8 @@ import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.mixin.mixins.accessors.IPlayerControllerAccessor;
 import toufoumaster.btwaila.util.Colors;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class HarvestInfoComponent extends MovableHudComponent {
     private int ySize;
     public HarvestInfoComponent(String key, Layout layout) {
@@ -47,22 +49,22 @@ public class HarvestInfoComponent extends MovableHudComponent {
         EntityPlayer player = minecraft.thePlayer;
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null || player == null) {
-            renderHarvestInfo(minecraft, Colors.RED, "You shouldn't ever see this message.", 2f, xScreenSize, yScreenSize);
+            renderHarvestInfo(minecraft, Colors.RED, "You shouldn't ever see this message.", xScreenSize, yScreenSize);
             return;
         }
         Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
         if (player.getGamemode() == Gamemode.survival) {
             int miningLevelColor = Colors.LIGHT_GREEN;
-            String harvestString = "Harvestable with current tool";
+            String harvestString = translator.translateKey("btwaila.component.harvest.info.harvestable");
             if (!player.canHarvestBlock(block)) {
-                harvestString = "Cannot be harvested with current tool";
+                harvestString = translator.translateKey("btwaila.component.harvest.info.notharvestable");
                 miningLevelColor = Colors.LIGHT_RED;
             }
             float damage = ((IPlayerControllerAccessor)minecraft.playerController).getCurrentDamage();
             if (damage != 0) {
-                harvestString = "Harvesting: "+(int)(damage*100)+"%";
+                harvestString = translator.translateKey("btwaila.component.harvest.info.harvesting").replace("{progress}", String.valueOf((int)(damage*100)));
             }
-            renderHarvestInfo(minecraft, miningLevelColor, harvestString, damage, xScreenSize, yScreenSize);
+            renderHarvestInfo(minecraft, miningLevelColor, harvestString, xScreenSize, yScreenSize);
         }
     }
 
@@ -70,15 +72,12 @@ public class HarvestInfoComponent extends MovableHudComponent {
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
         ySize = 3;
         if (DemoEntry.getCurrentEntry().block != null){
-            renderHarvestInfo(minecraft, Colors.RED, "Harvestable with current tool", 0.5f, xScreenSize, yScreenSize);
+            renderHarvestInfo(minecraft, Colors.RED, translator.translateKey("btwaila.component.harvest.info.notharvestable"), xScreenSize, yScreenSize);
         }
     }
-    protected void renderHarvestInfo(Minecraft minecraft, int miningLevelColor, String harvestString, float damage, int xScreenSize, int yScreenSize){
+    protected void renderHarvestInfo(Minecraft minecraft, int miningLevelColor, String harvestString, int xScreenSize, int yScreenSize){
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
         int y = getLayout().getComponentY(minecraft, this, yScreenSize);
-        if (damage != 0) {
-            harvestString = "Harvesting: "+(int)(damage*100)+"%";
-        }
         minecraft.fontRenderer.drawStringWithShadow(harvestString, x, y, miningLevelColor);
         ySize = 8;
     }

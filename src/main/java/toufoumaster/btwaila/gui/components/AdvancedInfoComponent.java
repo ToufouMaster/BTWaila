@@ -73,12 +73,11 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     private  float scale = 1f;
 
     public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
-    public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
-    public static final I18n translator = I18n.getInstance();
     public  Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
     private Gui activeGUI;
     private int xScreenSize;
     private int yScreenSize;
+    public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
     static {
         addEntityIcon(EntityPlayer.class, Item.flag);
         addEntityIcon(EntityPlayerSP.class, Item.flag);
@@ -97,7 +96,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         addEntityIcon(EntityChicken.class, Item.featherChicken);
         addEntityIcon(EntityCow.class, Item.leather);
         addEntityIcon(EntityPainting.class, Item.painting);
-        addEntityIcon(EntitySheep.class, Block.wool.asItem());
+        addEntityIcon(EntitySheep.class, Block.wool);
         addEntityIcon(EntitySquid.class, Item.dye);
         addEntityIcon(EntityWolf.class, Item.bone);
         addEntityIcon(EntityMinecart.class, Item.minecart);
@@ -318,9 +317,9 @@ public class AdvancedInfoComponent extends MovableHudComponent {
 
     public void drawProgressBar(int value, int max, int boxWidth, ColorOptions bgOptions, ColorOptions fgOptions, int offX) {
         float ratio = (float) value / (float) max;
-        final int offset = 2;
         final int sizeY = 16;
-        int progress = (int)((boxWidth-offset*2)*ratio);
+        final int offset = 2;
+        int progress = (int)((boxWidth)*ratio);
 
         this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
         this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgOptions.color);
@@ -330,9 +329,8 @@ public class AdvancedInfoComponent extends MovableHudComponent {
 
     public void drawProgressBarTexture(int value, int max, int boxWidth, TextureOptions bgOptions, TextureOptions fgOptions, int offX) {
         float ratio = (float) value / (float) max;
-        final int offset = 2;
         final int sizeY = 16;
-        int progress = (int)((boxWidth-offset*2)*ratio);
+        int progress = (int)((boxWidth)*ratio);
 
         RenderEngine renderEngine = minecraft.renderEngine;
         renderEngine.bindTexture(renderEngine.getTexture("/terrain.png"));
@@ -345,8 +343,8 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         int fgTexY = fgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
 
         this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
-        drawTextureRectRepeat(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, bgTexX, bgTexY, tileWidth, bgOptions.color);
-        drawTextureRectRepeat(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, fgTexX, fgTexY, tileWidth, fgOptions.color);
+        drawTextureRectRepeat(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, bgTexX, bgTexY, tileWidth, bgOptions.color);
+        drawTextureRectRepeat(posX+offX, offY, posX+offX+progress, offY+sizeY, fgTexX, fgTexY, tileWidth, fgOptions.color);
         addOffY(sizeY);
     }
 

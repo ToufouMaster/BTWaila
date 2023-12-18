@@ -11,6 +11,8 @@ import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
 
 import java.util.HashMap;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
 
     @Override
@@ -25,19 +27,19 @@ public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
     public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         TileEntityNote noteEntity = (TileEntityNote) tileEntity;
         int note = noteEntity.note;
-        String blockModifier = "No block";
+        String blockModifier = translator.translateKey("btwaila.tooltip.noteblock.material.none");
         HashMap<Material, String> materialList = new HashMap<Material, String>() {{
-            put(Material.stone, "Stone");
-            put(Material.sand, "Sand");
-            put(Material.glass, "Glass");
-            put(Material.wood, "Wood");
+            put(Material.stone, translator.translateKey("btwaila.tooltip.noteblock.material.stone"));
+            put(Material.sand, translator.translateKey("btwaila.tooltip.noteblock.material.sand"));
+            put(Material.glass, translator.translateKey("btwaila.tooltip.noteblock.material.glass"));
+            put(Material.wood, translator.translateKey("btwaila.tooltip.noteblock.material.wood"));
         }};
         Material material = advancedInfoComponent.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
         if (material != null && materialList.containsKey(material)) {
             blockModifier = materialList.get(material);
         }
         String noteString = (Integer.toHexString(note).length() == 1) ? "0"+Integer.toHexString(note) : Integer.toHexString(note);
-        advancedInfoComponent.drawStringWithShadow("Note pitch: #"+noteString, 0);
-        advancedInfoComponent.drawStringWithShadow("Block modifier: "+blockModifier, 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.noteblock.pitch").replace("{note}", noteString), 0);
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.noteblock.modifier").replace("{modifier}", blockModifier), 0);
     }
 }
