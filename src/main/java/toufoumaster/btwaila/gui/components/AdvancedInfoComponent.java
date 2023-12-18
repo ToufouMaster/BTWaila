@@ -112,13 +112,6 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     public AdvancedInfoComponent(String key, Layout layout) {
         super(key, 16 * 9, 100 - 32, layout);
     }
-//    @Override
-//    public int getAnchorY(ComponentAnchor anchor) {
-//        if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
-//            return super.getAnchorY(anchor) + 8;
-//        }
-//        return super.getAnchorY(anchor);
-//    }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
         return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
@@ -186,6 +179,8 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     private void renderEntityOverlay(Entity entity){
         offY = generateOriginalPosY();
         posX = generateOriginalPosX();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glEnable(32826);
         IOptions gameSettings = (IOptions)minecraft.gameSettings;
         setScale(gameSettings.getScaleTooltips().value+0.5f);
 
@@ -200,6 +195,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
             }
 
             if (isLivingEntity) drawEntityHealth(entityLiving);
+            Lighting.enableInventoryLight();
             for (TooltipGroup e : TooltipRegistry.tooltipMap) {
                 if (e.getInterfaceClass().isInstance(entity) && e.isInList(entity.getClass()) && e.getCustomTooltip() instanceof IBTWailaCustomEntityTooltip) {
                     IBTWailaCustomEntityTooltip tooltip = (IBTWailaCustomEntityTooltip) e.getCustomTooltip();
@@ -207,6 +203,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
                 }
             }
         }
+        Lighting.disable();
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
         if (tileEntity != null) {
@@ -481,6 +478,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         Lighting.disable();
     }
     private void drawEntityHealth(EntityLiving entity) {
+        Lighting.disable();
         boolean heartsFlash;
         if (minecraft.thePlayer != null){
             heartsFlash = minecraft.thePlayer.heartsFlashTime / 3 % 2 == 1;

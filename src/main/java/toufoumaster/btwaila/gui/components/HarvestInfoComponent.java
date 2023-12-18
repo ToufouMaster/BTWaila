@@ -2,6 +2,7 @@ package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiHudDesigner;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
@@ -29,6 +30,9 @@ public class HarvestInfoComponent extends MovableHudComponent {
     }
     @Override
     public int getYSize(Minecraft mc) {
+        if (!(mc.currentScreen instanceof GuiHudDesigner) && !this.isVisible(mc)) {
+            return 0;
+        }
         return ySize;
     }
 
