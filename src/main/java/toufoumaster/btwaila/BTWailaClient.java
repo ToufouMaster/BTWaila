@@ -23,9 +23,7 @@ import toufoumaster.btwaila.gui.components.HarvestInfoComponent;
 import toufoumaster.btwaila.gui.components.HarvestToolComponent;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BTWailaClient {
@@ -56,6 +54,7 @@ public class BTWailaClient {
                     .withComponent(new BooleanOptionComponent(modSettings.getBlockAdvancedTooltips()))
                     .withComponent(new BooleanOptionComponent(modSettings.getEntityTooltips()))
                     .withComponent(new BooleanOptionComponent(modSettings.getEntityAdvancedTooltips()))
+                    .withComponent(new BooleanOptionComponent(modSettings.getShowBlockId()))
                     .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu())));
     public static Map<String, String > modIds = new HashMap<>();
     static {

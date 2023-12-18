@@ -9,6 +9,7 @@ public interface IOptions {
     BooleanOption getBlockAdvancedTooltips();
     BooleanOption getEntityTooltips();
     BooleanOption getEntityAdvancedTooltips();
+    BooleanOption getShowBlockId();
     FloatOption getScaleTooltips();
     KeyBinding getKeyOpenBTWailaMenu();
 }

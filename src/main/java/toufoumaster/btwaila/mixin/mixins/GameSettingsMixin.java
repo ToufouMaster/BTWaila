@@ -11,19 +11,23 @@ import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import static org.lwjgl.input.Keyboard.KEY_NUMPAD0;
 
 @Mixin(value = GameSettings.class, remap = false)
-public abstract class GameSettingsMixin implements IOptions {
+public class GameSettingsMixin implements IOptions {
+    @Unique
+    private GameSettings thisAs = (GameSettings)(Object)this;
     @Unique
     public final KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bindKeyboard(KEY_NUMPAD0);
     @Unique
-    public final BooleanOption blockTooltips = new BooleanOption((GameSettings) ((Object)this), "blockTooltips", true);
+    public final BooleanOption blockTooltips = new BooleanOption(thisAs, "blockTooltips", true);
     @Unique
-    public final BooleanOption blockAdvancedTooltips = new BooleanOption((GameSettings) ((Object)this), "blockAdvancedTooltips", true);
+    public final BooleanOption blockAdvancedTooltips = new BooleanOption(thisAs, "blockAdvancedTooltips", true);
     @Unique
-    public final BooleanOption entityTooltips = new BooleanOption((GameSettings) ((Object)this), "blockTooltips", true);
+    public final BooleanOption entityTooltips = new BooleanOption(thisAs, "blockTooltips", true);
     @Unique
-    public final BooleanOption entityAdvancedTooltips = new BooleanOption((GameSettings) ((Object)this), "entityAdvancedTooltips", true);
+    public final BooleanOption entityAdvancedTooltips = new BooleanOption(thisAs, "entityAdvancedTooltips", true);
     @Unique
-    public final FloatOption scaleTooltips = new FloatOption((GameSettings) ((Object)this), "scaleTooltips", 0.5f);
+    public final BooleanOption showBlockId = new BooleanOption(thisAs, "showBlockId", false);
+    @Unique
+    public final FloatOption scaleTooltips = new FloatOption(thisAs, "scaleTooltips", 0.5f);
 
     public KeyBinding getKeyOpenBTWailaMenu() {
         return keyOpenBTWailaMenu;
@@ -39,6 +43,9 @@ public abstract class GameSettingsMixin implements IOptions {
     }
     public BooleanOption getEntityAdvancedTooltips() {
         return entityAdvancedTooltips;
+    }
+    public BooleanOption getShowBlockId() {
+        return showBlockId;
     }
     public FloatOption getScaleTooltips() {
         return scaleTooltips;
