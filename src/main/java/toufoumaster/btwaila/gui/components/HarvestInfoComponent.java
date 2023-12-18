@@ -14,6 +14,7 @@ import net.minecraft.core.player.gamemode.Gamemode;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.mixin.mixins.accessors.IPlayerControllerAccessor;
 import toufoumaster.btwaila.util.Colors;
+import toufoumaster.btwaila.util.DemoUtil;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -71,7 +72,7 @@ public class HarvestInfoComponent extends MovableHudComponent {
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
         ySize = 3;
-        if (DemoEntry.getCurrentEntry().block != null){
+        if (DemoUtil.getCurrentEntry().block != null){
             renderHarvestInfo(minecraft, Colors.RED, translator.translateKey("btwaila.component.harvest.info.notharvestable"), xScreenSize, yScreenSize);
         }
     }

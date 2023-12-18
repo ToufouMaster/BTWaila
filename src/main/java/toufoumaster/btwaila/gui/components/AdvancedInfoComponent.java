@@ -60,6 +60,7 @@ import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.ColorOptions;
 import toufoumaster.btwaila.util.Colors;
+import toufoumaster.btwaila.util.DemoUtil;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 import toufoumaster.btwaila.util.TextureOptions;
 
@@ -148,14 +149,14 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         this.yScreenSize = yScreenSize;
         if (Keyboard.isKeyDown(Keyboard.KEY_F9)){
             if (!keyPressed){
-                DemoEntry.demoOffset += 1;
+                DemoUtil.demoOffset += 1;
                 keyPressed = true;
             }
         } else {
             keyPressed = false;
         }
-        TileEntity demoEntity = DemoEntry.getCurrentEntry().tileEntity;
-        Entity demoAnimal = DemoEntry.getCurrentEntry().entity;
+        TileEntity demoEntity = DemoUtil.getCurrentEntry().tileEntity;
+        Entity demoAnimal = DemoUtil.getCurrentEntry().entity;
         if (demoEntity != null){
             renderBlockOverlay(demoEntity);
         } else if (demoAnimal != null) {

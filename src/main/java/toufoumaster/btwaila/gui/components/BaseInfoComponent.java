@@ -20,6 +20,7 @@ import net.minecraft.core.item.ItemStack;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.util.Colors;
+import toufoumaster.btwaila.util.DemoUtil;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -64,10 +65,10 @@ public class BaseInfoComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        Block block = DemoEntry.getCurrentEntry().block;
-        int meta = DemoEntry.getCurrentEntry().meta;
-        ItemStack[] drops = DemoEntry.getCurrentEntry().drops;
-        Entity entity = DemoEntry.getCurrentEntry().entity;
+        Block block = DemoUtil.getCurrentEntry().block;
+        int meta = DemoUtil.getCurrentEntry().meta;
+        ItemStack[] drops = DemoUtil.getCurrentEntry().drops;
+        Entity entity = DemoUtil.getCurrentEntry().entity;
         if (block != null){
             baseBlockInfo(minecraft, block, meta, drops, xScreenSize, yScreenSize);
         } else if (entity != null) {

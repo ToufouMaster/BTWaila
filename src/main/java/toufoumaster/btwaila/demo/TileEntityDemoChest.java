@@ -8,6 +8,7 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.player.inventory.InventorySorter;
+import toufoumaster.btwaila.util.DemoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,37 +16,12 @@ import java.util.Random;
 
 public class TileEntityDemoChest extends TileEntity implements IInventory {
     private ItemStack[] chestContents = new ItemStack[36 * 2];
-    public static final List<Item> allRealItems = new ArrayList<>();
-    static {
-        for (int i = 0; i < Item.itemsList.length; i++) {
-            if (Item.itemsList[i] != null){
-                allRealItems.add(Item.itemsList[i]);
-            }
-        }
-    }
     public TileEntityDemoChest(int seed){
         Random rand = new Random(seed);
         for (int i = 0; i < chestContents.length; i++) {
-            chestContents[i] = randomStack(rand);
+            chestContents[i] = DemoUtil.randomStack(rand);
         }
     }
-    public static ItemStack randomStack(Random random){
-        Item item = allRealItems.get(random.nextInt(allRealItems.size()));
-        int stackSize;
-        int meta;
-        if (item.getItemStackLimit() > 1){
-            stackSize = random.nextInt(item.getItemStackLimit() - 1) + 1;
-        } else {
-            stackSize = 1;
-        }
-        if (item.getMaxDamage() > 0){
-            meta = random.nextInt(item.getMaxDamage());
-        } else {
-            meta = 0;
-        }
-        return new ItemStack(item, stackSize, meta);
-    }
-
     @Override
     public int getSizeInventory() {
         return 27 * 2;
