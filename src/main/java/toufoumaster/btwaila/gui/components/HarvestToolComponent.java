@@ -21,7 +21,7 @@ public class HarvestToolComponent extends MovableHudComponent {
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return minecraft.gameSettings.immersiveMode.drawOutline() && minecraft.thePlayer.gamemode == Gamemode.survival;
+        return minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.thePlayer.gamemode == Gamemode.survival;
     }
 
     @Override

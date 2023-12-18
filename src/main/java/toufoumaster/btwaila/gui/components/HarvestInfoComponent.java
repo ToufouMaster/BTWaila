@@ -38,7 +38,7 @@ public class HarvestInfoComponent extends MovableHudComponent {
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return minecraft.gameSettings.immersiveMode.drawOutline() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
+        return minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
     }
 
     @Override

@@ -119,7 +119,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return minecraft.gameSettings.immersiveMode.drawOutline();
+        return minecraft.gameSettings.immersiveMode.drawHotbar();
     }
 
     @Override
@@ -241,7 +241,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     public  float getScale() { return scale; }
 
     public int generateOriginalPosY() {
-        return /*8 + */getLayout().getComponentY(minecraft, this, yScreenSize);
+        return getLayout().getComponentY(minecraft, this, yScreenSize);
     }
 
     public int generateOriginalPosX() {

@@ -25,7 +25,7 @@ public class DropIconComponent extends MovableHudComponent {
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return minecraft.gameSettings.immersiveMode.drawOutline();
+        return minecraft.gameSettings.immersiveMode.drawHotbar();
     }
 
     @Override
@@ -43,7 +43,6 @@ public class DropIconComponent extends MovableHudComponent {
     }
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        int meta = 8 * 16;
         ItemStack icon = null;
         if (DemoEntry.getCurrentEntry().block != null){
             icon = DemoEntry.getCurrentEntry().drops[0];

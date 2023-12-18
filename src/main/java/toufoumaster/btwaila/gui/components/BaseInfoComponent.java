@@ -45,7 +45,7 @@ public class BaseInfoComponent extends MovableHudComponent {
     }
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return minecraft.gameSettings.immersiveMode.drawOutline();
+        return minecraft.gameSettings.immersiveMode.drawHotbar();
     }
 
     @Override
