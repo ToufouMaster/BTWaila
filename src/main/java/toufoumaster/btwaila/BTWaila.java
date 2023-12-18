@@ -13,6 +13,7 @@ import toufoumaster.btwaila.mixin.mixins.accessors.PacketAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
+import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.util.VersionHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
@@ -58,7 +59,7 @@ public class BTWaila implements GameStartEntrypoint {
             BTWailaClient.onLoad();
         }
 
-        FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTooltipPlugin.class).forEach(plugin -> plugin.getEntrypoint().initializePlugin(LOGGER));
+        FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTooltipPlugin.class).forEach(plugin -> plugin.getEntrypoint().initializePlugin(TooltipRegistry.getInstance(), LOGGER));
 
         LOGGER.info("BTWaila initialized.");
         System.out.println(modVersion);

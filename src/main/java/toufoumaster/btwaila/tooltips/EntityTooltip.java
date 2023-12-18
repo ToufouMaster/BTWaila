@@ -7,7 +7,6 @@ import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public abstract class EntityTooltip<T> extends Tooltip<T> {
     public EntityTooltip(){
-        TooltipRegistry.entityTooltips.add(this);
         BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
         initTooltip();
     }

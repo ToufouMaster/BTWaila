@@ -6,7 +6,6 @@ import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public abstract class TileTooltip<T> extends Tooltip<T>{
     public TileTooltip(){
-        TooltipRegistry.tileTooltips.add(this);
         BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
         initTooltip();
     }

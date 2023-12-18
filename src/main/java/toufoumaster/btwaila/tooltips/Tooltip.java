@@ -1,12 +1,13 @@
 package toufoumaster.btwaila.tooltips;
 
+import org.jetbrains.annotations.ApiStatus;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
-
-abstract class Tooltip<T> {
+@ApiStatus.Internal
+public abstract class Tooltip<T> {
     private final List<Class<? extends T>> toolTipClasses = new ArrayList<>();
     public void addClass(Class<? extends T> entityClass) {
         toolTipClasses.add(entityClass);
