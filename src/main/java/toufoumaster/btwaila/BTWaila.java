@@ -16,6 +16,7 @@ import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,14 @@ public class BTWaila implements GameStartEntrypoint {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final I18n translator = I18n.getInstance();
     public static boolean canUseAdvancedTooltips = false;
-    public static final VersionHelper modVersion = new VersionHelper(0, 2, 2);
+    public static String versionString = FabricLoader.getInstance().getModContainer(MOD_ID).get().getMetadata().getVersion().getFriendlyString();
+    private static String[] versionNumbers = versionString.split("-")[0].split("\\.");
+    static {
+        if (versionNumbers.length != 3){
+            versionNumbers = new String[]{"9", "9", "99"};
+        }
+    }
+    public static final VersionHelper modVersion = new VersionHelper(Integer.decode(versionNumbers[0]), Integer.decode(versionNumbers[1]), Integer.decode(versionNumbers[2]));
     public static final String checkString = modVersion.generateCheckString();
     public static final Map<Class<? extends TileEntity>, Boolean> excludeContinuousTileEntityData = new HashMap<>();
     public static void excludeContinuousTileEntityPacketUpdateClass(Class<? extends TileEntity> tileEntityClass) {

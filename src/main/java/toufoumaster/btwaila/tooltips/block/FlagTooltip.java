@@ -1,30 +1,20 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityFlag;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class FlagTooltip implements IBTWailaCustomBlockTooltip {
-
+public class FlagTooltip extends TileTooltip<TileEntityFlag> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntityFlag.class, this);
-        tooltipGroup.addTooltip(TileEntityFlag.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntityFlag.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntityFlag flag = (TileEntityFlag) tileEntity;
+    public void drawAdvancedTooltip(TileEntityFlag flag, AdvancedInfoComponent advancedInfoComponent) {
         ItemStack color1 = flag.items[0];
         ItemStack color2 = flag.items[1];
         ItemStack color3 = flag.items[2];

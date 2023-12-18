@@ -1,27 +1,18 @@
 package toufoumaster.btwaila.tooltips.block;
 
-import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntitySeat;
-import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.tooltips.TooltipGroup;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
-import toufoumaster.btwaila.tooltips.interfaces.IBTWailaCustomBlockTooltip;
+import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class SeatTooltip implements IBTWailaCustomBlockTooltip {
+public class SeatTooltip extends TileTooltip<TileEntitySeat> {
     @Override
-    public void addTooltip() {
-        BTWaila.LOGGER.info("Adding tooltips for: " + this.getClass().getSimpleName());
-        TooltipGroup tooltipGroup = new TooltipGroup("minecraft", TileEntitySeat.class, this);
-        tooltipGroup.addTooltip(TileEntitySeat.class);
-        TooltipRegistry.tooltipMap.add(tooltipGroup);
+    public void initTooltip() {
+        addClass(TileEntitySeat.class);
     }
-
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
-        TileEntitySeat seat = (TileEntitySeat) tileEntity;
+    public void drawAdvancedTooltip(TileEntitySeat seat, AdvancedInfoComponent advancedInfoComponent) {
         String entityName = AdvancedInfoComponent.getEntityName(seat.getPassenger());
 
         advancedInfoComponent.drawStringWithShadow(
