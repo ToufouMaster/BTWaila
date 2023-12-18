@@ -64,6 +64,8 @@ import toufoumaster.btwaila.util.TextureOptions;
 import java.util.HashMap;
 import java.util.Random;
 
+import static toufoumaster.btwaila.BTWaila.translator;
+
 public class AdvancedInfoComponent extends MovableHudComponent {
 
     private static boolean keyPressed = false;
@@ -293,11 +295,11 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     private String generateTemplateString(String text, int max, boolean values, boolean percentage) {
         String template = text;
         if (values) {
-            template += max + "/" + max;
+            template += translator.translateKey("btwaila.util.template.values").replace("{max}", String.valueOf(max)).replace("{current}", String.valueOf(max));
             if (percentage) template += " ";
         }
         if (percentage) {
-            template += "("+String.format("%.1f",100f)+"%)";
+            template += translator.translateKey("btwaila.util.template.percentage").replace("{value}", String.format("%.1f",100f));
         }
         return template;
     }
@@ -306,11 +308,11 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         float ratio = (float) value / (float) max;
         String template = text;
         if (values) {
-            template += value + "/" + max;
+            template += translator.translateKey("btwaila.util.template.values").replace("{max}", String.valueOf(max)).replace("{current}", String.valueOf(value));
             if (percentage) template += " ";
         }
         if (percentage) {
-            template += "("+String.format("%.1f",ratio*100)+"%)";
+            template += translator.translateKey("btwaila.util.template.percentage").replace("{value}", String.format("%.1f",ratio * 100f));
         }
         return template;
     }

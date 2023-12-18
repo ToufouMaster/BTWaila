@@ -14,6 +14,10 @@ btwaila.component.harvest.info.harvestable=Harvestable with current tool
 btwaila.component.harvest.info.notharvestable=Cannot be harvested with current tool
 btwaila.component.harvest.info.harvesting=Harvesting: {progress}%
 
+# These are used as templates to measure theoretical string sizes, changing them could result in spacing issues
+btwaila.util.template.values={current}/{max}
+btwaila.util.template.percentage=({value}%)
+
 # --Tooltips--
 btwaila.tooltip.minecart.passenger=Passenger: {name}
 btwaila.tooltip.minecart.storage=Stored items: {current}/{max}
