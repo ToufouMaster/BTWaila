@@ -17,7 +17,6 @@ import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.util.VersionHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

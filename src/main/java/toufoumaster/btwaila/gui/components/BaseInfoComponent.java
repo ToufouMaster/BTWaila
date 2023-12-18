@@ -90,8 +90,15 @@ public class BaseInfoComponent extends MovableHudComponent {
 
         String blockName = translator.translateNameKey(languageKey);
         String blockDesc = translator.translateDescKey(languageKey);
+        String source = "Minecraft";
+        for (String modId: BTWailaClient.modIds.keySet()){
+            if (languageKey.contains(modId)){
+                source = BTWailaClient.modIds.get(modId);
+            }
+        }
 
         y = drawStringJustified(minecraft,blockName, x, y,getXSize(minecraft), Colors.WHITE);
+        y = drawStringJustified(minecraft,source, x, y,getXSize(minecraft), Colors.BLUE);
         y = drawStringJustified(minecraft,blockDesc, x,y, getXSize(minecraft), Colors.LIGHT_GRAY);
         ySize = y - startY;
     }

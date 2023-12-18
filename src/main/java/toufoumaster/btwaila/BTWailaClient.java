@@ -1,5 +1,7 @@
 package toufoumaster.btwaila;
 
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.hud.AbsoluteLayout;
@@ -14,12 +16,17 @@ import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.option.GameSettings;
-import toufoumaster.btwaila.gui.components.BaseInfoComponent;
-import toufoumaster.btwaila.gui.components.HarvestInfoComponent;
-import toufoumaster.btwaila.gui.components.DropIconComponent;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.gui.components.BaseInfoComponent;
+import toufoumaster.btwaila.gui.components.DropIconComponent;
+import toufoumaster.btwaila.gui.components.HarvestInfoComponent;
 import toufoumaster.btwaila.gui.components.HarvestToolComponent;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BTWailaClient {
     public static int componentTextWidth = 152;
@@ -50,8 +57,12 @@ public class BTWailaClient {
                     .withComponent(new BooleanOptionComponent(modSettings.getEntityTooltips()))
                     .withComponent(new BooleanOptionComponent(modSettings.getEntityAdvancedTooltips()))
                     .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu())));
+    public static Map<String, String > modIds = new HashMap<>();
     static {
         OptionsPages.register(wailaOptions);
+        for (ModContainer container : FabricLoader.getInstance().getAllMods()) {
+            modIds.put(container.getMetadata().getId(), container.getMetadata().getName());
+        }
     }
     public static void onLoad(){
         Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
