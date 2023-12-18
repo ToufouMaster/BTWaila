@@ -17,19 +17,19 @@ import toufoumaster.btwaila.gui.components.HarvestToolComponent;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 
 public class BTWailaClient {
-    public static HudComponent BlockBaseInfoComp = HudComponents.register(
+    public static final HudComponent BlockBaseInfoComp = HudComponents.register(
             new BaseInfoComponent("wailaInfoBase",
                     new AbsoluteLayout(0.5f, 0.0f, ComponentAnchor.TOP_CENTER)));
-    public static HudComponent BlockBreakComp = HudComponents.register(
+    public static final HudComponent BlockBreakComp = HudComponents.register(
             new HarvestInfoComponent("wailaInfoHarvest",
                     new SnapLayout(BlockBaseInfoComp,ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
-    public static HudComponent BlockAdvancedInfoComp = HudComponents.register(
+    public static final HudComponent BlockAdvancedInfoComp = HudComponents.register(
             new AdvancedInfoComponent("wailaInfoAdvanced",
                     new SnapLayout(BlockBreakComp,ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
-    public static HudComponent BlockDisplayedComp = HudComponents.register(
+    public static final HudComponent BlockDisplayedComp = HudComponents.register(
             new DropIconComponent("wailaInfoIcon",
                     new SnapLayout(BlockBaseInfoComp, ComponentAnchor.TOP_LEFT, ComponentAnchor.TOP_RIGHT)));
-    public static HudComponent BlockToolComp = HudComponents.register(
+    public static final HudComponent BlockToolComp = HudComponents.register(
             new HarvestToolComponent("wailaInfoTool",
                     new SnapLayout(BlockDisplayedComp, ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
     public static void onLoad(){

@@ -37,17 +37,16 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
                 advancedInfoComponent.drawStringWithShadow("Passenger: " + entityName, 0);
                 break;
             case 1: // Chest
-                IInventory inventory = entityMinecart;
-                int max = inventory.getSizeInventory();
+                int max = ((IInventory) entityMinecart).getSizeInventory();
                 int current = 0;
                 for (int i = 0; i < max; i++) {
-                    ItemStack itemStack = inventory.getStackInSlot(i);
+                    ItemStack itemStack = ((IInventory) entityMinecart).getStackInSlot(i);
                     if (itemStack != null) {
                         current += itemStack.stackSize;
                     }
                 }
-                advancedInfoComponent.drawStringWithShadow("Stored items: " + current + "/" + max * inventory.getInventoryStackLimit(), 0);
-                advancedInfoComponent.drawInventory(inventory, 0);
+                advancedInfoComponent.drawStringWithShadow("Stored items: " + current + "/" + max * ((IInventory) entityMinecart).getInventoryStackLimit(), 0);
+                advancedInfoComponent.drawInventory(entityMinecart, 0);
                 break;
             case 2: // Furnace
                 advancedInfoComponent.drawStringWithShadow("Fuel: " + entityMinecart.fuel, 0);

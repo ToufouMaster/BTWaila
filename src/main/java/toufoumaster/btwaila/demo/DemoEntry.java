@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class DemoEntry {
     public static int demoOffset = 0;
-    public static ArrayList<DemoEntry> demoBlocks = new ArrayList<>();
+    public static final ArrayList<DemoEntry> demoBlocks = new ArrayList<>();
     static {
         TileEntityDemoChest demoChest = TileEntityDemoChest.getDemoChest((int) (System.currentTimeMillis() / (1000 * 60 * 60 * 24)));
         Block chest = Block.chestPlanksOakPainted;

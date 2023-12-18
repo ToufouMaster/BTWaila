@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class TileEntityDemoChest extends TileEntity implements IInventory {
     private ItemStack[] chestContents = new ItemStack[36 * 2];
-    private static List<Item> allRealItems = new ArrayList<>();
+    private static final List<Item> allRealItems = new ArrayList<>();
     private static TileEntityDemoChest demoInstance = null;
     static {
         for (int i = 0; i < Item.itemsList.length; i++) {

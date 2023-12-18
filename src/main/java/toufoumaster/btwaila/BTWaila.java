@@ -23,9 +23,9 @@ public class BTWaila implements GameStartEntrypoint {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static boolean canUseAdvancedTooltips = false;
-    public static VersionHelper modVersion = new VersionHelper(0, 2, 2);
-    public static String checkString = modVersion.generateCheckString();
-    public static Map<Class<? extends TileEntity>, Boolean> excludeContinuousTileEntityData = new HashMap<>();
+    public static final VersionHelper modVersion = new VersionHelper(0, 2, 2);
+    public static final String checkString = modVersion.generateCheckString();
+    public static final Map<Class<? extends TileEntity>, Boolean> excludeContinuousTileEntityData = new HashMap<>();
     public static void excludeContinuousTileEntityPacketUpdateClass(Class<? extends TileEntity> tileEntityClass) {
         excludeContinuousTileEntityData.put(tileEntityClass, true);
     }

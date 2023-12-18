@@ -74,7 +74,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
 
     public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
     public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
-    public static I18n translator = I18n.getInstance();
+    public static final I18n translator = I18n.getInstance();
     public  Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
     private Gui activeGUI;
     private int xScreenSize;
@@ -284,6 +284,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
 
         for (int i = x; i < w; i += tileWidth) {
             for (int j = y; j < h; j += tileWidth) {
+                //noinspection SuspiciousNameCombination
                 itemRender.renderTexturedQuad(i, j, texX, texY, tileWidth, tileWidth);
             }
         }

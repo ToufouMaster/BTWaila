@@ -32,6 +32,7 @@ public class FlagTooltip implements IBTWailaCustomBlockTooltip {
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{d}", "2") + "    " +  ((color2 != null) ? translator.translateKey(color2.getItemTranslateKey()) : translator.translateKey("btwaila.noitem")), 0, color2);
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{d}", "3") + "    " +  ((color3 != null) ? translator.translateKey(color3.getItemTranslateKey()) : translator.translateKey("btwaila.noitem")), 0, color3);
     }
+    @SuppressWarnings("SameParameterValue")
     protected void renderStringAndStack(AdvancedInfoComponent advancedInfoComponent, String s, int offX, ItemStack stack){
         if (stack != null){
             int y = advancedInfoComponent.getOffY() - 1;

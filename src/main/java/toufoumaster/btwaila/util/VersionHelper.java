@@ -1,15 +1,12 @@
 package toufoumaster.btwaila.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.EntityPlayerSP;
-import net.minecraft.core.net.command.TextFormatting;
-import net.minecraft.core.world.World;
 import toufoumaster.btwaila.BTWaila;
 
 public class VersionHelper {
-    int major;
-    int minor;
-    int patch;
+    final int major;
+    final int minor;
+    final int patch;
 
     public VersionHelper(int major, int minor, int patch) {
         this.major = major;

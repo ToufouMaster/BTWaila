@@ -12,8 +12,8 @@ import net.minecraft.client.option.GameSettings;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 
 public class WailaOptionPageHolder extends GuiScreen {
-    public static GameSettings gameSettings = Minecraft.getMinecraft(Minecraft.class).gameSettings;
-    public static IOptions modSettings = (IOptions) gameSettings;
+    public static final GameSettings gameSettings = Minecraft.getMinecraft(Minecraft.class).gameSettings;
+    public static final IOptions modSettings = (IOptions) gameSettings;
     public static final OptionsPage wailaOptions = new OptionsPage("btwaila.options.title")
             .withComponent(new OptionsCategory("btwaila.options.category")
                     .withComponent(new BooleanOptionComponent(modSettings.getBlockTooltips()))

@@ -6,5 +6,5 @@ import java.util.List;
 public class TooltipRegistry {
     private TooltipRegistry() {}
 
-    public static List<TooltipGroup> tooltipMap = new ArrayList<>();
+    public static final List<TooltipGroup> tooltipMap = new ArrayList<>();
 }
