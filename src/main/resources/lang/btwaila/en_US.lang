@@ -34,6 +34,7 @@ btwaila.tooltip.inventory.storage=Stored items: {current}/{max}
 btwaila.tooltip.spawner.bound=Bound entity: {name}
 btwaila.tooltip.spawner.canspawn=Can spawn: {flag}
 btwaila.tooltip.spawner.spawndelay=Delay before spawn: {delay}t
+btwaila.tooltip.spawner.name.default=None
 
 btwaila.tooltip.noteblock.pitch=Note pitch: #{note}
 btwaila.tooltip.noteblock.modifier=Block modifier: {modifier}
@@ -41,7 +42,7 @@ btwaila.tooltip.noteblock.material.stone=Stone
 btwaila.tooltip.noteblock.material.sand=Sand
 btwaila.tooltip.noteblock.material.glass=Glass
 btwaila.tooltip.noteblock.material.wood=Wood
-btwaila.tooltip.noteblock.material.none=No Block
+btwaila.tooltip.noteblock.material.none=None
 
 btwaila.tooltip.jukebox.disc=Disc id: {id}
 

@@ -35,7 +35,11 @@ public class DropIconComponent extends MovableHudComponent {
         if (hitResult.hitType == HitResult.HitType.TILE) {
             Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
             ItemStack[] drops = block.getBreakResult(minecraft.theWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
-            renderItemDisplayer(minecraft,drops[0], xScreenSize, yScreenSize);
+            ItemStack icon = block.getDefaultStack();
+            if (drops != null && drops.length > 0){
+                icon = drops[0];
+            }
+            renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
             ItemStack itemToRender = entityIconMap.containsKey(hitResult.entity.getClass()) ? entityIconMap.get(hitResult.entity.getClass()) : Item.eggChicken.getDefaultStack();
             renderItemDisplayer(minecraft, itemToRender, xScreenSize, yScreenSize);
