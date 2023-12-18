@@ -28,6 +28,7 @@ public class FlagTooltip implements IBTWailaCustomBlockTooltip {
         ItemStack color1 = flag.items[0];
         ItemStack color2 = flag.items[1];
         ItemStack color3 = flag.items[2];
+        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.flag.owner").replace("{name}", flag.owner.isEmpty() ? translator.translateKey("btwaila.tooltip.flag.owner.none") : flag.owner), 0);
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    " +  ((color1 != null) ? translator.translateKey(color1.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color1);
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "2") + "    " +  ((color2 != null) ? translator.translateKey(color2.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color2);
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "3") + "    " +  ((color3 != null) ? translator.translateKey(color3.getItemTranslateKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color3);
