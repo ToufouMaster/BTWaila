@@ -1,13 +1,17 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.entity.TileEntityChest;
 import net.minecraft.core.block.entity.TileEntityDispenser;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
+import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.demo.TileEntityDemoChest;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
+
+import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -38,5 +42,10 @@ public class InventoryTooltip extends TileTooltip<IInventory> {
                         .replace("{max}", String.valueOf(max * inventory.getInventoryStackLimit())), 0);
 
         advancedInfoComponent.drawInventory(inventory, 0);
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        Block chest = Block.chestPlanksOakPainted;
+        return new DemoEntry(chest, 8 * 16, new TileEntityDemoChest(random), new ItemStack[]{new ItemStack(chest, 1, 8 * 16)});
     }
 }

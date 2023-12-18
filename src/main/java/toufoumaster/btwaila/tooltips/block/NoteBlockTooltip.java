@@ -1,12 +1,16 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityNote;
 import net.minecraft.core.block.material.Material;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.world.World;
+import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -35,5 +39,12 @@ public class NoteBlockTooltip extends TileTooltip<TileEntityNote> {
         String noteString = (Integer.toHexString(note).length() == 1) ? "0"+Integer.toHexString(note) : Integer.toHexString(note);
         advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.noteblock.pitch").replace("{note}", noteString), 0);
         advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.noteblock.modifier").replace("{modifier}", blockModifier), 0);
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        TileEntityNote demoNote = new TileEntityNote();
+        demoNote.note = (byte) random.nextInt(25);
+        Block noteBlock = Block.noteblock;
+        return new DemoEntry(noteBlock, 0, demoNote, new ItemStack[]{noteBlock.getDefaultStack()});
     }
 }

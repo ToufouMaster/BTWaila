@@ -13,8 +13,7 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.demo.DemoEntry;
-import toufoumaster.btwaila.util.DemoUtil;
+import toufoumaster.btwaila.demo.DemoManager;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
@@ -49,10 +48,10 @@ public class DropIconComponent extends MovableHudComponent {
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
         ItemStack icon = null;
-        if (DemoUtil.getCurrentEntry().block != null){
-            icon = DemoUtil.getCurrentEntry().drops[0];
-        } else if (DemoUtil.getCurrentEntry().entity != null) {
-            Entity entity = DemoUtil.getCurrentEntry().entity;
+        if (DemoManager.getCurrentEntry().block != null){
+            icon = DemoManager.getCurrentEntry().drops[0];
+        } else if (DemoManager.getCurrentEntry().entity != null) {
+            Entity entity = DemoManager.getCurrentEntry().entity;
             icon = entityIconMap.get(entity.getClass());
         }
         if (icon != null){

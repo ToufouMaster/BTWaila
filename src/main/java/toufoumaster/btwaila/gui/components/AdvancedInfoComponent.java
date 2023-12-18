@@ -49,6 +49,7 @@ import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWaila;
+import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
@@ -57,7 +58,6 @@ import toufoumaster.btwaila.tooltips.TileTooltip;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.util.ColorOptions;
 import toufoumaster.btwaila.util.Colors;
-import toufoumaster.btwaila.util.DemoUtil;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 import toufoumaster.btwaila.util.TextureOptions;
 
@@ -147,17 +147,17 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         if (Keyboard.isKeyDown(Keyboard.KEY_F9)){
             if (!keyPressed){
                 if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-                    DemoUtil.demoOffset -= 1;
+                    DemoManager.demoOffset -= 1;
                 } else {
-                    DemoUtil.demoOffset += 1;
+                    DemoManager.demoOffset += 1;
                 }
                 keyPressed = true;
             }
         } else {
             keyPressed = false;
         }
-        TileEntity demoEntity = DemoUtil.getCurrentEntry().tileEntity;
-        Entity demoAnimal = DemoUtil.getCurrentEntry().entity;
+        TileEntity demoEntity = DemoManager.getCurrentEntry().tileEntity;
+        Entity demoAnimal = DemoManager.getCurrentEntry().entity;
         if (demoEntity != null){
             renderBlockOverlay(demoEntity);
         } else if (demoAnimal != null) {

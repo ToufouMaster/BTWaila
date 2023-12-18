@@ -1,10 +1,14 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityFlowerJar;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
+
+import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
@@ -35,5 +39,9 @@ public class JarToolTip extends TileTooltip<TileEntityFlowerJar> {
             itemRender.renderItemIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
             itemRender.renderItemOverlayIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
         }
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        return new DemoEntry(Block.jarGlass, 0, new TileEntityFlowerJar(), new ItemStack[]{Item.jar.getDefaultStack()});
     }
 }

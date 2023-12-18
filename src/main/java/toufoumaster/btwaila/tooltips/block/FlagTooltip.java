@@ -1,10 +1,16 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityFlag;
+import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
+import toufoumaster.btwaila.demo.DemoEntry;
+import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
+
+import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -35,5 +41,12 @@ public class FlagTooltip extends TileTooltip<TileEntityFlag> {
         }
         advancedInfoComponent.drawStringWithShadow(s, offX);
         advancedInfoComponent.addOffY(4);
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        TileEntityFlag demoFlag = new TileEntityFlag();
+        demoFlag.items = new ItemStack[]{new ItemStack(Item.dye, 1, random.nextInt(16)), new ItemStack(Item.dye, 1, random.nextInt(16)), new ItemStack(Item.dye, 1, random.nextInt(16))};
+        demoFlag.owner = DemoManager.getRandomName(random);
+        return new DemoEntry(Block.flag, 0, demoFlag, new ItemStack[]{Item.flag.getDefaultStack()});
     }
 }

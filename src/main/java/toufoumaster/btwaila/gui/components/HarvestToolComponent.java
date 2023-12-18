@@ -10,8 +10,7 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.player.gamemode.Gamemode;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.demo.DemoEntry;
-import toufoumaster.btwaila.util.DemoUtil;
+import toufoumaster.btwaila.demo.DemoManager;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
@@ -35,7 +34,7 @@ public class HarvestToolComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        Block block = DemoUtil.getCurrentEntry().block;
+        Block block = DemoManager.getCurrentEntry().block;
         if (block != null){
             renderTool(minecraft, block, xScreenSize, yScreenSize);
         }

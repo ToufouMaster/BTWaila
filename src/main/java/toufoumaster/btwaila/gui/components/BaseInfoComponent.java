@@ -4,23 +4,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiHudDesigner;
 import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
 import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.monster.EntityMonster;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
+import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
-import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.util.Colors;
-import toufoumaster.btwaila.util.DemoUtil;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -65,10 +62,10 @@ public class BaseInfoComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        Block block = DemoUtil.getCurrentEntry().block;
-        int meta = DemoUtil.getCurrentEntry().meta;
-        ItemStack[] drops = DemoUtil.getCurrentEntry().drops;
-        Entity entity = DemoUtil.getCurrentEntry().entity;
+        Block block = DemoManager.getCurrentEntry().block;
+        int meta = DemoManager.getCurrentEntry().meta;
+        ItemStack[] drops = DemoManager.getCurrentEntry().drops;
+        Entity entity = DemoManager.getCurrentEntry().entity;
         if (block != null){
             baseBlockInfo(minecraft, block, meta, drops, xScreenSize, yScreenSize);
         } else if (entity != null) {

@@ -8,7 +8,7 @@ public class TooltipRegistry {
     public static TooltipRegistry getInstance(){
         return INSTANCE;
     }
-    public Tooltip<?> registerTooltip(Tooltip<?> tooltip){
+    public Tooltip<?> register(Tooltip<?> tooltip){
         if (tooltip instanceof TileTooltip){
             tileTooltips.add((TileTooltip<?>) tooltip);
             return tooltip;
@@ -17,7 +17,7 @@ public class TooltipRegistry {
             entityTooltips.add((EntityTooltip<?>) tooltip);
             return tooltip;
         }
-        return tooltip;
+        throw new IllegalArgumentException("Tooltip '" + tooltip.getClass().getSimpleName() + "' is not a valid type for registration!");
     }
 
     public static final List<TileTooltip<?>> tileTooltips = new ArrayList<>();

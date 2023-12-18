@@ -4,22 +4,17 @@ import com.mojang.nbt.CompoundTag;
 import com.mojang.nbt.ListTag;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.player.inventory.InventorySorter;
-import toufoumaster.btwaila.util.DemoUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class TileEntityDemoChest extends TileEntity implements IInventory {
     private ItemStack[] chestContents = new ItemStack[36 * 2];
-    public TileEntityDemoChest(int seed){
-        Random rand = new Random(seed);
+    public TileEntityDemoChest(Random random){
         for (int i = 0; i < chestContents.length; i++) {
-            chestContents[i] = DemoUtil.randomStack(rand);
+            chestContents[i] = DemoManager.randomStack(random);
         }
     }
     @Override

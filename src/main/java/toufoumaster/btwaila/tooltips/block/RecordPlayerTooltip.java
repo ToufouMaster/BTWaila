@@ -1,11 +1,15 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityRecordPlayer;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
+import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
+
+import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
@@ -29,6 +33,12 @@ public class RecordPlayerTooltip extends TileTooltip<TileEntityRecordPlayer> {
             itemRender.renderItemOverlayIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
             GL11.glDisable(GL11.GL_LIGHTING);
         }
-
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        TileEntityRecordPlayer demoJukeBox = new TileEntityRecordPlayer();
+        demoJukeBox.record = Item.record13.id + random.nextInt(11);
+        Block jukeBox = Block.jukebox;
+        return new DemoEntry(jukeBox, 0, demoJukeBox, new ItemStack[]{jukeBox.getDefaultStack()});
     }
 }

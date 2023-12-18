@@ -1,10 +1,14 @@
 package toufoumaster.btwaila.tooltips.entity;
 
+import net.minecraft.core.entity.animal.EntityChicken;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
+import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.EntityTooltip;
+
+import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -44,5 +48,11 @@ public class MinecartTooltip extends EntityTooltip<EntityMinecart> {
                         .replace("{fuel}", String.valueOf(entityMinecart.fuel)), 0);
                 break;
         }
+    }
+    @Override
+    public DemoEntry tooltipDemo(Random random){
+        EntityMinecart demoMinecart = new EntityMinecart(null);
+        demoMinecart.minecartType = random.nextInt(3);
+        return new DemoEntry(demoMinecart);
     }
 }
