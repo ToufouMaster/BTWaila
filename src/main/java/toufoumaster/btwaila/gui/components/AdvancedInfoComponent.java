@@ -162,9 +162,6 @@ public class AdvancedInfoComponent extends MovableHudComponent {
     private void renderBlockOverlay(TileEntity tileEntity){
         offY = generateOriginalPosY();
         posX = generateOriginalPosX();
-        Lighting.enableInventoryLight();
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glEnable(32826);
         IOptions modSettings = (IOptions)minecraft.gameSettings;
         setScale(modSettings.getScaleTooltips().value+0.5f);
 
@@ -174,16 +171,12 @@ public class AdvancedInfoComponent extends MovableHudComponent {
                 drawFunctionalBlocksData(tileEntity);
             }
         }
-        Lighting.disable();
     }
     private void renderEntityOverlay(Entity entity){
         offY = generateOriginalPosY();
         posX = generateOriginalPosX();
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GL11.glEnable(32826);
         IOptions gameSettings = (IOptions)minecraft.gameSettings;
         setScale(gameSettings.getScaleTooltips().value+0.5f);
-
         if (!gameSettings.getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
         EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
@@ -195,7 +188,6 @@ public class AdvancedInfoComponent extends MovableHudComponent {
             }
 
             if (isLivingEntity) drawEntityHealth(entityLiving);
-            Lighting.enableInventoryLight();
             for (TooltipGroup e : TooltipRegistry.tooltipMap) {
                 if (e.getInterfaceClass().isInstance(entity) && e.isInList(entity.getClass()) && e.getCustomTooltip() instanceof IBTWailaCustomEntityTooltip) {
                     IBTWailaCustomEntityTooltip tooltip = (IBTWailaCustomEntityTooltip) e.getCustomTooltip();
@@ -203,7 +195,6 @@ public class AdvancedInfoComponent extends MovableHudComponent {
                 }
             }
         }
-        Lighting.disable();
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
         if (tileEntity != null) {
