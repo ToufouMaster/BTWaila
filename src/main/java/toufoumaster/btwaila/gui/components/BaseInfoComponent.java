@@ -23,6 +23,7 @@ import toufoumaster.btwaila.util.Colors;
 import static toufoumaster.btwaila.BTWaila.translator;
 
 public class BaseInfoComponent extends MovableHudComponent {
+    private final int topPadding = 4;
     private int ySize;
     public BaseInfoComponent(String key, Layout layout) {
         super(key, BTWailaClient.componentTextWidth, 24, layout);
@@ -31,7 +32,7 @@ public class BaseInfoComponent extends MovableHudComponent {
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
         if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
-            return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this))) + 8;
+            return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this))) + topPadding;
         }
         return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
     }
@@ -40,7 +41,7 @@ public class BaseInfoComponent extends MovableHudComponent {
         if (!(mc.currentScreen instanceof GuiHudDesigner) && !this.isVisible(mc)) {
             return 0;
         }
-        return this.ySize + 8;
+        return this.ySize + topPadding;
     }
     @Override
     public boolean isVisible(Minecraft minecraft) {
@@ -76,7 +77,7 @@ public class BaseInfoComponent extends MovableHudComponent {
     protected void baseBlockInfo(Minecraft minecraft, Block block, int blockMetadata, ItemStack[] blockDrops, int xScreenSize, int yScreenSize){
         int startY;
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
-        int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + 8;
+        int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + topPadding;
         IOptions modSettings = (IOptions)minecraft.gameSettings;
 
         if (!modSettings.getBlockTooltips().value) return;
@@ -97,7 +98,7 @@ public class BaseInfoComponent extends MovableHudComponent {
     protected void baseEntityInfo(Minecraft minecraft, Entity entity, int xScreenSize, int yScreenSize){
         int startY;
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
-        int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + 8;
+        int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + topPadding;
         IOptions gameSettings = (IOptions)minecraft.gameSettings;
         if (!gameSettings.getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
@@ -115,7 +116,7 @@ public class BaseInfoComponent extends MovableHudComponent {
         }
 
         minecraft.fontRenderer.drawStringWithShadow(AdvancedInfoComponent.getEntityName(entity), x, y, color);
-        y += 8;
+        y += BTWailaClient.getLineHeight();
         ySize = y - startY;
     }
 
@@ -131,13 +132,13 @@ public class BaseInfoComponent extends MovableHudComponent {
             if (minecraft.fontRenderer.getStringWidth(line.toString().trim()) > maxWidth){
                 if (wordCount <= 1){
                     minecraft.fontRenderer.drawStringWithShadow(line.toString(), x, y, color);
-                    y += 8;
+                    y += BTWailaClient.getLineHeight();
                     line = new StringBuilder(word).append(" ");
                     wordCount = 0;
                     continue;
                 }
                 minecraft.fontRenderer.drawStringWithShadow(prevline.toString(), x, y, color);
-                y += 8;
+                y += BTWailaClient.getLineHeight();
                 line = new StringBuilder(word).append(" ");
                 wordCount = 0;
             }
@@ -145,7 +146,7 @@ public class BaseInfoComponent extends MovableHudComponent {
         String remainder = line.toString();
         if (!remainder.isEmpty()){
             minecraft.fontRenderer.drawStringWithShadow(remainder, x, y, color);
-            y += 8;
+            y += BTWailaClient.getLineHeight();
         }
         return y;
     }

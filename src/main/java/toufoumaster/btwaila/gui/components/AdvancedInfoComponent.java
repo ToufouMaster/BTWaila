@@ -70,13 +70,13 @@ import static toufoumaster.btwaila.BTWaila.translator;
 public class AdvancedInfoComponent extends MovableHudComponent {
 
     private static boolean keyPressed = false;
-    private  final int padding = 8;
-    private  int offY = padding;
-    private  int posX = 0;
-    private  float scale = 1f;
+    private final int padding = 8;
+    private int offY = padding;
+    private int posX = 0;
+    private float scale = 1f;
 
     public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
-    public  Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
+    public Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
     private Gui activeGUI;
     private int xScreenSize;
     private int yScreenSize;
@@ -112,7 +112,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         entityIconMap.put(entityClass, displayStack);
     }
     public AdvancedInfoComponent(String key, Layout layout) {
-        super(key, BTWailaClient.componentTextWidth, 100 - 32, layout);
+        super(key, BTWailaClient.componentTextWidth, 68, layout);
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
@@ -245,7 +245,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
 
     public void drawStringWithShadow(String text, int offX, int color) {
         minecraft.fontRenderer.drawStringWithShadow(text, posX+offX, offY, color);
-        addOffY(8);
+        addOffY(BTWailaClient.getLineHeight());
     }
 
     public void drawStringWithShadow(String text, int offX) {
@@ -523,7 +523,7 @@ public class AdvancedInfoComponent extends MovableHudComponent {
                 activeGUI.drawTexturedModalRect(x, y, 61, 0, 9, 9);
             }
         }
-        offY += 8;
+        offY += BTWailaClient.getLineHeight();
     }
     protected void drawRect(int minX, int minY, int maxX, int maxY, int argb) {
         int temp;

@@ -21,7 +21,7 @@ import static toufoumaster.btwaila.BTWaila.translator;
 public class HarvestInfoComponent extends MovableHudComponent {
     private int ySize;
     public HarvestInfoComponent(String key, Layout layout) {
-        super(key, BTWailaClient.componentTextWidth, 8, layout);
+        super(key, BTWailaClient.componentTextWidth, BTWailaClient.getLineHeight(), layout);
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
@@ -89,13 +89,13 @@ public class HarvestInfoComponent extends MovableHudComponent {
             if (minecraft.fontRenderer.getStringWidth(line.toString().trim()) > maxWidth){
                 if (wordCount <= 1){
                     minecraft.fontRenderer.drawStringWithShadow(line.toString(), x, y, color);
-                    y += 8;
+                    y += BTWailaClient.getLineHeight();
                     line = new StringBuilder(word).append(" ");
                     wordCount = 0;
                     continue;
                 }
                 minecraft.fontRenderer.drawStringWithShadow(prevline.toString(), x, y, color);
-                y += 8;
+                y += BTWailaClient.getLineHeight();
                 line = new StringBuilder(word).append(" ");
                 wordCount = 0;
             }
@@ -103,7 +103,7 @@ public class HarvestInfoComponent extends MovableHudComponent {
         String remainder = line.toString();
         if (!remainder.isEmpty()){
             minecraft.fontRenderer.drawStringWithShadow(remainder, x, y, color);
-            y += 8;
+            y += BTWailaClient.getLineHeight();
         }
         return y;
     }
