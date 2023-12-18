@@ -6,7 +6,7 @@ import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.IBTWailaCustomBlockTooltip;
 import toufoumaster.btwaila.TooltipGroup;
 import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public class BasketTooltip implements IBTWailaCustomBlockTooltip {
 
@@ -19,10 +19,10 @@ public class BasketTooltip implements IBTWailaCustomBlockTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         TileEntityBasket basket = (TileEntityBasket) tileEntity;
         int max = basket.getMaxUnits();
         int current = basket.getNumUnitsInside();
-        guiBlockOverlay.drawStringWithShadow("Stored items: "+current+"/"+max, 0);
+        advancedInfoComponent.drawStringWithShadow("Stored items: "+current+"/"+max, 0);
     }
 }

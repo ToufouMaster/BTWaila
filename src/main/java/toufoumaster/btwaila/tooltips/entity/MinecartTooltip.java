@@ -1,6 +1,5 @@
 package toufoumaster.btwaila.tooltips.entity;
 
-import net.minecraft.client.entity.player.EntityOtherPlayerMP;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
@@ -11,7 +10,7 @@ import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
 import toufoumaster.btwaila.TooltipGroup;
 import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
 
@@ -24,7 +23,7 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(Entity entity, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(Entity entity, AdvancedInfoComponent advancedInfoComponent) {
         EntityMinecart entityMinecart = (EntityMinecart) entity;
         switch (entityMinecart.minecartType) {
             case 0: // Minecart
@@ -35,7 +34,7 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
                 String entityName = isLivingEntity ? entityLiving.getDisplayName() : null;
                 if (entityName == null || entityName.equalsIgnoreCase("§0")) entityName = EntityDispatcher.getEntityString(passenger);
 
-                guiBlockOverlay.drawStringWithShadow("Passenger: " + entityName, 0);
+                advancedInfoComponent.drawStringWithShadow("Passenger: " + entityName, 0);
                 break;
             case 1: // Chest
                 IInventory inventory = entityMinecart;
@@ -47,11 +46,11 @@ public class MinecartTooltip implements IBTWailaCustomEntityTooltip {
                         current += itemStack.stackSize;
                     }
                 }
-                guiBlockOverlay.drawStringWithShadow("Stored items: " + current + "/" + max * inventory.getInventoryStackLimit(), 0);
-                guiBlockOverlay.drawInventory(inventory, 0);
+                advancedInfoComponent.drawStringWithShadow("Stored items: " + current + "/" + max * inventory.getInventoryStackLimit(), 0);
+                advancedInfoComponent.drawInventory(inventory, 0);
                 break;
             case 2: // Furnace
-                guiBlockOverlay.drawStringWithShadow("Fuel: " + entityMinecart.fuel, 0);
+                advancedInfoComponent.drawStringWithShadow("Fuel: " + entityMinecart.fuel, 0);
                 break;
         }
     }

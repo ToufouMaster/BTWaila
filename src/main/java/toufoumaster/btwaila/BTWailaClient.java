@@ -9,27 +9,27 @@ import net.minecraft.client.gui.hud.SnapLayout;
 import net.minecraft.client.gui.options.components.KeyBindingComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.data.OptionsPages;
-import toufoumaster.btwaila.gui.BlockBaseInfoComponent;
-import toufoumaster.btwaila.gui.BlockBreakingComponent;
-import toufoumaster.btwaila.gui.GuiBlockLookedComponent;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
-import toufoumaster.btwaila.gui.GuiBlockToolComponent;
+import toufoumaster.btwaila.gui.components.BaseInfoComponent;
+import toufoumaster.btwaila.gui.components.HarvestInfoComponent;
+import toufoumaster.btwaila.gui.components.DropIconComponent;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
+import toufoumaster.btwaila.gui.components.HarvestToolComponent;
 
 public class BTWailaClient {
     public static HudComponent BlockBaseInfoComp = HudComponents.register(
-            new BlockBaseInfoComponent("wailaInfoBase",
+            new BaseInfoComponent("wailaInfoBase",
                     new AbsoluteLayout(0.5f, 0.0f, ComponentAnchor.TOP_CENTER)));
     public static HudComponent BlockBreakComp = HudComponents.register(
-            new BlockBreakingComponent("wailaInfoBreak",
+            new HarvestInfoComponent("wailaInfoBreak",
                     new SnapLayout(BlockBaseInfoComp,ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
     public static HudComponent BlockAdvancedInfoComp = HudComponents.register(
-            new GuiBlockOverlay("wailaInfoAdvanced",
+            new AdvancedInfoComponent("wailaInfoAdvanced",
                     new SnapLayout(BlockBreakComp,ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
     public static HudComponent BlockDisplayedComp = HudComponents.register(
-            new GuiBlockLookedComponent("wailaBlock",
+            new DropIconComponent("wailaBlock",
                     new SnapLayout(BlockBaseInfoComp, ComponentAnchor.TOP_LEFT, ComponentAnchor.TOP_RIGHT)));
     public static HudComponent BlockToolComp = HudComponents.register(
-            new GuiBlockToolComponent("wailaTool",
+            new HarvestToolComponent("wailaTool",
                     new SnapLayout(BlockDisplayedComp, ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
     public static void onLoad(){
         Minecraft mc = Minecraft.getMinecraft(Minecraft.class);

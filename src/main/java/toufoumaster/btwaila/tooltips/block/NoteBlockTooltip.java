@@ -4,7 +4,7 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityNote;
 import net.minecraft.core.block.material.Material;
 import toufoumaster.btwaila.*;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 import java.util.HashMap;
 
@@ -19,7 +19,7 @@ public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         TileEntityNote noteEntity = (TileEntityNote) tileEntity;
         int note = noteEntity.note;
         String blockModifier = "No block";
@@ -29,12 +29,12 @@ public class NoteBlockTooltip implements IBTWailaCustomBlockTooltip {
             put(Material.glass, "Glass");
             put(Material.wood, "Wood");
         }};
-        Material material = guiBlockOverlay.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
+        Material material = advancedInfoComponent.getGame().theWorld.getBlockMaterial(noteEntity.x, noteEntity.y - 1, noteEntity.z);
         if (material != null && materialList.containsKey(material)) {
             blockModifier = materialList.get(material);
         }
         String noteString = (Integer.toHexString(note).length() == 1) ? "0"+Integer.toHexString(note) : Integer.toHexString(note);
-        guiBlockOverlay.drawStringWithShadow("Note pitch: #"+noteString, 0);
-        guiBlockOverlay.drawStringWithShadow("Block modifier: "+blockModifier, 0);
+        advancedInfoComponent.drawStringWithShadow("Note pitch: #"+noteString, 0);
+        advancedInfoComponent.drawStringWithShadow("Block modifier: "+blockModifier, 0);
     }
 }

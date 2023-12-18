@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.gui;
+package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -10,11 +10,12 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.player.gamemode.Gamemode;
 import org.lwjgl.opengl.GL11;
+import toufoumaster.btwaila.gui.demo.DemoEntry;
 
-import static toufoumaster.btwaila.gui.GuiBlockOverlay.itemRender;
+import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
-public class GuiBlockToolComponent extends MovableHudComponent {
-    public GuiBlockToolComponent(String key, Layout layout) {
+public class HarvestToolComponent extends MovableHudComponent {
+    public HarvestToolComponent(String key, Layout layout) {
         super(key, 18, 18, layout);
     }
 
@@ -33,7 +34,10 @@ public class GuiBlockToolComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        renderTool(minecraft, Block.planksOakPainted, xScreenSize, yScreenSize);
+        Block block = DemoEntry.getCurrentEntry().block;
+        if (block != null){
+            renderTool(minecraft, block, xScreenSize, yScreenSize);
+        }
     }
     protected void renderTool(Minecraft minecraft, Block block, int xScreenSize, int yScreenSize){
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);

@@ -1,10 +1,10 @@
 package toufoumaster.btwaila;
 
 import net.minecraft.core.block.entity.TileEntity;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public interface IBTWailaCustomBlockTooltip extends IBTWailaCustomTooltip {
     void addTooltip();
 
-    void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay);
+    void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent);
 }

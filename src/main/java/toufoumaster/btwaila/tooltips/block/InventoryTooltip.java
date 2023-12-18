@@ -8,7 +8,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import toufoumaster.btwaila.*;
 import toufoumaster.btwaila.demo.TileEntityDemoChest;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
 
@@ -23,7 +23,7 @@ public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         IInventory inventory = (IInventory) tileEntity;
         if (tileEntity instanceof TileEntityChest){
             inventory = BlockChest.getInventory(tileEntity.worldObj, tileEntity.x, tileEntity.y, tileEntity.z);
@@ -36,7 +36,7 @@ public class InventoryTooltip implements IBTWailaCustomBlockTooltip {
                 current += itemStack.stackSize;
             }
         }
-        guiBlockOverlay.drawStringWithShadow("Stored items: " + current + "/" + max * inventory.getInventoryStackLimit(), 0);
-        guiBlockOverlay.drawInventory(inventory, 0);
+        advancedInfoComponent.drawStringWithShadow("Stored items: " + current + "/" + max * inventory.getInventoryStackLimit(), 0);
+        advancedInfoComponent.drawInventory(inventory, 0);
     }
 }

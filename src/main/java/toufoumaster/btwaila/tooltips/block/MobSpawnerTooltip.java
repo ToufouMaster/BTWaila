@@ -3,7 +3,7 @@ package toufoumaster.btwaila.tooltips.block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityMobSpawner;
 import toufoumaster.btwaila.*;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.util.Colors;
 
 public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
@@ -17,11 +17,11 @@ public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(TileEntity tileEntity, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(TileEntity tileEntity, AdvancedInfoComponent advancedInfoComponent) {
         TileEntityMobSpawner mobSpawner = (TileEntityMobSpawner) tileEntity;
         boolean canSpawn = true;
         int canSpawnColor = Colors.LIGHT_GREEN;
-        if ((guiBlockOverlay.getGame().theWorld.difficultySetting == 0)
+        if ((advancedInfoComponent.getGame().theWorld.difficultySetting == 0)
                 || (mobSpawner.getMobId() == null)
                 || (mobSpawner.getMobId().equalsIgnoreCase("none"))
         ) {
@@ -30,8 +30,8 @@ public class MobSpawnerTooltip implements IBTWailaCustomBlockTooltip {
         }
         int delay = mobSpawner.delay;
         String entityName = mobSpawner.getMobId();
-        guiBlockOverlay.drawStringWithShadow("Binded entity: "+entityName, 0);
-        guiBlockOverlay.drawStringWithShadow("Can spawn: "+canSpawn, 0, canSpawnColor);
-        guiBlockOverlay.drawStringWithShadow("Delay before spawn: "+delay+"t", 0, canSpawnColor);
+        advancedInfoComponent.drawStringWithShadow("Binded entity: "+entityName, 0);
+        advancedInfoComponent.drawStringWithShadow("Can spawn: "+canSpawn, 0, canSpawnColor);
+        advancedInfoComponent.drawStringWithShadow("Delay before spawn: "+delay+"t", 0, canSpawnColor);
     }
 }

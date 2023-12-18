@@ -6,7 +6,7 @@ import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
 import toufoumaster.btwaila.TooltipGroup;
 import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.gui.GuiBlockOverlay;
+import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 
 public class ChickenTooltip implements IBTWailaCustomEntityTooltip {
     @Override
@@ -18,9 +18,9 @@ public class ChickenTooltip implements IBTWailaCustomEntityTooltip {
     }
 
     @Override
-    public void drawAdvancedTooltip(Entity entity, GuiBlockOverlay guiBlockOverlay) {
+    public void drawAdvancedTooltip(Entity entity, AdvancedInfoComponent advancedInfoComponent) {
         EntityChicken chicken = (EntityChicken) entity;
         String text = String.format("Next egg: %d seconds", chicken.timeUntilNextEgg/20);
-        guiBlockOverlay.drawStringWithShadow(text, 0);
+        advancedInfoComponent.drawStringWithShadow(text, 0);
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.option.GameSettings;
 import toufoumaster.btwaila.IOptions;
 
-public class GuiBTWailaOption extends GuiScreen {
+public class WailaOptionPageHolder extends GuiScreen {
     public static GameSettings gameSettings = Minecraft.getMinecraft(Minecraft.class).gameSettings;
     public static IOptions modSettings = (IOptions) gameSettings;
     public static final OptionsPage wailaOptions = new OptionsPage("btwaila.options.title")

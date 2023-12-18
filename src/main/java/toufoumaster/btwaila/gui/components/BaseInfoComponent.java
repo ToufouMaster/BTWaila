@@ -1,7 +1,8 @@
-package toufoumaster.btwaila.gui;
+package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiHudDesigner;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
 import net.minecraft.client.gui.hud.ComponentAnchor;
@@ -17,21 +18,30 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
 import toufoumaster.btwaila.IOptions;
+import toufoumaster.btwaila.gui.demo.DemoEntry;
 import toufoumaster.btwaila.util.Colors;
 
-import static toufoumaster.btwaila.gui.GuiBlockOverlay.translator;
+import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.translator;
 
-public class BlockBaseInfoComponent extends MovableHudComponent {
-    public BlockBaseInfoComponent(String key, Layout layout) {
+public class BaseInfoComponent extends MovableHudComponent {
+    private int ySize;
+    public BaseInfoComponent(String key, Layout layout) {
         super(key, 16 * 9, 24, layout);
     }
 
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
         if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
-            return super.getAnchorY(anchor) + 8;
+            return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this))) + 8;
         }
-        return super.getAnchorY(anchor);
+        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
+    }
+    @Override
+    public int getYSize(Minecraft mc) {
+        if (!(mc.currentScreen instanceof GuiHudDesigner) && !this.isVisible(mc)) {
+            return 0;
+        }
+        return this.ySize + 8;
     }
     @Override
     public boolean isVisible(Minecraft minecraft) {
@@ -54,12 +64,20 @@ public class BlockBaseInfoComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        int meta = 8 * 16;
-        baseBlockInfo(minecraft, Block.chestPlanksOakPainted, meta, new ItemStack[]{new ItemStack(Block.chestPlanksOakPainted, 1, meta)}, xScreenSize, yScreenSize);
+        Block block = DemoEntry.getCurrentEntry().block;
+        int meta = DemoEntry.getCurrentEntry().meta;
+        ItemStack[] drops = DemoEntry.getCurrentEntry().drops;
+        Entity entity = DemoEntry.getCurrentEntry().entity;
+        if (block != null){
+            baseBlockInfo(minecraft, block, meta, drops, xScreenSize, yScreenSize);
+        } else if (entity != null) {
+            baseEntityInfo(minecraft, entity, xScreenSize, yScreenSize);
+        }
     }
     protected void baseBlockInfo(Minecraft minecraft, Block block, int blockMetadata, ItemStack[] blockDrops, int xScreenSize, int yScreenSize){
+        int startY;
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
-        int y = getLayout().getComponentY(minecraft, this, yScreenSize) + 8;
+        int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + 8;
         IOptions modSettings = (IOptions)minecraft.gameSettings;
 
         if (!modSettings.getBlockTooltips().value) return;
@@ -74,11 +92,13 @@ public class BlockBaseInfoComponent extends MovableHudComponent {
         String blockDesc = translator.translateDescKey(languageKey);
 
         y = drawStringJustified(minecraft,blockName, x, y,getXSize(minecraft), Colors.WHITE);
-        drawStringJustified(minecraft,blockDesc, x,y, getXSize(minecraft), Colors.LIGHT_GRAY);
+        y = drawStringJustified(minecraft,blockDesc, x,y, getXSize(minecraft), Colors.LIGHT_GRAY);
+        ySize = y - startY;
     }
     protected void baseEntityInfo(Minecraft minecraft, Entity entity, int xScreenSize, int yScreenSize){
+        int startY;
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
-        int y = getLayout().getComponentY(minecraft, this, yScreenSize) + 8;
+        int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + 8;
         IOptions gameSettings = (IOptions)minecraft.gameSettings;
         if (!gameSettings.getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
@@ -109,6 +129,8 @@ public class BlockBaseInfoComponent extends MovableHudComponent {
         }
 
         minecraft.fontRenderer.drawStringWithShadow(entityName, x, y, color);
+        y += 8;
+        ySize = y - startY;
     }
 
     public int drawStringJustified(Minecraft minecraft,String text, int x, int y, int maxWidth, int color){

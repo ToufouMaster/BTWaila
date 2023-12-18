@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.gui;
+package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityClientPlayerMP;
@@ -18,7 +18,6 @@ import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.EntityPainting;
 import net.minecraft.core.entity.animal.EntityChicken;
@@ -30,7 +29,6 @@ import net.minecraft.core.entity.animal.EntityWolf;
 import net.minecraft.core.entity.monster.EntityArmoredZombie;
 import net.minecraft.core.entity.monster.EntityCreeper;
 import net.minecraft.core.entity.monster.EntityGhast;
-import net.minecraft.core.entity.monster.EntityMonster;
 import net.minecraft.core.entity.monster.EntityPigZombie;
 import net.minecraft.core.entity.monster.EntityScorpion;
 import net.minecraft.core.entity.monster.EntitySkeleton;
@@ -41,14 +39,13 @@ import net.minecraft.core.entity.monster.EntityZombie;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.entity.vehicle.EntityBoat;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
-import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.lang.I18n;
-import net.minecraft.core.player.gamemode.Gamemode;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.server.entity.player.EntityPlayerMP;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.IBTWailaCustomBlockTooltip;
@@ -56,8 +53,7 @@ import toufoumaster.btwaila.IBTWailaCustomEntityTooltip;
 import toufoumaster.btwaila.IOptions;
 import toufoumaster.btwaila.TooltipGroup;
 import toufoumaster.btwaila.TooltipRegistry;
-import toufoumaster.btwaila.demo.TileEntityDemoChest;
-import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
+import toufoumaster.btwaila.gui.demo.DemoEntry;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.util.ColorOptions;
@@ -68,8 +64,9 @@ import toufoumaster.btwaila.util.TextureOptions;
 import java.util.HashMap;
 import java.util.Random;
 
-public class GuiBlockOverlay extends MovableHudComponent {
+public class AdvancedInfoComponent extends MovableHudComponent {
 
+    private static boolean keyPressed = false;
     private  final int padding = 8;
     private  int offY = padding;
     private  int posX = 0;
@@ -112,7 +109,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
     public static void addEntityIcon(Class<? extends Entity> entityClass, ItemStack displayStack){
         entityIconMap.put(entityClass, displayStack);
     }
-    public GuiBlockOverlay(String key, Layout layout) {
+    public AdvancedInfoComponent(String key, Layout layout) {
         super(key, 16 * 9, 100 - 32, layout);
     }
 //    @Override
@@ -122,6 +119,10 @@ public class GuiBlockOverlay extends MovableHudComponent {
 //        }
 //        return super.getAnchorY(anchor);
 //    }
+    @Override
+    public int getAnchorY(ComponentAnchor anchor) {
+        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
+    }
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
@@ -149,9 +150,21 @@ public class GuiBlockOverlay extends MovableHudComponent {
         this.activeGUI = gui;
         this.xScreenSize = xScreenSize;
         this.yScreenSize = yScreenSize;
-        TileEntityDemoChest demoChest = TileEntityDemoChest.getDemoChest((int) (System.currentTimeMillis() / (1000 * 60 * 60 * 24)));
-        int meta = 8 * 16;
-        renderBlockOverlay(demoChest);
+        if (Keyboard.isKeyDown(Keyboard.KEY_F9)){
+            if (!keyPressed){
+                DemoEntry.demoOffset += 1;
+                keyPressed = true;
+            }
+        } else {
+            keyPressed = false;
+        }
+        TileEntity demoEntity = DemoEntry.getCurrentEntry().tileEntity;
+        Entity demoAnimal = DemoEntry.getCurrentEntry().entity;
+        if (demoEntity != null){
+            renderBlockOverlay(demoEntity);
+        } else if (demoAnimal != null) {
+            renderEntityOverlay(demoAnimal);
+        }
     }
     private void renderBlockOverlay(TileEntity tileEntity){
         offY = generateOriginalPosY();
@@ -230,7 +243,7 @@ public class GuiBlockOverlay extends MovableHudComponent {
     private  void setScale(float scale) { this.scale = scale; }
     public  float getScale() { return scale; }
 
-    public  int generateOriginalPosY() {
+    public int generateOriginalPosY() {
         return /*8 + */getLayout().getComponentY(minecraft, this, yScreenSize);
     }
 
@@ -468,10 +481,16 @@ public class GuiBlockOverlay extends MovableHudComponent {
         Lighting.disable();
     }
     private void drawEntityHealth(EntityLiving entity) {
-        boolean heartsFlash = minecraft.thePlayer.heartsFlashTime / 3 % 2 == 1;
-        if (minecraft.thePlayer.heartsFlashTime < 10) {
+        boolean heartsFlash;
+        if (minecraft.thePlayer != null){
+            heartsFlash = minecraft.thePlayer.heartsFlashTime / 3 % 2 == 1;
+            if (minecraft.thePlayer.heartsFlashTime < 10) {
+                heartsFlash = false;
+            }
+        } else {
             heartsFlash = false;
         }
+
 
         int health = entity.health;
         int prevHealth = entity.prevHealth;

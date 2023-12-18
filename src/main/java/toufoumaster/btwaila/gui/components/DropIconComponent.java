@@ -1,4 +1,4 @@
-package toufoumaster.btwaila.gui;
+package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -8,19 +8,18 @@ import net.minecraft.client.gui.hud.MovableHudComponent;
 import net.minecraft.client.render.Lighting;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.entity.Entity;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.demo.TileEntityDemoChest;
+import toufoumaster.btwaila.gui.demo.DemoEntry;
 
-import net.minecraft.core.entity.Entity;
+import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
+import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
-import static toufoumaster.btwaila.gui.GuiBlockOverlay.entityIconMap;
-import static toufoumaster.btwaila.gui.GuiBlockOverlay.itemRender;
-
-public class GuiBlockLookedComponent extends MovableHudComponent {
-    public GuiBlockLookedComponent(String key, Layout layout) {
+public class DropIconComponent extends MovableHudComponent {
+    public DropIconComponent(String key, Layout layout) {
         super(key, 18, 18, layout);
     }
 
@@ -45,7 +44,16 @@ public class GuiBlockLookedComponent extends MovableHudComponent {
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
         int meta = 8 * 16;
-        renderItemDisplayer(minecraft,new ItemStack(Block.chestPlanksOakPainted, 1, meta), xScreenSize, yScreenSize);
+        ItemStack icon = null;
+        if (DemoEntry.getCurrentEntry().block != null){
+            icon = DemoEntry.getCurrentEntry().drops[0];
+        } else if (DemoEntry.getCurrentEntry().entity != null) {
+            Entity entity = DemoEntry.getCurrentEntry().entity;
+            icon = entityIconMap.get(entity.getClass());
+        }
+        if (icon != null){
+            renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
+        }
     }
     protected void renderItemDisplayer(Minecraft minecraft, ItemStack blockResult, int xScreenSize, int yScreenSize){
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);

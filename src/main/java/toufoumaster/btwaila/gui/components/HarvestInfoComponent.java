@@ -1,24 +1,35 @@
-package toufoumaster.btwaila.gui;
+package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.gamemode.Gamemode;
+import toufoumaster.btwaila.gui.demo.DemoEntry;
 import toufoumaster.btwaila.mixin.IPlayerControllerMixin;
 import toufoumaster.btwaila.util.Colors;
 
-public class BlockBreakingComponent extends MovableHudComponent {
-    public BlockBreakingComponent(String key, Layout layout) {
+public class HarvestInfoComponent extends MovableHudComponent {
+    private int ySize;
+    public HarvestInfoComponent(String key, Layout layout) {
         super(key, 16 * 9, 8, layout);
+    }
+    @Override
+    public int getAnchorY(ComponentAnchor anchor) {
+        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
     }
     @Override
     public int getXSize(Minecraft mc) {
         return 16 * 9;
+    }
+    @Override
+    public int getYSize(Minecraft mc) {
+        return ySize;
     }
 
     @Override
@@ -28,6 +39,7 @@ public class BlockBreakingComponent extends MovableHudComponent {
 
     @Override
     public void render(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float f) {
+        ySize = 0;
         EntityPlayer player = minecraft.thePlayer;
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null || player == null) {
@@ -52,7 +64,10 @@ public class BlockBreakingComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        renderHarvestInfo(minecraft, Colors.RED, "Harvestable with current tool", 0.5f, xScreenSize, yScreenSize);
+        ySize = 3;
+        if (DemoEntry.getCurrentEntry().block != null){
+            renderHarvestInfo(minecraft, Colors.RED, "Harvestable with current tool", 0.5f, xScreenSize, yScreenSize);
+        }
     }
     protected void renderHarvestInfo(Minecraft minecraft, int miningLevelColor, String harvestString, float damage, int xScreenSize, int yScreenSize){
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
@@ -61,5 +76,6 @@ public class BlockBreakingComponent extends MovableHudComponent {
             harvestString = "Harvesting: "+(int)(damage*100)+"%";
         }
         minecraft.fontRenderer.drawStringWithShadow(harvestString, x, y, miningLevelColor);
+        ySize = 8;
     }
 }
