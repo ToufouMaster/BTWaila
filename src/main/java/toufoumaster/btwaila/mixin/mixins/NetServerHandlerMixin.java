@@ -11,7 +11,6 @@ import net.minecraft.server.world.WorldServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import toufoumaster.btwaila.mixin.interfaces.INetServerHandler;
-import toufoumaster.btwaila.mixin.mixins.accessors.EntityAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
@@ -40,7 +39,7 @@ public class NetServerHandlerMixin implements INetServerHandler {
         Entity entity = worldserver.func_6158_a(packet.id);
         if (entity != null) {
             CompoundTag tag = new CompoundTag();
-            ((EntityAccessor) entity).callAddAdditionalSaveData(tag);
+            entity.addAdditionalSaveData(tag);
             PacketEntityData newPacket = new PacketEntityData(packet.id, tag);
             this.playerEntity.playerNetServerHandler.sendPacket(newPacket);
         }

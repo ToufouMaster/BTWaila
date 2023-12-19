@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.mixin.interfaces.INetClientHandler;
-import toufoumaster.btwaila.mixin.mixins.accessors.EntityAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.util.VersionHelper;
 
@@ -24,10 +23,10 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
         Entity entity = getEntityByID(packet.id);
         if (entity != null) {
             CompoundTag entityTag = new CompoundTag();
-            ((EntityAccessor) entity).callAddAdditionalSaveData(entityTag);
+            entity.addAdditionalSaveData(entityTag);
             // TODO: find a way to avoid using CompoundTag to get SkinVariant
             packet.tag.putByte("SkinVariant", entityTag.getByte("SkinVariant"));
-            ((EntityAccessor) entity).callReadAdditionalSaveData(packet.tag);
+            entity.readAdditionalSaveData(packet.tag);
         }
     }
 

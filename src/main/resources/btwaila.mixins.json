@@ -4,15 +4,15 @@
   "package": "toufoumaster.btwaila.mixin.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "accessors.EntityAccessor",
+    "accessors.EntityLivingAccessor",
     "accessors.PacketAccessor"
   ],
   "client": [
     "GameSettingsMixin",
     "GuiIngameMenuMixin",
     "GuiIngameMixin",
-    "accessors.IPlayerControllerAccessor",
-    "NetClientHandlerMixin"
+    "NetClientHandlerMixin",
+    "accessors.IPlayerControllerAccessor"
   ],
   "server": [
     "NetLoginHandlerMixin",

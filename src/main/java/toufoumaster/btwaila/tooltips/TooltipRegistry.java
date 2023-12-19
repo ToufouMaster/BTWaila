@@ -8,7 +8,7 @@ public class TooltipRegistry {
     public static TooltipRegistry getInstance(){
         return INSTANCE;
     }
-    public Tooltip<?> register(Tooltip<?> tooltip){
+    public <T extends Tooltip<?>> T register(T tooltip){
         if (tooltip instanceof TileTooltip){
             tileTooltips.add((TileTooltip<?>) tooltip);
             return tooltip;

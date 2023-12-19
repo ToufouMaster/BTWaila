@@ -9,11 +9,13 @@ import net.minecraft.client.render.Lighting;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
+import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.demo.DemoManager;
+import toufoumaster.btwaila.mixin.mixins.accessors.EntityLivingAccessor;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
@@ -41,7 +43,7 @@ public class DropIconComponent extends MovableHudComponent {
             }
             renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
-            ItemStack itemToRender = entityIconMap.containsKey(hitResult.entity.getClass()) ? entityIconMap.get(hitResult.entity.getClass()) : Item.eggChicken.getDefaultStack();
+            ItemStack itemToRender = getEntityIcon(hitResult.entity);
             renderItemDisplayer(minecraft, itemToRender, xScreenSize, yScreenSize);
         }
     }
@@ -51,8 +53,7 @@ public class DropIconComponent extends MovableHudComponent {
         if (DemoManager.getCurrentEntry().block != null){
             icon = DemoManager.getCurrentEntry().drops[0];
         } else if (DemoManager.getCurrentEntry().entity != null) {
-            Entity entity = DemoManager.getCurrentEntry().entity;
-            icon = entityIconMap.get(entity.getClass());
+            icon = getEntityIcon(DemoManager.getCurrentEntry().entity);
         }
         if (icon != null){
             renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
@@ -71,5 +72,19 @@ public class DropIconComponent extends MovableHudComponent {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
         Lighting.disable();
+    }
+    public ItemStack getEntityIcon(Entity entity){
+        ItemStack icon = entityIconMap.get(entity.getClass());
+        if (icon == null && entity instanceof EntityLiving){
+            Item dropItem = Item.itemsList[((EntityLivingAccessor)entity).callGetDropItemId()];
+            if (dropItem != null){
+                icon = dropItem.getDefaultStack();
+            }
+        }
+        if (icon != null){
+            return icon;
+        } else {
+            return Item.eggChicken.getDefaultStack();
+        }
     }
 }

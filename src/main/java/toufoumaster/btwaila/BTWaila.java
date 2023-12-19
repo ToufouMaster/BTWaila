@@ -10,6 +10,7 @@ import net.minecraft.core.lang.I18n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.entryplugins.waila.BTWailaCustomTooltipPlugin;
+import toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin;
 import toufoumaster.btwaila.mixin.mixins.accessors.PacketAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
@@ -58,6 +59,7 @@ public class BTWaila implements GameStartEntrypoint, ModInitializer {
             BTWailaClient.onLoad();
         }
 
+        new BTWailaPlugin().initializePlugin(TooltipRegistry.getInstance(), LOGGER); // Load BTWaila tooltips first
         FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTooltipPlugin.class).forEach(plugin -> plugin.getEntrypoint().initializePlugin(TooltipRegistry.getInstance(), LOGGER));
 
         LOGGER.info("BTWaila initialized.");
