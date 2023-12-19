@@ -27,6 +27,8 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     public final BooleanOption showBlockId = new BooleanOption(thisAs, "showBlockId", false);
     @Unique
+    public final BooleanOption showBlockDescriptions = new BooleanOption(thisAs, "showBlockDesc", true);
+    @Unique
     public final FloatOption scaleTooltips = new FloatOption(thisAs, "scaleTooltips", 0.5f);
 
     public KeyBinding getKeyOpenBTWailaMenu() {
@@ -44,10 +46,7 @@ public class GameSettingsMixin implements IOptions {
     public BooleanOption getEntityAdvancedTooltips() {
         return entityAdvancedTooltips;
     }
-    public BooleanOption getShowBlockId() {
-        return showBlockId;
-    }
-    public FloatOption getScaleTooltips() {
-        return scaleTooltips;
-    }
+    public BooleanOption getShowBlockId() {return showBlockId;}
+    public BooleanOption getShowBlockDesc() {return showBlockDescriptions;}
+    public FloatOption getScaleTooltips() {return scaleTooltips;}
 }

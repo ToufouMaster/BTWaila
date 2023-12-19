@@ -6,6 +6,7 @@ options.entityTooltips=Show Basic Entity Tooltip
 options.blockAdvancedTooltips=Show Advanced Block Tooltip
 options.entityAdvancedTooltips=Show Advanced Entity Tooltip
 options.showBlockId=Show Block ID
+options.showBlockDesc=Show Block Description
 
 # --Keys--
 btwaila.key.menu=Open Menu

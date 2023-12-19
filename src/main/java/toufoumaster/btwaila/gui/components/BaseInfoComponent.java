@@ -103,7 +103,9 @@ public class BaseInfoComponent extends MovableHudComponent {
 
         y = drawStringJustified(minecraft,blockName, x, y,getXSize(minecraft), Colors.WHITE);
         y = drawStringJustified(minecraft,blockSource, x, y,getXSize(minecraft), Colors.BLUE);
-        y = drawStringJustified(minecraft,blockDesc, x,y, getXSize(minecraft), Colors.LIGHT_GRAY);
+        if (modSettings.getShowBlockDesc().value){
+            y = drawStringJustified(minecraft,blockDesc, x,y, getXSize(minecraft), Colors.LIGHT_GRAY);
+        }
         ySize = y - startY;
     }
     protected void baseEntityInfo(Minecraft minecraft, Entity entity, int xScreenSize, int yScreenSize){
