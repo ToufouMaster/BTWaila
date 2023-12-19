@@ -7,9 +7,13 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.core.HitResult;
+import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.block.entity.TileEntityChest;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.util.helper.Direction;
+import net.minecraft.core.world.World;
 import org.lwjgl.input.Keyboard;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.demo.DemoManager;
@@ -98,13 +102,64 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
         if (tileEntity != null) {
             boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
-            if (minecraft.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips && askTileEntity) {
+            if (minecraft.theWorld.isClientSide && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
+                if (tileEntity instanceof TileEntityChest){
+                    requestOtherHalfOfChest(playerMP.world,tileEntity.x, tileEntity.y, tileEntity.z, playerMP);
+                }
             }
             for (TileTooltip<?> tooltip : TooltipRegistry.tileTooltips) {
                 if (tooltip.isInstance(tileEntity) && tooltip.isInList(tileEntity.getClass())) {
                     tooltip._drawAdvancedTooltip(tileEntity, this);
+                }
+            }
+        }
+    }
+    private void requestOtherHalfOfChest(World world, int x, int y, int z, EntityClientPlayerMP playerMP) {
+        int meta = world.getBlockMetadata(x, y, z);
+        BlockChest.Type type = BlockChest.getTypeFromMeta(meta);
+        if (type != BlockChest.Type.SINGLE) {
+            int otherMeta;
+            Direction direction = BlockChest.getDirectionFromMeta(meta);
+            int otherChestX = x;
+            int otherChestZ = z;
+            if (direction == Direction.NORTH) {
+                if (type == BlockChest.Type.LEFT) {
+                    --otherChestX;
+                }
+                if (type == BlockChest.Type.RIGHT) {
+                    ++otherChestX;
+                }
+            }
+            if (direction == Direction.EAST) {
+                if (type == BlockChest.Type.LEFT) {
+                    --otherChestZ;
+                }
+                if (type == BlockChest.Type.RIGHT) {
+                    ++otherChestZ;
+                }
+            }
+            if (direction == Direction.SOUTH) {
+                if (type == BlockChest.Type.LEFT) {
+                    ++otherChestX;
+                }
+                if (type == BlockChest.Type.RIGHT) {
+                    --otherChestX;
+                }
+            }
+            if (direction == Direction.WEST) {
+                if (type == BlockChest.Type.LEFT) {
+                    ++otherChestZ;
+                }
+                if (type == BlockChest.Type.RIGHT) {
+                    --otherChestZ;
+                }
+            }
+            if (BlockChest.isChest(world, otherChestX, y, otherChestZ) && BlockChest.getDirectionFromMeta(otherMeta = world.getBlockMetadata(otherChestX, y, otherChestZ)) == direction) {
+                BlockChest.Type otherType = BlockChest.getTypeFromMeta(otherMeta);
+                if (type == BlockChest.Type.LEFT && otherType == BlockChest.Type.RIGHT || type == BlockChest.Type.RIGHT && otherType == BlockChest.Type.LEFT) {
+                    playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(otherChestX, y, otherChestZ));
                 }
             }
         }

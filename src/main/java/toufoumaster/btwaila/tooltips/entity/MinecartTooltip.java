@@ -1,6 +1,5 @@
 package toufoumaster.btwaila.tooltips.entity;
 
-import net.minecraft.core.entity.animal.EntityChicken;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
