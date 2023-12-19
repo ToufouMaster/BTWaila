@@ -1,5 +1,6 @@
 package toufoumaster.btwaila;
 
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.entity.TileEntity;
@@ -21,10 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class BTWaila implements GameStartEntrypoint {
+public class BTWaila implements GameStartEntrypoint, ModInitializer {
     public static final String MOD_ID = "btwaila";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final I18n translator = I18n.getInstance();
+    public static I18n translator = null;
     public static boolean canUseAdvancedTooltips = false;
     public static String versionString = FabricLoader.getInstance().getModContainer(MOD_ID).get().getMetadata().getVersion().getFriendlyString();
     private static String[] versionNumbers = versionString.split("-")[0].split("\\.");
@@ -45,13 +46,12 @@ public class BTWaila implements GameStartEntrypoint {
     }
     @Override
     public void beforeGameStart() {
-        PacketAccessor.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
-        PacketAccessor.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
-        PacketAccessor.callAddIdClassMapping(222, true, false, PacketEntityData.class);
+
     }
 
     @Override
     public void afterGameStart() {
+        translator = I18n.getInstance();
         LOGGER.info("Loading implementations.");
 
         if (!Global.isServer){
@@ -62,5 +62,12 @@ public class BTWaila implements GameStartEntrypoint {
 
         LOGGER.info("BTWaila initialized.");
         System.out.println(modVersion);
+    }
+
+    @Override
+    public void onInitialize() {
+        PacketAccessor.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
+        PacketAccessor.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
+        PacketAccessor.callAddIdClassMapping(222, true, false, PacketEntityData.class);
     }
 }

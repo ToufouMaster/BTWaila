@@ -18,7 +18,7 @@
 
   "environment": "*",
   "entrypoints": {
-    "beforeGameStart": [
+    "main": [
       "toufoumaster.btwaila.BTWaila"
     ],
     "afterGameStart": [
