@@ -2,57 +2,22 @@ package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityClientPlayerMP;
-import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
 import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
-import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.core.HitResult;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
-import net.minecraft.core.entity.EntityPainting;
-import net.minecraft.core.entity.animal.EntityChicken;
-import net.minecraft.core.entity.animal.EntityCow;
-import net.minecraft.core.entity.animal.EntityPig;
-import net.minecraft.core.entity.animal.EntitySheep;
-import net.minecraft.core.entity.animal.EntitySquid;
-import net.minecraft.core.entity.animal.EntityWolf;
-import net.minecraft.core.entity.monster.EntityArmoredZombie;
-import net.minecraft.core.entity.monster.EntityCreeper;
-import net.minecraft.core.entity.monster.EntityGhast;
-import net.minecraft.core.entity.monster.EntityPigZombie;
-import net.minecraft.core.entity.monster.EntityScorpion;
-import net.minecraft.core.entity.monster.EntitySkeleton;
-import net.minecraft.core.entity.monster.EntitySlime;
-import net.minecraft.core.entity.monster.EntitySnowman;
-import net.minecraft.core.entity.monster.EntitySpider;
-import net.minecraft.core.entity.monster.EntityZombie;
-import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.entity.vehicle.EntityBoat;
-import net.minecraft.core.entity.vehicle.EntityMinecart;
-import net.minecraft.core.item.IItemConvertible;
-import net.minecraft.core.item.Item;
-import net.minecraft.core.item.ItemStack;
-import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.input.Keyboard;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.demo.DemoManager;
-import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
 import toufoumaster.btwaila.tooltips.EntityTooltip;
 import toufoumaster.btwaila.tooltips.TileTooltip;
 import toufoumaster.btwaila.tooltips.TooltipRegistry;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-
-import static toufoumaster.btwaila.BTWaila.translator;
 
 public class AdvancedInfoComponent extends WailaTextComponent {
     private static boolean keyPressed = false;
@@ -81,7 +46,7 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     }
     @Override
     public void renderPreviewPost(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        if (Keyboard.isKeyDown(Keyboard.KEY_F9)){
+        if (modSettings.getKeyDemoCycle().isPressed()){
             if (!keyPressed){
                 if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
                     DemoManager.demoOffset -= 1;
@@ -93,10 +58,10 @@ public class AdvancedInfoComponent extends WailaTextComponent {
         } else {
             keyPressed = false;
         }
-        TileEntity demoEntity = DemoManager.getCurrentEntry().tileEntity;
+        TileEntity demoTileEntity = DemoManager.getCurrentEntry().tileEntity;
         Entity demoAnimal = DemoManager.getCurrentEntry().entity;
-        if (demoEntity != null){
-            renderBlockOverlay(demoEntity);
+        if (demoTileEntity != null){
+            renderBlockOverlay(demoTileEntity);
         } else if (demoAnimal != null) {
             renderEntityOverlay(demoAnimal);
         }

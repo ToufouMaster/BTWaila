@@ -13,6 +13,7 @@ import net.minecraft.client.gui.options.GuiOptions;
 import net.minecraft.client.gui.options.components.BooleanOptionComponent;
 import net.minecraft.client.gui.options.components.KeyBindingComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
+import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.option.GameSettings;
@@ -45,15 +46,20 @@ public class BTWailaClient {
     public static final GameSettings gameSettings = Minecraft.getMinecraft(Minecraft.class).gameSettings;
     public static final IOptions modSettings = (IOptions) gameSettings;
     public static final OptionsPage wailaOptions = new OptionsPage("btwaila.options.title")
-            .withComponent(new OptionsCategory("btwaila.options.category")
+            .withComponent(new OptionsCategory("btwaila.options.category.general")
+                    .withComponent(new ToggleableOptionComponent<>(modSettings.getTooltipFormatting())))
+            .withComponent(new OptionsCategory("btwaila.options.category.block")
                     .withComponent(new BooleanOptionComponent(modSettings.getBlockTooltips()))
                     .withComponent(new BooleanOptionComponent(modSettings.getBlockAdvancedTooltips()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getEntityTooltips()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getEntityAdvancedTooltips()))
                     .withComponent(new BooleanOptionComponent(modSettings.getShowBlockId()))
                     .withComponent(new BooleanOptionComponent(modSettings.getShowBlockDesc()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getShowHarvestText()))
-                    .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu())));
+                    .withComponent(new BooleanOptionComponent(modSettings.getShowHarvestText())))
+            .withComponent(new OptionsCategory("btwaila.options.category.entity")
+                    .withComponent(new BooleanOptionComponent(modSettings.getEntityTooltips()))
+                    .withComponent(new BooleanOptionComponent(modSettings.getEntityAdvancedTooltips())))
+            .withComponent(new OptionsCategory("btwaila.options.category.keybinds")
+                    .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu()))
+                    .withComponent(new KeyBindingComponent(modSettings.getKeyDemoCycle())));
     public static Map<String, String > modIds = new HashMap<>();
     static {
         OptionsPages.register(wailaOptions);
@@ -62,11 +68,10 @@ public class BTWailaClient {
         }
     }
     public static void onLoad(){
-        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-        IOptions iKeyBindings = (IOptions) mc.gameSettings;
         OptionsPages.CONTROLS.withComponent(
-                new OptionsCategory("btwaila.options.category").withComponent(
-                        new KeyBindingComponent(iKeyBindings.getKeyOpenBTWailaMenu())));
+                new OptionsCategory("btwaila.options.category.keybinds.explicit")
+                        .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu()))
+                        .withComponent(new KeyBindingComponent(modSettings.getKeyDemoCycle())));
 
     }
     public static GuiOptions getOptionsPage(GuiScreen parent){

@@ -166,8 +166,27 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     }
 
     public void drawStringWithShadow(String text, int offX, int color) {
-        minecraft.fontRenderer.drawStringWithShadow(text, posX+offX, offY, color);
+        int width = minecraft.fontRenderer.getStringWidth(text);
+        minecraft.fontRenderer.drawStringWithShadow(text, posX+offX + getStartingX(width), offY, color);
         addOffY(getLineHeight());
+    }
+    public int getStartingX(int width){
+        int diff = getXSize(minecraft) - width;
+        int startX;
+        switch (modSettings.getTooltipFormatting().value){
+            case LEFT:
+                startX = 0;
+                break;
+            case CENTERED:
+                startX = diff/2;
+                break;
+            case RIGHT:
+                startX = diff;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected enum: " + modSettings.getTooltipFormatting().value);
+        }
+        return startX;
     }
 
     public void drawStringWithShadow(String text, int offX) {
@@ -415,6 +434,8 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int heartsPerRow = componentTextWidth/8;
         int rows = (int) Math.ceil(((float)hearts)/heartsPerRow);
 
+
+
         int trueHeartNum = 0;
         for (int row = 0; row < rows; row++){
             int heartsToDraw = heartsPerRow;
@@ -422,6 +443,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
                 heartsToDraw = hearts - (row * heartsPerRow);
             }
             for (int heart = 0; heart < heartsToDraw; heart++) {
+                int width = heartsToDraw * 8;
                 int y = offY;
 
                 int heartOffset = 0;
@@ -429,7 +451,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
                     heartOffset = 1;
                 }
 
-                int x = posX + heart * 8;
+                int x = posX + getStartingX(width) + heart * 8;
                 if (health <= 4) {
                     y += rand.nextInt(2);
                 }

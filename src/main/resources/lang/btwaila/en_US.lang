@@ -1,16 +1,27 @@
 # --Options--
 btwaila.options.title=Better Than Waila!
 btwaila.options.category=Better Than Waila Options
-options.blockTooltips=Show Basic Block Tooltip
-options.entityTooltips=Show Basic Entity Tooltip
-options.blockAdvancedTooltips=Show Advanced Block Tooltip
-options.entityAdvancedTooltips=Show Advanced Entity Tooltip
-options.showBlockId=Show Block ID
-options.showBlockDesc=Show Block Description
-options.showHarvestText=Show Harvest Text
+btwaila.options.category.general=General Options
+btwaila.options.category.block=Block Info Options
+btwaila.options.category.entity=Entity Info Options
+btwaila.options.category.keybinds=Keybinds
+btwaila.options.category.keybinds.explicit=Better Than Waila Keybinds
+
+options.blockTooltips=Block Tooltip
+options.entityTooltips=Entity Tooltip
+options.blockAdvancedTooltips=Advanced Block Tooltip
+options.entityAdvancedTooltips=Advanced Entity Tooltip
+options.showBlockId=Block ID
+options.showBlockDesc=Block Description
+options.showHarvestText=Harvest Text
+options.tooltipFormatting=Text Formatting
+options.tooltipFormatting.left=Left
+options.tooltipFormatting.centered=Centered
+options.tooltipFormatting.right=Right
 
 # --Keys--
 btwaila.key.menu=Open Menu
+btwaila.key.democycle=Cycle Demo
 
 # --Gui--
 btwaila.component.harvest.info.harvestable=Harvestable with current tool
