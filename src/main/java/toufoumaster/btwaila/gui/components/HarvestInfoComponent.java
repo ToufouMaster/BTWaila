@@ -19,10 +19,9 @@ import toufoumaster.btwaila.util.Colors;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public class HarvestInfoComponent extends MovableHudComponent {
-    private int ySize;
+public class HarvestInfoComponent extends WailaTextComponent {
     public HarvestInfoComponent(String key, Layout layout) {
-        super(key, BTWailaClient.componentTextWidth, BTWailaClient.getLineHeight(), layout);
+        super(key, BTWailaClient.getLineHeight(), layout);
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
@@ -33,25 +32,19 @@ public class HarvestInfoComponent extends MovableHudComponent {
         if (!(mc.currentScreen instanceof GuiHudDesigner) && !this.isVisible(mc)) {
             return 0;
         }
-        return ySize;
+        return height();
     }
-    @Override
-    public int getXSize(Minecraft mc) {
-        return BTWailaClient.componentTextWidth;
-    }
-
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return ((IOptions)minecraft.gameSettings).getShowHarvestText().value && minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
+        return modSettings.getShowHarvestText().value && minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
     }
 
     @Override
-    public void render(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float f) {
-        ySize = 0;
+    public void renderPost(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float f) {
         EntityPlayer player = minecraft.thePlayer;
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null || player == null) {
-            renderHarvestInfo(minecraft, Colors.RED, "You shouldn't ever see this message.", xScreenSize, yScreenSize);
+            renderHarvestInfo(Colors.RED, "You shouldn't ever see this message.");
             return;
         }
         Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
@@ -66,51 +59,17 @@ public class HarvestInfoComponent extends MovableHudComponent {
             if (damage != 0) {
                 harvestString = translator.translateKey("btwaila.component.harvest.info.harvesting").replace("{progress}", String.valueOf((int)(damage*100)));
             }
-            renderHarvestInfo(minecraft, miningLevelColor, harvestString, xScreenSize, yScreenSize);
+            renderHarvestInfo(miningLevelColor, harvestString);
         }
     }
 
     @Override
-    public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        IOptions modSettings = (IOptions)minecraft.gameSettings;
-        ySize = 3;
+    public void renderPreviewPost(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
         if (modSettings.getShowHarvestText().value && DemoManager.getCurrentEntry().block != null){
-            renderHarvestInfo(minecraft, Colors.RED, translator.translateKey("btwaila.component.harvest.info.notharvestable"), xScreenSize, yScreenSize);
+            renderHarvestInfo(Colors.RED, translator.translateKey("btwaila.component.harvest.info.notharvestable"));
         }
     }
-    protected void renderHarvestInfo(Minecraft minecraft, int miningLevelColor, String harvestString, int xScreenSize, int yScreenSize){
-        int x = getLayout().getComponentX(minecraft, this, xScreenSize);
-        int y = getLayout().getComponentY(minecraft, this, yScreenSize);
-        ySize = drawStringJustified(minecraft,harvestString, x, y, getXSize(minecraft), miningLevelColor) - y;
-    }
-    public int drawStringJustified(Minecraft minecraft,String text, int x, int y, int maxWidth, int color){
-        String[] words = text.split(" ");
-        StringBuilder line = new StringBuilder();
-        StringBuilder prevline;
-        int wordCount = 0;
-        for (String word: words) {
-            prevline = new StringBuilder(line.toString());
-            line.append(word).append(" ");
-            wordCount++;
-            if (minecraft.fontRenderer.getStringWidth(line.toString().trim()) > maxWidth){
-                if (wordCount <= 1){
-                    minecraft.fontRenderer.drawStringWithShadow(line.toString(), x, y, color);
-                    y += BTWailaClient.getLineHeight();
-                    line = new StringBuilder(word).append(" ");
-                    wordCount = 0;
-                    continue;
-                }
-                minecraft.fontRenderer.drawStringWithShadow(prevline.toString(), x, y, color);
-                y += BTWailaClient.getLineHeight();
-                line = new StringBuilder(word).append(" ");
-                wordCount = 0;
-            }
-        }
-        String remainder = line.toString();
-        if (!remainder.isEmpty()){
-            minecraft.fontRenderer.drawStringWithShadow(remainder, x, y, color);
-            y += BTWailaClient.getLineHeight();
-        }
-        return y;
+    protected void renderHarvestInfo(int miningLevelColor, String harvestString){
+        drawStringJustified(harvestString, 0, getXSize(minecraft), miningLevelColor);
     }
 }
