@@ -27,10 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BTWailaClient {
-    public static int componentTextWidth = 152;
-    public static int getLineHeight(){
-        return 9;
-    }
     public static final HudComponent BlockBaseInfoComp = HudComponents.register(
             new BaseInfoComponent("wailaInfoBase",
                     new AbsoluteLayout(0.5f, 0.0f, ComponentAnchor.TOP_CENTER)));

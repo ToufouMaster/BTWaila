@@ -21,7 +21,7 @@ import static toufoumaster.btwaila.BTWaila.translator;
 
 public class HarvestInfoComponent extends WailaTextComponent {
     public HarvestInfoComponent(String key, Layout layout) {
-        super(key, BTWailaClient.getLineHeight(), layout);
+        super(key, 8, layout);
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {

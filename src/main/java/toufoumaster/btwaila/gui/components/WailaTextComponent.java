@@ -43,7 +43,6 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.opengl.GL11;
-import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.util.ColorOptions;
 import toufoumaster.btwaila.util.Colors;
@@ -89,6 +88,8 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public static void addEntityIcon(Class<? extends Entity> entityClass, ItemStack displayStack){
         entityIconMap.put(entityClass, displayStack);
     }
+    public static final int componentTextWidth = 152;
+    public int lineHeight = 9;
     protected final int padding = 8;
     protected int offY = padding;
     protected int posX = 0;
@@ -101,12 +102,12 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     protected int ySize;
     private int startY = 0;
     public WailaTextComponent(String key, int ySize, Layout layout) {
-        super(key, BTWailaClient.componentTextWidth, ySize, layout);
+        super(key, componentTextWidth, ySize, layout);
         this.ySize = ySize;
     }
     @Override
     public int getXSize(Minecraft mc) {
-        return BTWailaClient.componentTextWidth;
+        return componentTextWidth;
     }
     public void render(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float partialTick){
         this.minecraft = minecraft;
@@ -126,6 +127,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         startY = offY = generateOriginalPosY();
         posX = generateOriginalPosX();
         renderPreviewPost(minecraft, gui, layout, xScreenSize, yScreenSize);
+    }
+    public int getLineHeight(){
+        return lineHeight;
     }
     public int height(){
         return offY - startY;
@@ -163,7 +167,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
     public void drawStringWithShadow(String text, int offX, int color) {
         minecraft.fontRenderer.drawStringWithShadow(text, posX+offX, offY, color);
-        addOffY(BTWailaClient.getLineHeight());
+        addOffY(getLineHeight());
     }
 
     public void drawStringWithShadow(String text, int offX) {
@@ -391,57 +395,67 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         Lighting.disable();
     }
     protected void drawEntityHealth(EntityLiving entity) {
+        Random rand = new Random();
+
         Lighting.disable();
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        minecraft.renderEngine.bindTexture(minecraft.renderEngine.getTexture("/gui/icons.png"));
+
         boolean heartsFlash;
-        if (minecraft.thePlayer != null){
-            heartsFlash = minecraft.thePlayer.heartsFlashTime / 3 % 2 == 1;
-            if (minecraft.thePlayer.heartsFlashTime < 10) {
-                heartsFlash = false;
-            }
-        } else {
+        heartsFlash = entity.heartsFlashTime / 3 % 2 == 1;
+        if (entity.heartsFlashTime < 10) {
             heartsFlash = false;
         }
 
 
+
         int health = entity.health;
         int prevHealth = entity.prevHealth;
-        Random rand = new Random();
+        int hearts = (int) Math.ceil(entity.health/2f);
+        int heartsPerRow = componentTextWidth/8;
+        int rows = (int) Math.ceil(((float)hearts)/heartsPerRow);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.renderEngine.bindTexture(minecraft.renderEngine.getTexture("/gui/icons.png"));
-
-        for(int index = 0; index < (int)Math.ceil((float)health/2f); ++index) {
-            int y = offY;
-            int heartOffset = 0;
-            if (heartsFlash) {
-                heartOffset = 1;
+        int trueHeartNum = 0;
+        for (int row = 0; row < rows; row++){
+            int heartsToDraw = heartsPerRow;
+            if (row == rows - 1){
+                heartsToDraw = hearts - (row * heartsPerRow);
             }
+            for (int heart = 0; heart < heartsToDraw; heart++) {
+                int y = offY;
 
-            int x = posX + index * 8;
-            if (health <= 4) {
-                y += rand.nextInt(2);
-            }
-
-            activeGUI.drawTexturedModalRect(x, y, 16 + heartOffset * 9, 0, 9, 9);
-            if (heartsFlash) {
-                if (index * 2 + 1 < prevHealth) {
-                    activeGUI.drawTexturedModalRect(x, y, 70, 0, 9, 9);
+                int heartOffset = 0;
+                if (heartsFlash) {
+                    heartOffset = 1;
                 }
 
-                if (index * 2 + 1 == prevHealth) {
-                    activeGUI.drawTexturedModalRect(x, y, 79, 0, 9, 9);
+                int x = posX + heart * 8;
+                if (health <= 4) {
+                    y += rand.nextInt(2);
                 }
-            }
 
-            if (index * 2 + 1 < health) {
-                activeGUI.drawTexturedModalRect(x, y, 52, 0, 9, 9);
-            }
+                activeGUI.drawTexturedModalRect(x, y, 16 + heartOffset * 9, 0, 9, 9);
+                if (heartsFlash) {
+                    if (trueHeartNum * 2 + 1 < prevHealth) {
+                        activeGUI.drawTexturedModalRect(x, y, 70, 0, 9, 9);
+                    }
 
-            if (index * 2 + 1 == health) {
-                activeGUI.drawTexturedModalRect(x, y, 61, 0, 9, 9);
+                    if (trueHeartNum * 2 + 1 == prevHealth) {
+                        activeGUI.drawTexturedModalRect(x, y, 79, 0, 9, 9);
+                    }
+                }
+
+                if (trueHeartNum * 2 + 1 < health) {
+                    activeGUI.drawTexturedModalRect(x, y, 52, 0, 9, 9);
+                }
+
+                if (trueHeartNum * 2 + 1 == health) {
+                    activeGUI.drawTexturedModalRect(x, y, 61, 0, 9, 9);
+                }
+                trueHeartNum++;
             }
+            addOffY(getLineHeight());
         }
-        offY += BTWailaClient.getLineHeight();
     }
     protected void drawRect(int minX, int minY, int maxX, int maxY, int argb) {
         int temp;
