@@ -56,6 +56,7 @@ public class BTWailaClient {
                     .withComponent(new BooleanOptionComponent(modSettings.getEntityAdvancedTooltips()))
                     .withComponent(new BooleanOptionComponent(modSettings.getShowBlockId()))
                     .withComponent(new BooleanOptionComponent(modSettings.getShowBlockDesc()))
+                    .withComponent(new BooleanOptionComponent(modSettings.getShowHarvestText()))
                     .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu())));
     public static Map<String, String > modIds = new HashMap<>();
     static {

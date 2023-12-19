@@ -11,6 +11,7 @@ public interface IOptions {
     BooleanOption getEntityAdvancedTooltips();
     BooleanOption getShowBlockId();
     BooleanOption getShowBlockDesc();
+    BooleanOption getShowHarvestText();
     FloatOption getScaleTooltips();
     KeyBinding getKeyOpenBTWailaMenu();
 }

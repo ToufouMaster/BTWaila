@@ -112,8 +112,8 @@ public class BaseInfoComponent extends MovableHudComponent {
         int startY;
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
         int y = startY = getLayout().getComponentY(minecraft, this, yScreenSize) + topPadding;
-        IOptions gameSettings = (IOptions)minecraft.gameSettings;
-        if (!gameSettings.getEntityTooltips().value) return;
+        IOptions modSettings = (IOptions)minecraft.gameSettings;
+        if (!modSettings.getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
         EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
 
@@ -127,9 +127,7 @@ public class BaseInfoComponent extends MovableHudComponent {
                 color = entityLiving.chatColor;
             }
         }
-
-        minecraft.fontRenderer.drawStringWithShadow(AdvancedInfoComponent.getEntityName(entity), x, y, color);
-        y += BTWailaClient.getLineHeight();
+        y = drawStringJustified(minecraft,AdvancedInfoComponent.getEntityName(entity), x, y, getXSize(minecraft), color);
         ySize = y - startY;
     }
 

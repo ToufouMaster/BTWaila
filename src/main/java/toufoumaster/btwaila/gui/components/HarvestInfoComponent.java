@@ -13,6 +13,7 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.gamemode.Gamemode;
 import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.demo.DemoManager;
+import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.mixin.mixins.accessors.IPlayerControllerAccessor;
 import toufoumaster.btwaila.util.Colors;
 
@@ -34,10 +35,14 @@ public class HarvestInfoComponent extends MovableHudComponent {
         }
         return ySize;
     }
+    @Override
+    public int getXSize(Minecraft mc) {
+        return BTWailaClient.componentTextWidth;
+    }
 
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
+        return ((IOptions)minecraft.gameSettings).getShowHarvestText().value && minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
     }
 
     @Override
@@ -67,8 +72,9 @@ public class HarvestInfoComponent extends MovableHudComponent {
 
     @Override
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
+        IOptions modSettings = (IOptions)minecraft.gameSettings;
         ySize = 3;
-        if (DemoManager.getCurrentEntry().block != null){
+        if (modSettings.getShowHarvestText().value && DemoManager.getCurrentEntry().block != null){
             renderHarvestInfo(minecraft, Colors.RED, translator.translateKey("btwaila.component.harvest.info.notharvestable"), xScreenSize, yScreenSize);
         }
     }

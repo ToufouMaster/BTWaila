@@ -29,6 +29,8 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     public final BooleanOption showBlockDescriptions = new BooleanOption(thisAs, "showBlockDesc", true);
     @Unique
+    public final BooleanOption showHarvestText = new BooleanOption(thisAs, "showHarvestText", true);
+    @Unique
     public final FloatOption scaleTooltips = new FloatOption(thisAs, "scaleTooltips", 0.5f);
 
     public KeyBinding getKeyOpenBTWailaMenu() {
@@ -48,5 +50,6 @@ public class GameSettingsMixin implements IOptions {
     }
     public BooleanOption getShowBlockId() {return showBlockId;}
     public BooleanOption getShowBlockDesc() {return showBlockDescriptions;}
+    public BooleanOption getShowHarvestText() {return showHarvestText;}
     public FloatOption getScaleTooltips() {return scaleTooltips;}
 }

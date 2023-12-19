@@ -62,6 +62,7 @@ import toufoumaster.btwaila.util.Colors;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 import toufoumaster.btwaila.util.TextureOptions;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -575,5 +576,15 @@ public class AdvancedInfoComponent extends MovableHudComponent {
         }
         return entityName;
     }
-
+    @Nullable
+    public static String getEntityDesc(Entity entity){
+        if (entity == null){
+            return null;
+        }
+        MobInfoRegistry.MobInfo info = MobInfoRegistry.getMobInfo(entity.getClass());
+        if (info == null){
+            return null;
+        }
+        return translator.translateKey(info.getDescriptionTranslationKey());
+    }
 }
