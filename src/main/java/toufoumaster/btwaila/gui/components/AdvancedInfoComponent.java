@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.hud.ComponentAnchor;
 import net.minecraft.client.gui.hud.Layout;
+import net.minecraft.core.Global;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.BlockChest;
 import net.minecraft.core.block.entity.TileEntity;
@@ -102,7 +103,7 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
         if (tileEntity != null) {
             boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
-            if (minecraft.theWorld.isClientSide && BTWaila.canUseAdvancedTooltips && askTileEntity) {
+            if (!Global.isServer && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
                 if (tileEntity instanceof TileEntityChest){
