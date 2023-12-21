@@ -3,6 +3,7 @@ package toufoumaster.btwaila.gui.components;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiHudDesigner;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
 import net.minecraft.client.gui.hud.Layout;
@@ -114,6 +115,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         this.activeGUI = guiIngame;
         this.xScreenSize = xScreenSize;
         this.yScreenSize = yScreenSize;
+        if (minecraft.currentScreen instanceof GuiHudDesigner) return; // Fixes weird placement issues while editing HUD in world
         startY = offY = generateOriginalPosY();
         posX = generateOriginalPosX();
         renderPost(minecraft, guiIngame, xScreenSize, yScreenSize, partialTick);
@@ -265,11 +267,11 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         float ratio = (float) value / (float) max;
         final int sizeY = 16;
         final int offset = 2;
-        int progress = (int)((boxWidth)*ratio);
+        int progress = (int)((boxWidth-offset)*ratio);
 
         this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
         this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgOptions.color);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+offset+progress, offY+sizeY-offset, 0xff000000+fgOptions.color);
+        this.drawRect(posX+offX+offset, offY+offset, posX+offX+progress+offset, offY+sizeY-offset, 0xff000000+fgOptions.color);
         addOffY(sizeY);
     }
 
