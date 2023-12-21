@@ -16,7 +16,6 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
 import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.demo.DemoManager;
-import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.util.Colors;
 
 import static toufoumaster.btwaila.BTWaila.translator;
@@ -32,7 +31,7 @@ public class BaseInfoComponent extends WailaTextComponent {
         if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
             return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this))) + topPadding;
         }
-        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
+        return (int)(anchor.yPosition * getYSize(minecraft));
     }
     @Override
     public int getYSize(Minecraft mc) {
