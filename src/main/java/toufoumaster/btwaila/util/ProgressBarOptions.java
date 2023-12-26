@@ -2,26 +2,26 @@ package toufoumaster.btwaila.util;
 
 public class ProgressBarOptions {
 
-    public int boxWidth = 0;
+    public int boxWidth;
     public String text;
-    public boolean values = true;
-    public boolean percentage = true;
-    public TextureOptions bgOptions = new TextureOptions(Colors.GRAY, 0);
-    public TextureOptions fgOptions = new TextureOptions(Colors.LIGHT_GRAY, 0);
+    public boolean values;
+    public boolean percentage;
+    public TextureOptions bgOptions;
+    public TextureOptions fgOptions;
 
     public ProgressBarOptions() {
-
+        this(0, "", true, true);
     }
 
     public ProgressBarOptions(int boxWidth, String text, boolean values, boolean percentage) {
+        this(boxWidth, text, values, percentage, new TextureOptions(Colors.GRAY, 0,6), new TextureOptions(Colors.LIGHT_GRAY, 0, 2));
+    }
+
+    public ProgressBarOptions(int boxWidth, String text, boolean values, boolean percentage, TextureOptions bgTexOpt, TextureOptions fgTexOpt) {
         this.boxWidth = boxWidth;
         this.text = text;
         this.values = values;
         this.percentage = percentage;
-    }
-
-    public ProgressBarOptions(int boxWidth, String text, boolean values, boolean percentage, TextureOptions bgTexOpt, TextureOptions fgTexOpt) {
-        this(boxWidth, text, values, percentage);
         this.bgOptions = bgTexOpt;
         this.fgOptions = fgTexOpt;
     }

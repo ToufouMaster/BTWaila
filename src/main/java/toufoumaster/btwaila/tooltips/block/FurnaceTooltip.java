@@ -26,7 +26,7 @@ public class FurnaceTooltip extends TileTooltip<TileEntityFurnace> {
         ItemStack fuel = furnace.getStackInSlot(1);
         ItemStack output = furnace.getStackInSlot(2);
 
-        ProgressBarOptions options = new ProgressBarOptions().setText(translator.translateKey("btwaila.tooltip.furnace.progress"));
+        ProgressBarOptions options = new ProgressBarOptions(0, translator.translateKey("btwaila.tooltip.furnace.progress"), true, true);
         advancedInfoComponent.drawProgressBarWithText(furnace.getCookProgressScaled(100), 100, options, 0);
 
         advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.furnace.burntime").replace("{current}", String.valueOf(furnace.currentBurnTime)), 0);

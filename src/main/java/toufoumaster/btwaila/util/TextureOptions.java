@@ -4,7 +4,7 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.util.helper.Side;
 
 public class TextureOptions extends ColorOptions {
-    public int blockId = 0;
+    public int blockId = 5;
     public Side side;
     public int metadata = 0;
     public int index;

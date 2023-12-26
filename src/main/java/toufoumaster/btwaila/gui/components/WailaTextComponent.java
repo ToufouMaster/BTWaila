@@ -278,7 +278,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public void drawProgressBarTexture(int value, int max, int boxWidth, TextureOptions bgOptions, TextureOptions fgOptions, int offX) {
         float ratio = (float) value / (float) max;
         final int sizeY = 16;
-        int progress = (int)((boxWidth)*ratio);
+        int progress = (int)Math.ceil((boxWidth)*ratio);
 
         RenderEngine renderEngine = minecraft.renderEngine;
         renderEngine.bindTexture(renderEngine.getTexture("/terrain.png"));
