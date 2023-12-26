@@ -283,10 +283,10 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         RenderEngine renderEngine = minecraft.renderEngine;
         renderEngine.bindTexture(renderEngine.getTexture("/terrain.png"));
         int tileWidth = TextureFX.tileWidthTerrain;
-        int bgTexId = Block.getBlock(bgOptions.blockId).getBlockTextureFromSideAndMetadata(bgOptions.side, bgOptions.metadata);
+        int bgTexId = bgOptions.index;
         int bgTexX = bgTexId % Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
         int bgTexY = bgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
-        int fgTexId = Block.getBlock(fgOptions.blockId).getBlockTextureFromSideAndMetadata(fgOptions.side, fgOptions.metadata);
+        int fgTexId = fgOptions.index;
         int fgTexX = fgTexId % Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
         int fgTexY = fgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
 
@@ -326,7 +326,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
             stringPadding = (width-stringWidth)/2;
         }
 
-        drawProgressBarTexture(value, max, width, (TextureOptions) options.bgOptions, (TextureOptions) options.fgOptions, offX);
+        drawProgressBarTexture(value, max, width, options.bgOptions, options.fgOptions, offX);
         subOffY(12);
         drawStringWithShadow(toDrawText, offX+stringPadding + textWidthDif/2);
         addOffY(4);

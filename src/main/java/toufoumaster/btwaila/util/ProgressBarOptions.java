@@ -6,8 +6,8 @@ public class ProgressBarOptions {
     public String text;
     public boolean values = true;
     public boolean percentage = true;
-    public ColorOptions bgOptions = new ColorOptions(Colors.GRAY);
-    public ColorOptions fgOptions = new ColorOptions(Colors.LIGHT_GRAY);
+    public TextureOptions bgOptions = new TextureOptions(Colors.GRAY, 0);
+    public TextureOptions fgOptions = new TextureOptions(Colors.LIGHT_GRAY, 0);
 
     public ProgressBarOptions() {
 
@@ -46,12 +46,12 @@ public class ProgressBarOptions {
         return this;
     }
 
-    public ProgressBarOptions setBackgroundOptions(ColorOptions bgOptions) {
+    public ProgressBarOptions setBackgroundOptions(TextureOptions bgOptions) {
         this.bgOptions = bgOptions;
         return this;
     }
 
-    public ProgressBarOptions setForegroundOptions(ColorOptions fgOptions) {
+    public ProgressBarOptions setForegroundOptions(TextureOptions fgOptions) {
         this.fgOptions = fgOptions;
         return this;
     }
