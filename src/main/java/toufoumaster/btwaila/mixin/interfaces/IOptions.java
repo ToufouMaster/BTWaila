@@ -7,15 +7,15 @@ import net.minecraft.client.option.KeyBinding;
 import toufoumaster.btwaila.util.TooltipFormatting;
 
 public interface IOptions {
-    BooleanOption getBlockTooltips();
-    BooleanOption getBlockAdvancedTooltips();
-    BooleanOption getEntityTooltips();
-    BooleanOption getEntityAdvancedTooltips();
-    BooleanOption getShowBlockId();
-    BooleanOption getShowBlockDesc();
-    BooleanOption getShowHarvestText();
-    FloatOption getScaleTooltips();
-    EnumOption<TooltipFormatting> getTooltipFormatting();
-    KeyBinding getKeyOpenBTWailaMenu();
-    KeyBinding getKeyDemoCycle();
+    BooleanOption bTWaila$getBlockTooltips();
+    BooleanOption bTWaila$getBlockAdvancedTooltips();
+    BooleanOption bTWaila$getEntityTooltips();
+    BooleanOption bTWaila$getEntityAdvancedTooltips();
+    BooleanOption bTWaila$getShowBlockId();
+    BooleanOption bTWaila$getShowBlockDesc();
+    BooleanOption bTWaila$getShowHarvestText();
+    FloatOption bTWaila$getScaleTooltips();
+    EnumOption<TooltipFormatting> bTWaila$getTooltipFormatting();
+    KeyBinding bTWaila$getKeyOpenBTWailaMenu();
+    KeyBinding bTWaila$getKeyDemoCycle();
 }

@@ -40,7 +40,7 @@ public class PacketRequestTileEntityData extends Packet {
 
     @Override
     public void processPacket(NetHandler netHandler) {
-        ((INetServerHandler)netHandler).handleRequestTileEntityData(this);
+        ((INetServerHandler)netHandler).bTWaila$handleRequestTileEntityData(this);
     }
 
     @Override

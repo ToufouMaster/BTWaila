@@ -175,7 +175,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public int getStartingX(int width){
         int diff = getXSize(minecraft) - width;
         int startX;
-        switch (modSettings.getTooltipFormatting().value){
+        switch (modSettings.bTWaila$getTooltipFormatting().value){
             case LEFT:
                 startX = 0;
                 break;
@@ -186,7 +186,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
                 startX = diff;
                 break;
             default:
-                throw new IllegalArgumentException("Unexpected enum: " + modSettings.getTooltipFormatting().value);
+                throw new IllegalArgumentException("Unexpected enum: " + modSettings.bTWaila$getTooltipFormatting().value);
         }
         return startX;
     }

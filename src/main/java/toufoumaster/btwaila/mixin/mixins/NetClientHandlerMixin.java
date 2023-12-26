@@ -19,7 +19,7 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
     @Shadow protected abstract Entity getEntityByID(int i);
 
     @Override
-    public void handleEntityData(PacketEntityData packet) {
+    public void bTWaila$handleEntityData(PacketEntityData packet) {
         Entity entity = getEntityByID(packet.id);
         if (entity != null) {
             if (entity instanceof EntityLiving){

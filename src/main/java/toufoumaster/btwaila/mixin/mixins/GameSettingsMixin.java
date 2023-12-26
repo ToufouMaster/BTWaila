@@ -40,25 +40,25 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     public final FloatOption scaleTooltips = new FloatOption(thisAs, "scaleTooltips", 0.5f);
 
-    public KeyBinding getKeyOpenBTWailaMenu() {
+    public KeyBinding bTWaila$getKeyOpenBTWailaMenu() {
         return keyOpenBTWailaMenu;
     }
-    public KeyBinding getKeyDemoCycle() {return keyDemoCycle;}
-    public BooleanOption getBlockTooltips() {
+    public KeyBinding bTWaila$getKeyDemoCycle() {return keyDemoCycle;}
+    public BooleanOption bTWaila$getBlockTooltips() {
         return blockTooltips;
     }
-    public BooleanOption getBlockAdvancedTooltips() {
+    public BooleanOption bTWaila$getBlockAdvancedTooltips() {
         return blockAdvancedTooltips;
     }
-    public BooleanOption getEntityTooltips() {
+    public BooleanOption bTWaila$getEntityTooltips() {
         return entityTooltips;
     }
-    public BooleanOption getEntityAdvancedTooltips() {
+    public BooleanOption bTWaila$getEntityAdvancedTooltips() {
         return entityAdvancedTooltips;
     }
-    public BooleanOption getShowBlockId() {return showBlockId;}
-    public BooleanOption getShowBlockDesc() {return showBlockDescriptions;}
-    public BooleanOption getShowHarvestText() {return showHarvestText;}
-    public EnumOption<TooltipFormatting> getTooltipFormatting() {return tooltipFormatting;}
-    public FloatOption getScaleTooltips() {return scaleTooltips;}
+    public BooleanOption bTWaila$getShowBlockId() {return showBlockId;}
+    public BooleanOption bTWaila$getShowBlockDesc() {return showBlockDescriptions;}
+    public BooleanOption bTWaila$getShowHarvestText() {return showHarvestText;}
+    public EnumOption<TooltipFormatting> bTWaila$getTooltipFormatting() {return tooltipFormatting;}
+    public FloatOption bTWaila$getScaleTooltips() {return scaleTooltips;}
 }

@@ -32,7 +32,7 @@ public class PacketRequestEntityData extends Packet {
 
     @Override
     public void processPacket(NetHandler netHandler) {
-        ((INetServerHandler)netHandler).handleRequestEntityData(this);
+        ((INetServerHandler)netHandler).bTWaila$handleRequestEntityData(this);
     }
 
     @Override

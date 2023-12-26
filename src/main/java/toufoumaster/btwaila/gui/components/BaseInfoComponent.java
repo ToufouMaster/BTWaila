@@ -74,7 +74,7 @@ public class BaseInfoComponent extends WailaTextComponent {
         }
     }
     protected void baseBlockInfo(Block block, int blockMetadata, ItemStack[] blockDrops){
-        if (!modSettings.getBlockTooltips().value) return;
+        if (!modSettings.bTWaila$getBlockTooltips().value) return;
         if (minecraft.fontRenderer == null) return;
 
         ItemStack renderItem = new ItemStack(block, 1, blockMetadata);
@@ -91,18 +91,18 @@ public class BaseInfoComponent extends WailaTextComponent {
             }
         }
         String idString = block.id + ":" + blockMetadata;
-        if (modSettings.getShowBlockId().value){
+        if (modSettings.bTWaila$getShowBlockId().value){
             blockName += " " + idString;
         }
 
         drawStringJustified(blockName,0,getXSize(minecraft), Colors.WHITE);
         drawStringJustified(blockSource,0,getXSize(minecraft), Colors.BLUE);
-        if (modSettings.getShowBlockDesc().value){
+        if (modSettings.bTWaila$getShowBlockDesc().value){
             drawStringJustified(blockDesc,0,getXSize(minecraft), Colors.LIGHT_GRAY);
         }
     }
     protected void baseEntityInfo(Entity entity){
-        if (!modSettings.getEntityTooltips().value) return;
+        if (!modSettings.bTWaila$getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
         EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
 

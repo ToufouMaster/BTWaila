@@ -51,7 +51,7 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     }
     @Override
     public void renderPreviewPost(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        if (modSettings.getKeyDemoCycle().isPressed()){
+        if (modSettings.bTWaila$getKeyDemoCycle().isPressed()){
             if (!keyPressed){
                 if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
                     DemoManager.demoOffset -= 1;
@@ -72,21 +72,21 @@ public class AdvancedInfoComponent extends WailaTextComponent {
         }
     }
     private void renderBlockOverlay(TileEntity tileEntity){
-        setScale(modSettings.getScaleTooltips().value+0.5f);
-        if (!modSettings.getBlockTooltips().value) return;
+        setScale(modSettings.bTWaila$getScaleTooltips().value+0.5f);
+        if (!modSettings.bTWaila$getBlockTooltips().value) return;
         if (minecraft.fontRenderer != null) {
-            if (modSettings.getBlockAdvancedTooltips().value) {
+            if (modSettings.bTWaila$getBlockAdvancedTooltips().value) {
                 drawFunctionalBlocksData(tileEntity);
             }
         }
     }
     private void renderEntityOverlay(Entity entity){
-        setScale(modSettings.getScaleTooltips().value+0.5f);
-        if (!modSettings.getEntityTooltips().value) return;
+        setScale(modSettings.bTWaila$getScaleTooltips().value+0.5f);
+        if (!modSettings.bTWaila$getEntityTooltips().value) return;
         boolean isLivingEntity = (entity instanceof EntityLiving);
         EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
 
-        if (modSettings.getEntityAdvancedTooltips().value) {
+        if (modSettings.bTWaila$getEntityAdvancedTooltips().value) {
             if (minecraft.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestEntityData(entity.id));

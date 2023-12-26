@@ -17,7 +17,7 @@ public class GuiIngameMixin extends Gui {
     @Shadow protected Minecraft mc;
     @Inject( method = "updateTick", at = @At("TAIL"))
     public void updateTick(CallbackInfo ci) {
-        if (((IOptions)this.mc.gameSettings).getKeyOpenBTWailaMenu().isPressed() && this.mc.currentScreen == null) {
+        if (((IOptions)this.mc.gameSettings).bTWaila$getKeyOpenBTWailaMenu().isPressed() && this.mc.currentScreen == null) {
             this.mc.displayGuiScreen(BTWailaClient.getOptionsPage(null));
         }
     }

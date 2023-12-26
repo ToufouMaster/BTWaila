@@ -47,19 +47,19 @@ public class BTWailaClient {
     public static final IOptions modSettings = (IOptions) gameSettings;
     public static final OptionsPage wailaOptions = new OptionsPage("btwaila.options.title")
             .withComponent(new OptionsCategory("btwaila.options.category.general")
-                    .withComponent(new ToggleableOptionComponent<>(modSettings.getTooltipFormatting())))
+                    .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getTooltipFormatting())))
             .withComponent(new OptionsCategory("btwaila.options.category.block")
-                    .withComponent(new BooleanOptionComponent(modSettings.getBlockTooltips()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getBlockAdvancedTooltips()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getShowBlockId()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getShowBlockDesc()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getShowHarvestText())))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getBlockTooltips()))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getBlockAdvancedTooltips()))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getShowBlockId()))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getShowBlockDesc()))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getShowHarvestText())))
             .withComponent(new OptionsCategory("btwaila.options.category.entity")
-                    .withComponent(new BooleanOptionComponent(modSettings.getEntityTooltips()))
-                    .withComponent(new BooleanOptionComponent(modSettings.getEntityAdvancedTooltips())))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getEntityTooltips()))
+                    .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getEntityAdvancedTooltips())))
             .withComponent(new OptionsCategory("btwaila.options.category.keybinds")
-                    .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu()))
-                    .withComponent(new KeyBindingComponent(modSettings.getKeyDemoCycle())));
+                    .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyOpenBTWailaMenu()))
+                    .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle())));
     public static Map<String, String > modIds = new HashMap<>();
     static {
         OptionsPages.register(wailaOptions);
@@ -70,8 +70,8 @@ public class BTWailaClient {
     public static void onLoad(){
         OptionsPages.CONTROLS.withComponent(
                 new OptionsCategory("btwaila.options.category.keybinds.explicit")
-                        .withComponent(new KeyBindingComponent(modSettings.getKeyOpenBTWailaMenu()))
-                        .withComponent(new KeyBindingComponent(modSettings.getKeyDemoCycle())));
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyOpenBTWailaMenu()))
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle())));
 
     }
     public static GuiOptions getOptionsPage(GuiScreen parent){

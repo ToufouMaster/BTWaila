@@ -21,7 +21,7 @@ public class NetServerHandlerMixin implements INetServerHandler {
 
     //TODO: Future update need to send tileEntity data only once the data is different.
     @Override
-    public void handleRequestTileEntityData(PacketRequestTileEntityData packet) {
+    public void bTWaila$handleRequestTileEntityData(PacketRequestTileEntityData packet) {
         MinecraftServer server = MinecraftServer.getInstance();
         WorldServer worldserver = server.getDimensionWorld(this.playerEntity.dimension);
         TileEntity tileEntity = worldserver.getBlockTileEntity(packet.x, packet.y, packet.z);
@@ -33,7 +33,7 @@ public class NetServerHandlerMixin implements INetServerHandler {
 
     //TODO: Future update need to send Entity data only once the data is different.
     @Override
-    public void handleRequestEntityData(PacketRequestEntityData packet) {
+    public void bTWaila$handleRequestEntityData(PacketRequestEntityData packet) {
         MinecraftServer server = MinecraftServer.getInstance();
         WorldServer worldserver = server.getDimensionWorld(this.playerEntity.dimension);
         Entity entity = worldserver.func_6158_a(packet.id);
