@@ -336,14 +336,16 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         HashMap<Integer, ItemStack> itemList = new HashMap<>();
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack itemStack = inventory.getStackInSlot(i);
-            int itemId = itemStack.getItem().id;
-            int stackSize = itemStack.stackSize;
-            if (itemList.containsKey(itemId)) {
-                ItemStack stack = itemList.get(itemId);
-                stack.stackSize = stack.stackSize + stackSize;
-                itemList.put(itemId, stack);
-            } else {
-                itemList.put(itemId, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getMetadata()));
+            if(itemStack != null){
+                int itemId = itemStack.getItem().id;
+                int stackSize = itemStack.stackSize;
+                if (itemList.containsKey(itemId)) {
+                    ItemStack stack = itemList.get(itemId);
+                    stack.stackSize = stack.stackSize + stackSize;
+                    itemList.put(itemId, stack);
+                } else {
+                    itemList.put(itemId, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getMetadata()));
+                }
             }
         }
 
@@ -383,7 +385,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int invHeight = getYSize(minecraft) - (offY - generateOriginalPosY());
         int invArea = invHeight * invWidth;
         int iconLength = (int) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
-        iconLength = Math.min(16, iconLength);
+        iconLength = Math.max(16, iconLength);
         int itemsWide = invWidth/iconLength;
         double scale = iconLength/16d;
 

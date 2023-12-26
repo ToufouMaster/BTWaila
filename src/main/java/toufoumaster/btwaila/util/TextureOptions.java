@@ -18,9 +18,9 @@ public class TextureOptions extends ColorOptions {
 
     public TextureOptions(int color, int blockId, int metadata, Side side) {
         super(color);
-        this.blockId = 0;
-        this.side = Side.TOP;
-        this.metadata = 0;
+        this.blockId = blockId;
+        this.side = side;
+        this.metadata = metadata;
     }
 
     public TextureOptions setBlockId(int blockId) {
