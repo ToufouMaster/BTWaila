@@ -1,8 +1,8 @@
 package toufoumaster.btwaila.mixin.mixins;
 
-import com.mojang.nbt.CompoundTag;
 import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.core.entity.Entity;
+import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.net.packet.Packet3Chat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,10 +22,10 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
     public void handleEntityData(PacketEntityData packet) {
         Entity entity = getEntityByID(packet.id);
         if (entity != null) {
-            CompoundTag entityTag = new CompoundTag();
-            entity.addAdditionalSaveData(entityTag);
-            // TODO: find a way to avoid using CompoundTag to get SkinVariant
-            packet.tag.putByte("SkinVariant", entityTag.getByte("SkinVariant"));
+            if (entity instanceof EntityLiving){
+                byte skinVar = (byte) ((EntityLiving) entity).getSkinVariant();
+                packet.tag.putByte("SkinVariant", skinVar);
+            }
             entity.readAdditionalSaveData(packet.tag);
         }
     }

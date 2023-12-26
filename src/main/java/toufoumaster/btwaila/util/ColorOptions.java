@@ -1,9 +1,10 @@
 package toufoumaster.btwaila.util;
 
 public class ColorOptions {
-    public int color = Colors.WHITE;
+    public int color;
 
     public ColorOptions() {
+        this(Colors.WHITE);
     }
 
     public ColorOptions(int color) {
