@@ -384,9 +384,16 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int invWidth = getXSize(minecraft);
         int invHeight = getYSize(minecraft) - (offY - generateOriginalPosY());
         int invArea = invHeight * invWidth;
-        int iconLength = (int) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
-        iconLength = Math.min(16, iconLength); // Min is correct, the intent is to cap the size at 16
-        int itemsWide = invWidth/iconLength;
+        final int maxLength = 16;
+        float iconLength;
+        if (inventory.getSizeInventory() < 1){
+            iconLength = maxLength;
+        } else {
+            iconLength = (float) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
+        }
+        iconLength = Math.min(maxLength, iconLength); // Min is correct, the intent is to cap the size at 16
+        iconLength = Math.max(iconLength, 1);
+        int itemsWide = (int) Math.floor(invWidth/iconLength);
         double scale = iconLength/16d;
 
         GL11.glScaled(scale, scale, scale);
