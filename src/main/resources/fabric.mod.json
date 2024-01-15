@@ -21,6 +21,9 @@
     "main": [
       "toufoumaster.btwaila.BTWaila"
     ],
+    "client": [
+      "toufoumaster.btwaila.BTWailaComponents"
+    ],
     "afterGameStart": [
       "toufoumaster.btwaila.BTWaila"
     ],

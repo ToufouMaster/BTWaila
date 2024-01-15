@@ -44,6 +44,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.opengl.GL11;
+import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.util.ColorOptions;
 import toufoumaster.btwaila.util.Colors;
@@ -96,7 +97,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     protected int posX = 0;
     protected float scale = 1f;
     public Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
-    public IOptions modSettings = (IOptions)minecraft.gameSettings;
+    public IOptions modSettings(){
+        return BTWailaClient.modSettings;
+    }
     protected Gui activeGUI;
     protected int xScreenSize;
     protected int yScreenSize;
@@ -175,7 +178,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public int getStartingX(int width){
         int diff = getXSize(minecraft) - width;
         int startX;
-        switch (modSettings.bTWaila$getTooltipFormatting().value){
+        switch (modSettings().bTWaila$getTooltipFormatting().value){
             case LEFT:
                 startX = 0;
                 break;
@@ -186,7 +189,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
                 startX = diff;
                 break;
             default:
-                throw new IllegalArgumentException("Unexpected enum: " + modSettings.bTWaila$getTooltipFormatting().value);
+                throw new IllegalArgumentException("Unexpected enum: " + modSettings().bTWaila$getTooltipFormatting().value);
         }
         return startX;
     }
@@ -219,6 +222,13 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         if (!remainder.isEmpty()){
             drawStringWithShadow(remainder, offX, color);
         }
+    }
+    public void drawStringCentered(String text){
+        drawStringCentered(text, Colors.WHITE);
+    }
+    public void drawStringCentered(String text, int color){
+        minecraft.fontRenderer.drawCenteredString(text, posX + (componentTextWidth/2), offY, color);
+        addOffY(getLineHeight());
     }
 
     public void drawTextureRectRepeat(int x, int y, int w, int h, int texX, int texY, int tileWidth, int color) {
@@ -310,7 +320,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
         drawProgressBar(value, max, width, options.bgOptions, options.fgOptions, offX);
         subOffY(12);
-        drawStringWithShadow(toDrawText, offX+stringPadding + textWidthDif/2);
+        drawStringCentered(toDrawText);
         addOffY(4);
     }
 
@@ -328,7 +338,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
         drawProgressBarTexture(value, max, width, options.bgOptions, options.fgOptions, offX);
         subOffY(12);
-        drawStringWithShadow(toDrawText, offX+stringPadding + textWidthDif/2);
+        drawStringCentered(toDrawText);
         addOffY(4);
     }
 

@@ -33,7 +33,7 @@ public class HarvestInfoComponent extends WailaTextComponent {
     }
     @Override
     public boolean isVisible(Minecraft minecraft) {
-        return modSettings.bTWaila$getShowHarvestText().value && minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
+        return modSettings().bTWaila$getShowHarvestText().value && minecraft.gameSettings.immersiveMode.drawHotbar() && minecraft.objectMouseOver != null && minecraft.objectMouseOver.hitType == HitResult.HitType.TILE && minecraft.thePlayer != null && minecraft.thePlayer.gamemode == Gamemode.survival;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class HarvestInfoComponent extends WailaTextComponent {
 
     @Override
     public void renderPreviewPost(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-        if (modSettings.bTWaila$getShowHarvestText().value && DemoManager.getCurrentEntry().block != null){
+        if (modSettings().bTWaila$getShowHarvestText().value && DemoManager.getCurrentEntry().block != null){
             renderHarvestInfo(Colors.RED, translator.translateKey("btwaila.component.harvest.info.notharvestable"));
         }
     }
