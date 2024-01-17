@@ -8,7 +8,7 @@ public enum SmallHealthBarEnum {
     FOUR(4),
     FIVE(5);
 
-    private int row;
+    private final int row;
 
     SmallHealthBarEnum(int row) {
         this.row = row;
