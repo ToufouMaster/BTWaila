@@ -434,6 +434,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
         Lighting.disable();
     }
+
     protected void drawEntityHealth(EntityLiving entity) {
         Random rand = new Random();
 
@@ -455,7 +456,18 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int heartsPerRow = componentTextWidth/8;
         int rows = (int) Math.ceil(((float)hearts)/heartsPerRow);
 
-
+        if (rows > 2) {
+            int x = posX + getStartingX(0);
+            int y = offY;
+            activeGUI.drawTexturedModalRect(x, y, 16, 0, 9, 9);
+            activeGUI.drawTexturedModalRect(x, y, 52, 0, 9, 9);
+            if (heartsFlash) {
+                activeGUI.drawTexturedModalRect(x, y, 70, 0, 9, 9);
+            }
+            drawStringWithShadow("x "+health, 10, Colors.WHITE);
+            addOffY(getLineHeight());
+            return;
+        }
 
         int trueHeartNum = 0;
         for (int row = 0; row < rows; row++){
@@ -500,6 +512,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
             addOffY(getLineHeight());
         }
     }
+
     protected void drawRect(int minX, int minY, int maxX, int maxY, int argb) {
         int temp;
         if (minX < maxX) {
@@ -530,9 +543,11 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         GL11.glEnable(3553);
         GL11.glDisable(3042);
     }
+
     public ItemEntityRenderer getItemRenderer(){
         return itemRender;
     }
+
     public static String getEntityName(Entity entity){
         if (entity == null){
             return translator.translateKey("btwaila.tooltip.general.entity.null");
@@ -553,9 +568,11 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         }
         return entityName;
     }
+
     public String getNameFromEntity(Entity entity){
         return getEntityName(entity);
     }
+
     @Nullable
     public static String getEntityDesc(Entity entity){
         if (entity == null){
@@ -567,6 +584,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         }
         return translator.translateKey(info.getDescriptionTranslationKey());
     }
+
     @Nullable
     public String getDescFromEntity(Entity entity){
         return getEntityDesc(entity);
