@@ -8,6 +8,7 @@ import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
+import toufoumaster.btwaila.util.SmallHealthBarEnum;
 import toufoumaster.btwaila.util.TooltipFormatting;
 
 import static org.lwjgl.input.Keyboard.KEY_F9;
@@ -29,6 +30,8 @@ public class GameSettingsMixin implements IOptions {
     public final BooleanOption entityTooltips = new BooleanOption(thisAs, "entityTooltips", true);
     @Unique
     public final BooleanOption entityAdvancedTooltips = new BooleanOption(thisAs, "entityAdvancedTooltips", true);
+    @Unique
+    public final EnumOption<SmallHealthBarEnum> smallEntityHealthBar = new EnumOption<>(thisAs, "smallHealthBar", SmallHealthBarEnum.class, SmallHealthBarEnum.TWO);
     @Unique
     public final BooleanOption showBlockId = new BooleanOption(thisAs, "showBlockId", false);
     @Unique
@@ -55,6 +58,9 @@ public class GameSettingsMixin implements IOptions {
     }
     public BooleanOption bTWaila$getEntityAdvancedTooltips() {
         return entityAdvancedTooltips;
+    }
+    public EnumOption<SmallHealthBarEnum> bTWaila$getSmallEntityHealthBar() {
+        return smallEntityHealthBar;
     }
     public BooleanOption bTWaila$getShowBlockId() {return showBlockId;}
     public BooleanOption bTWaila$getShowBlockDesc() {return showBlockDescriptions;}

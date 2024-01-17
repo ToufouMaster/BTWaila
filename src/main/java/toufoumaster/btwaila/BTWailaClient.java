@@ -36,7 +36,8 @@ public class BTWailaClient {
                         .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getShowHarvestText())))
                 .withComponent(new OptionsCategory("btwaila.options.category.entity")
                         .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getEntityTooltips()))
-                        .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getEntityAdvancedTooltips())))
+                        .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getEntityAdvancedTooltips()))
+                        .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getSmallEntityHealthBar())))
                 .withComponent(new OptionsCategory("btwaila.options.category.keybinds")
                         .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyOpenBTWailaMenu()))
                         .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle())));

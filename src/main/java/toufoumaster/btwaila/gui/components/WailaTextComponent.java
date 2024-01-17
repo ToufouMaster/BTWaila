@@ -456,7 +456,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int heartsPerRow = componentTextWidth/8;
         int rows = (int) Math.ceil(((float)hearts)/heartsPerRow);
 
-        if (rows > 2) {
+        if (rows > modSettings().bTWaila$getSmallEntityHealthBar().value.getRow()) {
             int x = posX + getStartingX(0);
             int y = offY;
             activeGUI.drawTexturedModalRect(x, y, 16, 0, 9, 9);
