@@ -4,7 +4,7 @@ import net.minecraft.client.option.BooleanOption;
 import net.minecraft.client.option.EnumOption;
 import net.minecraft.client.option.FloatOption;
 import net.minecraft.client.option.KeyBinding;
-import toufoumaster.btwaila.util.SmallHealthBarEnum;
+import net.minecraft.client.option.RangeOption;
 import toufoumaster.btwaila.util.TooltipFormatting;
 
 public interface IOptions {
@@ -12,7 +12,7 @@ public interface IOptions {
     BooleanOption bTWaila$getBlockAdvancedTooltips();
     BooleanOption bTWaila$getEntityTooltips();
     BooleanOption bTWaila$getEntityAdvancedTooltips();
-    EnumOption<SmallHealthBarEnum> bTWaila$getSmallEntityHealthBar();
+    RangeOption bTWaila$getSmallEntityHealthBar();
     BooleanOption bTWaila$getShowBlockId();
     BooleanOption bTWaila$getShowBlockDesc();
     BooleanOption bTWaila$getShowHarvestText();

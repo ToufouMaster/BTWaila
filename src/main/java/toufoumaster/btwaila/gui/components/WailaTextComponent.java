@@ -52,6 +52,7 @@ import toufoumaster.btwaila.util.ProgressBarOptions;
 import toufoumaster.btwaila.util.TextureOptions;
 
 import javax.annotation.Nullable;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -455,16 +456,24 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int hearts = (int) Math.ceil(entity.health/2f);
         int heartsPerRow = componentTextWidth/8;
         int rows = (int) Math.ceil(((float)hearts)/heartsPerRow);
+//        int additionalHearts = 0;
 
-        if (rows > modSettings().bTWaila$getSmallEntityHealthBar().value.getRow()) {
+        if (rows > modSettings().bTWaila$getSmallEntityHealthBar().value) {
+            // rip :(
+//            rows = modSettings().bTWaila$getSmallEntityHealthBar().value;
+//            additionalHearts = hearts - rows * heartsPerRow;
+//            hearts = rows * heartsPerRow;
+
             int x = posX + getStartingX(0);
             int y = offY;
             activeGUI.drawTexturedModalRect(x, y, 16, 0, 9, 9);
-            activeGUI.drawTexturedModalRect(x, y, 52, 0, 9, 9);
             if (heartsFlash) {
+                activeGUI.drawTexturedModalRect(x, y, 25, 0, 9, 9);
                 activeGUI.drawTexturedModalRect(x, y, 70, 0, 9, 9);
             }
-            drawStringWithShadow("x "+health, 10, Colors.WHITE);
+            activeGUI.drawTexturedModalRect(x, y, 52, 0, 9, 9);
+            DecimalFormat df = new DecimalFormat("#.#");
+            drawStringWithShadow(String.format("x %s", df.format(health/2f)), 10, Colors.WHITE);
             addOffY(getLineHeight());
             return;
         }
@@ -511,6 +520,19 @@ public abstract class WailaTextComponent extends MovableHudComponent {
             }
             addOffY(getLineHeight());
         }
+        // Rip :(
+//        if (additionalHearts > 0){
+//            int x = posX + getStartingX(0);
+//            int y = offY;
+//            activeGUI.drawTexturedModalRect(x, y, 16, 0, 9, 9);
+//            if (heartsFlash) {
+//                activeGUI.drawTexturedModalRect(x, y, 25, 0, 9, 9);
+//                activeGUI.drawTexturedModalRect(x, y, 70, 0, 9, 9);
+//            }
+//            activeGUI.drawTexturedModalRect(x, y, 52, 0, 9, 9);
+//            drawStringWithShadow("x " + additionalHearts, 10, Colors.WHITE);
+//            addOffY(getLineHeight());
+//        }
     }
 
     protected void drawRect(int minX, int minY, int maxX, int maxY, int argb) {

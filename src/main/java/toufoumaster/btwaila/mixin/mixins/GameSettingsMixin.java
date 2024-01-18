@@ -5,10 +5,15 @@ import net.minecraft.client.option.EnumOption;
 import net.minecraft.client.option.FloatOption;
 import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.option.Option;
+import net.minecraft.client.option.RangeOption;
+import net.minecraft.core.lang.I18n;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
-import toufoumaster.btwaila.util.SmallHealthBarEnum;
 import toufoumaster.btwaila.util.TooltipFormatting;
 
 import static org.lwjgl.input.Keyboard.KEY_F9;
@@ -17,7 +22,7 @@ import static org.lwjgl.input.Keyboard.KEY_NUMPAD0;
 @Mixin(value = GameSettings.class, remap = false)
 public class GameSettingsMixin implements IOptions {
     @Unique
-    private GameSettings thisAs = (GameSettings)(Object)this;
+    private final GameSettings thisAs = (GameSettings)(Object)this;
     @Unique
     public final KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bindKeyboard(KEY_NUMPAD0);
     @Unique
@@ -31,7 +36,7 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     public final BooleanOption entityAdvancedTooltips = new BooleanOption(thisAs, "entityAdvancedTooltips", true);
     @Unique
-    public final EnumOption<SmallHealthBarEnum> smallEntityHealthBar = new EnumOption<>(thisAs, "smallHealthBar", SmallHealthBarEnum.class, SmallHealthBarEnum.TWO);
+    public final RangeOption smallEntityHealthBar = new RangeOption(thisAs, "smallHealthBar", 0, 6);
     @Unique
     public final BooleanOption showBlockId = new BooleanOption(thisAs, "showBlockId", false);
     @Unique
@@ -59,7 +64,7 @@ public class GameSettingsMixin implements IOptions {
     public BooleanOption bTWaila$getEntityAdvancedTooltips() {
         return entityAdvancedTooltips;
     }
-    public EnumOption<SmallHealthBarEnum> bTWaila$getSmallEntityHealthBar() {
+    public RangeOption bTWaila$getSmallEntityHealthBar() {
         return smallEntityHealthBar;
     }
     public BooleanOption bTWaila$getShowBlockId() {return showBlockId;}
@@ -67,4 +72,11 @@ public class GameSettingsMixin implements IOptions {
     public BooleanOption bTWaila$getShowHarvestText() {return showHarvestText;}
     public EnumOption<TooltipFormatting> bTWaila$getTooltipFormatting() {return tooltipFormatting;}
     public FloatOption bTWaila$getScaleTooltips() {return scaleTooltips;}
+    @Inject(method = "getDisplayString(Lnet/minecraft/client/option/Option;)Ljava/lang/String;", at = @At("HEAD"), cancellable = true)
+    private void displayStrings(Option<?> option, CallbackInfoReturnable<String> cir){
+        I18n translator = I18n.getInstance();
+        if (option == smallEntityHealthBar){
+            cir.setReturnValue(translator.translateKey("options.rowAmount").replace("{x}", String.valueOf(smallEntityHealthBar.value)));
+        }
+    }
 }
