@@ -451,9 +451,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
 
 
-        int health = entity.health;
+        int health = entity.getHealth();
         int prevHealth = entity.prevHealth;
-        int hearts = (int) Math.ceil(entity.health/2f);
+        int hearts = (int) Math.ceil(entity.getHealth()/2f);
         int heartsPerRow = componentTextWidth/8;
         int rows = (int) Math.ceil(((float)hearts)/heartsPerRow);
 //        int additionalHearts = 0;
