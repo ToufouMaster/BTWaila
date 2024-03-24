@@ -12,7 +12,7 @@ import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.option.GameSettings;
-import net.minecraft.core.block.Block;
+import net.minecraft.core.item.Item;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class BTWailaClient {
     public static void onLoad(){
         gameSettings = Minecraft.getMinecraft(Minecraft.class).gameSettings;
         modSettings = (IOptions) gameSettings;
-        wailaOptions = new OptionsPage("btwaila.options.title", Block.dirt.getDefaultStack())
+        wailaOptions = new OptionsPage("btwaila.options.title", Item.basket.getDefaultStack())
                 .withComponent(new OptionsCategory("btwaila.options.category.general")
                         .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getTooltipFormatting())))
                 .withComponent(new OptionsCategory("btwaila.options.category.block")
