@@ -70,6 +70,9 @@ btwaila.tooltip.noteblock.material.none=None
 
 btwaila.tooltip.jukebox.disc=Disc id: {id}
 
+btwaila.tooltip.sign.owner=Owner: {id}
+btwaila.tooltip.sign.owner.none=None
+
 btwaila.tooltip.trommel.progress=Progress: §r
 
 btwaila.tooltip.seat.passenger=Passenger: {name}
