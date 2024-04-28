@@ -1,8 +1,8 @@
 package toufoumaster.btwaila.util;
 
 public enum BarStyle {
-    PROBE2,
     PROBE,
+    PROBE2,
     PLAIN,
     LAVA;
 }

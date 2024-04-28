@@ -276,7 +276,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     }
 
 
-    public void drawTexturedModalRect(int x, int y, int width, int height, float percent) {
+    public void drawTexturedModalRect(double x, double y, double width, double height, float percent) {
         float z = 0.0f;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
@@ -290,7 +290,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public void drawProgressBar(int value, int max, int boxWidth, ColorOptions bgOptions, ColorOptions fgOptions, int offX) {
         float ratio = Math.min((float) value / (float) max, 1.f);
         final int sizeY = 16;
-        int progress = (int)(boxWidth*ratio);
+        float progress = (boxWidth*ratio);
 
         RenderEngine renderEngine = minecraft.renderEngine;
         String style = modSettings().bTWaila$getBarStyle().value.name();
