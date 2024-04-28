@@ -12,6 +12,7 @@ import net.minecraft.core.block.entity.TileEntitySign;
 import net.minecraft.core.block.entity.TileEntityTrommel;
 import net.minecraft.core.entity.EntityPainting;
 import net.minecraft.core.entity.animal.EntityChicken;
+import net.minecraft.core.entity.animal.EntityPig;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.entity.vehicle.EntityBoat;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
@@ -35,6 +36,7 @@ import toufoumaster.btwaila.tooltips.entity.BoatTooltip;
 import toufoumaster.btwaila.tooltips.entity.ChickenTooltip;
 import toufoumaster.btwaila.tooltips.entity.MinecartTooltip;
 import toufoumaster.btwaila.tooltips.entity.PaintingTooltip;
+import toufoumaster.btwaila.tooltips.entity.PigTooltip;
 import toufoumaster.btwaila.tooltips.entity.PlayerTooltip;
 
 public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
@@ -52,6 +54,7 @@ public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
     public static TileTooltip<TileEntityTrommel> TROMMEL = registry.register(new TrommelTooltip());
     public static EntityTooltip<EntityChicken> CHICKEN = registry.register(new ChickenTooltip());
     public static EntityTooltip<EntityBoat> BOAT = registry.register(new BoatTooltip());
+    public static EntityTooltip<EntityPig> PIG = registry.register(new PigTooltip());
     public static EntityTooltip<EntityPainting> PAINTING = registry.register(new PaintingTooltip());
     public static EntityTooltip<EntityMinecart> MINECART = registry.register(new MinecartTooltip());
     public static EntityTooltip<EntityPlayer> PLAYER = registry.register(new PlayerTooltip());
