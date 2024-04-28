@@ -48,6 +48,9 @@ btwaila.tooltip.minecart.fuel=Fuel: {fuel}
 
 btwaila.tooltip.chicken.egg=Next egg: {timer} seconds
 
+btwaila.tooltip.painting.title=Title: {id}
+btwaila.tooltip.painting.artist=Artist: {id}
+
 btwaila.tooltip.basket.storage=Stored items: {current}/{max}
 
 btwaila.tooltip.flag.owner=Owner: {name}
