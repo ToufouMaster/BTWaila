@@ -55,6 +55,7 @@ import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Random;
+import java.lang.Math;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -274,15 +275,31 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         return template;
     }
 
-    public void drawProgressBar(int value, int max, int boxWidth, ColorOptions bgOptions, ColorOptions fgOptions, int offX) {
-        float ratio = (float) value / (float) max;
-        final int sizeY = 16;
-        final int offset = 2;
-        int progress = (int)((boxWidth-offset)*ratio);
 
-        this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+boxWidth-offset, offY+sizeY-offset, 0xff000000+bgOptions.color);
-        this.drawRect(posX+offX+offset, offY+offset, posX+offX+progress+offset, offY+sizeY-offset, 0xff000000+fgOptions.color);
+    public void drawTexturedModalRect(int x, int y, int width, int height, float percent) {
+        float z = 0.0f;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((x + 0),     (y + height), z, 0,       1);
+        tessellator.addVertexWithUV((x + width), (y + height), z, percent, 1);
+        tessellator.addVertexWithUV((x + width), (y + 0),      z, percent, 0);
+        tessellator.addVertexWithUV((x + 0),     (y + 0),      z, 0,       0);
+        tessellator.draw();
+    }
+
+    public void drawProgressBar(int value, int max, int boxWidth, ColorOptions bgOptions, ColorOptions fgOptions, int offX) {
+        float ratio = Math.min((float) value / (float) max, 1.f);
+        final int sizeY = 16;
+        int progress = (int)(boxWidth*ratio);
+
+        RenderEngine renderEngine = minecraft.renderEngine;
+        String style = modSettings().bTWaila$getBarStyle().value.name();
+        renderEngine.bindTexture(renderEngine.getTexture("/assets/btwaila/gui/progressBg_" + style + ".png"));
+        drawTexturedModalRect(posX + offX, offY, boxWidth, sizeY, 1.f);
+        if (progress > 0) {
+            renderEngine.bindTexture(renderEngine.getTexture("/assets/btwaila/gui/progressOverlay_" + style + ".png"));
+            drawTexturedModalRect(posX + offX, offY, progress, sizeY, ratio);
+        }
         addOffY(sizeY);
     }
 
