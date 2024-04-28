@@ -20,6 +20,11 @@ options.tooltipFormatting=Text Formatting
 options.tooltipFormatting.left=Left
 options.tooltipFormatting.centered=Centered
 options.tooltipFormatting.right=Right
+options.barStyle=Bar Style
+options.barStyle.probe2=The One Probe 2
+options.barStyle.probe=The One Probe
+options.barStyle.plain=Plain
+options.barStyle.lava=Lava
 
 # --Keys--
 btwaila.key.menu=Open Menu

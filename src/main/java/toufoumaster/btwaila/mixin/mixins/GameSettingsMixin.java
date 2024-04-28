@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
 import toufoumaster.btwaila.util.TooltipFormatting;
+import toufoumaster.btwaila.util.BarStyle;
 
 import static org.lwjgl.input.Keyboard.KEY_F9;
 import static org.lwjgl.input.Keyboard.KEY_NUMPAD0;
@@ -46,6 +47,8 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     public final EnumOption<TooltipFormatting> tooltipFormatting = new EnumOption<>(thisAs, "tooltipFormatting",TooltipFormatting.class,TooltipFormatting.LEFT);
     @Unique
+    public final EnumOption<BarStyle> barStyle = new EnumOption<>(thisAs, "barStyle", BarStyle.class, BarStyle.PLAIN);
+    @Unique
     public final FloatOption scaleTooltips = new FloatOption(thisAs, "scaleTooltips", 0.5f);
 
     public KeyBinding bTWaila$getKeyOpenBTWailaMenu() {
@@ -71,6 +74,7 @@ public class GameSettingsMixin implements IOptions {
     public BooleanOption bTWaila$getShowBlockDesc() {return showBlockDescriptions;}
     public BooleanOption bTWaila$getShowHarvestText() {return showHarvestText;}
     public EnumOption<TooltipFormatting> bTWaila$getTooltipFormatting() {return tooltipFormatting;}
+    public EnumOption<BarStyle> bTWaila$getBarStyle() {return barStyle;}
     public FloatOption bTWaila$getScaleTooltips() {return scaleTooltips;}
     @Inject(method = "getDisplayString(Lnet/minecraft/client/option/Option;)Ljava/lang/String;", at = @At("HEAD"), cancellable = true)
     private void displayStrings(Option<?> option, CallbackInfoReturnable<String> cir){
