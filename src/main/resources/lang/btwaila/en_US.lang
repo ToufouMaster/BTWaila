@@ -53,6 +53,8 @@ btwaila.tooltip.painting.artist=Artist: {id}
 
 btwaila.tooltip.basket.storage=Stored items: {current}/{max}
 
+btwaila.tooltip.boat.passenger=Passenger: {name}
+
 btwaila.tooltip.flag.owner=Owner: {name}
 btwaila.tooltip.flag.owner.none=None
 btwaila.tooltip.flag.color=Color {id}:
