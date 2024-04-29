@@ -292,8 +292,10 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         final int sizeY = 16;
         float progress = (boxWidth*ratio);
 
+        GL11.glPushMatrix();
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glColor4f(1, 1, 1, 1);
         RenderEngine renderEngine = minecraft.renderEngine;
         String style = modSettings().bTWaila$getBarStyle().value.name();
         renderEngine.bindTexture(renderEngine.getTexture("/assets/btwaila/gui/progressBg_" + style + ".png"));
@@ -303,6 +305,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
             drawTexturedModalRect(posX + offX, offY, progress, sizeY, ratio);
         }
         GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
         addOffY(sizeY);
     }
 
