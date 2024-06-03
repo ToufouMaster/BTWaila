@@ -21,6 +21,6 @@ public class NetLoginHandlerMixin {
 
     @Inject( method = "doLogin", at = @At("HEAD"))
     public void doLogin(Packet1Login packet1login, CallbackInfo ci) {
-        this.netManager.addToSendQueue(new Packet3Chat(BTWaila.checkString));
+        this.netManager.addToSendQueue(BTWaila.modVersion.getPacket());
     }
 }

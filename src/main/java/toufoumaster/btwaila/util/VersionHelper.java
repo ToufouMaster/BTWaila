@@ -1,14 +1,16 @@
 package toufoumaster.btwaila.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.net.packet.Packet;
+import net.minecraft.core.net.packet.Packet250CustomPayload;
 import toufoumaster.btwaila.BTWaila;
 
 public class VersionHelper {
-    final int major;
-    final int minor;
-    final int patch;
+    public final byte major;
+    public final byte minor;
+    public final byte patch;
 
-    public VersionHelper(int major, int minor, int patch) {
+    public VersionHelper(byte major, byte minor, byte patch) {
         this.major = major;
         this.minor = minor;
         this.patch = patch;
@@ -18,7 +20,7 @@ public class VersionHelper {
         try {
             String stringVersion = text.split("\\[§[a-r0-9]")[1].split("§[a-r0-9]]")[0]; // get the major.minor.patch version string
             String[] versionArray = stringVersion.split("\\.");
-            return new VersionHelper(Integer.parseInt(versionArray[0]), Integer.parseInt(versionArray[1]), Integer.parseInt(versionArray[2]));
+            return new VersionHelper(Byte.parseByte(versionArray[0]), Byte.parseByte(versionArray[1]), Byte.parseByte(versionArray[2]));
         } catch (Exception e) {
             return null;
         }
@@ -79,7 +81,31 @@ public class VersionHelper {
         return "BTWaila VersionHelper: major="+major+", minor="+minor+", patch="+patch+" ["+major+"."+minor+"."+patch+"]";
     }
 
-    public String generateCheckString() {
-        return "§6This server uses BetterThanWaila to display advanced tooltips.[§5"+major+"."+minor+"."+patch+"§0] Link:§4 github.com/ToufouMaster/BTWaila/releases";
+//    public String generateCheckString() {
+//        return "§6This server uses BetterThanWaila to display advanced tooltips.[§5"+major+"."+minor+"."+patch+"§0] Link:§4 github.com/ToufouMaster/BTWaila/releases";
+//    }
+
+    public Packet getPacket(){
+        return new Packet250CustomPayload("BTWaila|VersionCheck", compilePayload());
+    }
+    public byte[] compilePayload(){
+        final byte payloadVersion = 1; // Change if the data format changes
+        return new byte[]{payloadVersion, major, minor, patch};
+    }
+    public static void handlePacket(Packet250CustomPayload payloadPacket){
+        byte version = payloadPacket.data[0];
+        switch (version){
+            case 1:
+                byte major = payloadPacket.data[1];
+                byte minor = payloadPacket.data[2];
+                byte patch = payloadPacket.data[3];
+                VersionHelper serverHelper = new VersionHelper(major, minor, patch);
+                if (VersionHelper.checkModVersion(serverHelper)) {
+                    BTWaila.canUseAdvancedTooltips = true;
+                }
+                break;
+            default:
+                BTWaila.LOGGER.warn("Unrecognized version '" + version + "' ignoring!");
+        }
     }
 }

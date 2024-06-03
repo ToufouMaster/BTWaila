@@ -35,8 +35,7 @@ public class BTWaila implements GameStartEntrypoint, ModInitializer {
             versionNumbers = new String[]{"9", "9", "99"};
         }
     }
-    public static final VersionHelper modVersion = new VersionHelper(Integer.decode(versionNumbers[0]), Integer.decode(versionNumbers[1]), Integer.decode(versionNumbers[2]));
-    public static final String checkString = modVersion.generateCheckString();
+    public static final VersionHelper modVersion = new VersionHelper(Byte.decode(versionNumbers[0]), Byte.decode(versionNumbers[1]), Byte.decode(versionNumbers[2]));
     public static final Map<Class<? extends TileEntity>, Boolean> excludeContinuousTileEntityData = new HashMap<>();
     public static void excludeContinuousTileEntityPacketUpdateClass(Class<? extends TileEntity> tileEntityClass) {
         excludeContinuousTileEntityData.put(tileEntityClass, true);

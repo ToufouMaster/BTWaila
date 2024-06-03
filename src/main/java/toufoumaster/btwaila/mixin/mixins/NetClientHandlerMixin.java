@@ -3,6 +3,7 @@ package toufoumaster.btwaila.mixin.mixins;
 import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.net.packet.Packet250CustomPayload;
 import net.minecraft.core.net.packet.Packet3Chat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,18 +31,11 @@ public abstract class NetClientHandlerMixin implements INetClientHandler {
         }
     }
 
-
-    @Inject( method = "handleChat", at = @At("HEAD"), cancellable = true)
-    public void handleChat(Packet3Chat packet3chat, CallbackInfo ci) {
-        if (!packet3chat.encrypted) {
-            String message = packet3chat.message;
-            VersionHelper version = VersionHelper.getModVersionBasedOnString(message);
-            if (version != null) {
-                if (VersionHelper.checkModVersion(version)) {
-                    BTWaila.canUseAdvancedTooltips = true;
-                }
-                ci.cancel();
-            }
+    @Inject( method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
+    public void BTWaila$handleCustomPayload(Packet250CustomPayload packet, CallbackInfo ci){
+        if (packet.channel.equals("BTWaila|VersionCheck")){
+            VersionHelper.handlePacket(packet);
+            ci.cancel();
         }
     }
 }
