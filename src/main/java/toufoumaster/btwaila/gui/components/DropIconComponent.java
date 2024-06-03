@@ -6,7 +6,11 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
 import net.minecraft.client.render.Lighting;
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.HitResult;
+import net.minecraft.core.WeightedRandomLootObject;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityLiving;
@@ -15,10 +19,8 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.demo.DemoManager;
-import toufoumaster.btwaila.mixin.mixins.accessors.EntityLivingAccessor;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
-import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
 
 public class DropIconComponent extends MovableHudComponent {
     public DropIconComponent(String key, Layout layout) {
@@ -41,9 +43,11 @@ public class DropIconComponent extends MovableHudComponent {
             if (drops != null && drops.length > 0){
                 icon = drops[0];
             }
+            icon.stackSize = 1;
             renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
             ItemStack itemToRender = getEntityIcon(hitResult.entity);
+            itemToRender.stackSize = 1;
             renderItemDisplayer(minecraft, itemToRender, xScreenSize, yScreenSize);
         }
     }
@@ -67,8 +71,10 @@ public class DropIconComponent extends MovableHudComponent {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
 
-        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f, 1.0F);
-        itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f);
+        Tessellator t = Tessellator.instance;
+        ItemModel model = ItemModelDispatcher.getInstance().getDispatch(blockResult);
+        model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f, 1.0F);
+        model.renderItemOverlayIntoGUI(t, minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
         Lighting.disable();
@@ -76,10 +82,12 @@ public class DropIconComponent extends MovableHudComponent {
     public ItemStack getEntityIcon(Entity entity){
         ItemStack icon = entityIconMap.get(entity.getClass());
         if (icon == null && entity instanceof EntityLiving){
-            Item dropItem = Item.itemsList[((EntityLivingAccessor)entity).callGetDropItemId()];
-            if (dropItem != null){
-                icon = dropItem.getDefaultStack();
+            EntityLiving living = (EntityLiving)entity;
+            if (!living.mobDrops.isEmpty()){
+                WeightedRandomLootObject lootObject = living.mobDrops.get(0);
+                icon = lootObject.getItemStack();
             }
+
         }
         if (icon != null){
             return icon;

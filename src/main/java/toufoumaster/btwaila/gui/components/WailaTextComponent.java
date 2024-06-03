@@ -10,10 +10,11 @@ import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
 import net.minecraft.client.render.Lighting;
 import net.minecraft.client.render.RenderEngine;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.TextureFX;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
-import net.minecraft.core.Global;
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.stitcher.IconCoordinate;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityDispatcher;
@@ -55,7 +56,6 @@ import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Random;
-import java.lang.Math;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
@@ -233,6 +233,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         addOffY(getLineHeight());
     }
 
+    @Deprecated
     public void drawTextureRectRepeat(int x, int y, int w, int h, int texX, int texY, int tileWidth, int color) {
         float r = (float)(color >> 16 & 0xFF) / 255.0f;
         float g = (float)(color >> 8 & 0xFF) / 255.0f;
@@ -244,10 +245,33 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         for (int i = x; i < w; i += tileWidth) {
             for (int j = y; j < h; j += tileWidth) {
                 //noinspection SuspiciousNameCombination
-                itemRender.renderTexturedQuad(i, j, texX, texY, tileWidth, tileWidth);
+                activeGUI.drawTexturedModalRect(i, j, texX, texY, tileWidth, tileWidth);
             }
         }
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
+    }
+    public void drawIcon(double x, double y, double w, double h, IconCoordinate coordinate, int color){
+        float r = (float)(color >> 16 & 0xFF) / 255.0f;
+        float g = (float)(color >> 8 & 0xFF) / 255.0f;
+        float b = (float)(color & 0xFF) / 255.0f;
+        GL11.glColor4f(r, g, b, 1f);
+
+        coordinate.parentAtlas.bindTexture();
+
+        double uRepeats = w / coordinate.width;
+        double vRepeats = h / coordinate.height;
+        double minU = coordinate.getIconUMin();
+        double maxU = coordinate.getIconUMax();
+        double minV = coordinate.getIconVMin();
+        double maxV = coordinate.getIconVMax();
+
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(x + 0, y + h, activeGUI.zLevel, minU,            maxV * vRepeats);
+        tessellator.addVertexWithUV(x + w, y + h, activeGUI.zLevel, maxU * uRepeats, maxV * vRepeats);
+        tessellator.addVertexWithUV(x + w, y + 0, activeGUI.zLevel, maxU * uRepeats, minV);
+        tessellator.addVertexWithUV(x + 0, y + 0, activeGUI.zLevel, minU,            minV);
+        tessellator.draw();
     }
 
     private String generateTemplateString(String text, int max, boolean values, boolean percentage) {
@@ -314,19 +338,12 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         final int sizeY = 16;
         int progress = (int)Math.ceil((boxWidth)*ratio);
 
-        RenderEngine renderEngine = minecraft.renderEngine;
-        renderEngine.bindTexture(renderEngine.getTexture("/terrain.png"));
-        int tileWidth = TextureFX.tileWidthTerrain;
-        int bgTexId = bgOptions.index;
-        int bgTexX = bgTexId % Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
-        int bgTexY = bgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
-        int fgTexId = fgOptions.index;
-        int fgTexX = fgTexId % Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
-        int fgTexY = fgTexId / Global.TEXTURE_ATLAS_WIDTH_TILES * tileWidth;
+        IconCoordinate bgCoord = bgOptions.coordinate;
+        IconCoordinate fgCoord = bgOptions.coordinate;
 
         this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
-        drawTextureRectRepeat(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, bgTexX, bgTexY, tileWidth, bgOptions.color);
-        drawTextureRectRepeat(posX+offX, offY, posX+offX+progress, offY+sizeY, fgTexX, fgTexY, tileWidth, fgOptions.color);
+        drawIcon(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, bgCoord, bgOptions.color);
+        drawIcon(posX+offX, offY, posX+offX+progress, offY+sizeY, fgCoord, fgOptions.color);
         addOffY(sizeY);
     }
 
@@ -392,12 +409,15 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         GL11.glEnable(32826);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
 
+        Tessellator t = Tessellator.instance;
+
         int itemX = 0;
         int itemY = 0;
         for (ItemStack itemStack : itemList) {
             if (itemStack != null) {
-                itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
-                itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
+                ItemModel model = ItemModelDispatcher.getInstance().getDispatch(itemStack);
+                model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
+                model.renderItemOverlayIntoGUI(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
                 itemX++;
                 if (itemX >= 9) {
                     itemX = 0;
@@ -432,6 +452,8 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
         GL11.glScaled(scale, scale, scale);
 
+        Tessellator t = Tessellator.instance;
+
         int itemX = 0;
         int itemY = 0;
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -440,8 +462,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
             if (itemStack != null) {
                 int renderX = (int) ((posX + offX + itemX * iconLength) /scale);
                 int renderY = (int) ((offY + itemY * iconLength)/scale);
-                itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
-                itemRender.renderItemOverlayIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
+                ItemModel model = ItemModelDispatcher.getInstance().getDispatch(itemStack);
+                model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
+                model.renderItemOverlayIntoGUI(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
                 itemX++;
                 if (itemX >= itemsWide) {
                     itemX = 0;

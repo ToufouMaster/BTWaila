@@ -4,7 +4,6 @@
   "package": "toufoumaster.btwaila.mixin.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "accessors.EntityLivingAccessor",
     "accessors.PacketAccessor",
     "accessors.TileEntitySignAccessor"
   ],

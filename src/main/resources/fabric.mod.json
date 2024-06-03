@@ -47,7 +47,7 @@
   "depends": {
     "fabricloader": ">=0.15.5",
     "halplibe": ">=3.4.17",
-    "minecraft": "~7.1"
+    "minecraft": "~7.2-beta"
   },
   "suggests": {
   }

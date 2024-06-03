@@ -1,5 +1,8 @@
 package toufoumaster.btwaila.tooltips.block;
 
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityFlag;
 import net.minecraft.core.item.Item;
@@ -36,8 +39,10 @@ public class FlagTooltip extends TileTooltip<TileEntityFlag> {
             int y = advancedInfoComponent.getOffY() - 1;
             int x = advancedInfoComponent.getPosX() - 16 + advancedInfoComponent.minecraft.fontRenderer.getStringWidth(translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    ");
             y -= 3;
-            AdvancedInfoComponent.itemRender.renderItemIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
-            AdvancedInfoComponent.itemRender.renderItemOverlayIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
+            Tessellator t = Tessellator.instance;
+            ItemModel model = ItemModelDispatcher.getInstance().getDispatch(stack);
+            model.renderItemIntoGui(t, advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
+            model.renderItemOverlayIntoGUI(t, advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, stack, x, y, 1.0F);
             GL11.glDisable(GL11.GL_LIGHTING);
         }
         advancedInfoComponent.drawStringWithShadow(s, offX);

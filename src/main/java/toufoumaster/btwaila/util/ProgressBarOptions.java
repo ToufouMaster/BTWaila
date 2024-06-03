@@ -1,5 +1,7 @@
 package toufoumaster.btwaila.util;
 
+import net.minecraft.client.render.stitcher.TextureRegistry;
+
 public class ProgressBarOptions {
 
     public int boxWidth;
@@ -14,7 +16,7 @@ public class ProgressBarOptions {
     }
 
     public ProgressBarOptions(int boxWidth, String text, boolean values, boolean percentage) {
-        this(boxWidth, text, values, percentage, new TextureOptions(Colors.GRAY, 0,6), new TextureOptions(Colors.LIGHT_GRAY, 0, 2));
+        this(boxWidth, text, values, percentage, new TextureOptions(Colors.GRAY, TextureRegistry.getTexture("minecraft:block/polished_stone_top")), new TextureOptions(Colors.LIGHT_GRAY, TextureRegistry.getTexture("minecraft:block/stone")));
     }
 
     public ProgressBarOptions(int boxWidth, String text, boolean values, boolean percentage, TextureOptions bgTexOpt, TextureOptions fgTexOpt) {

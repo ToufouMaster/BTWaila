@@ -1,6 +1,9 @@
 package toufoumaster.btwaila.tooltips.block;
 
 import net.minecraft.client.render.Lighting;
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntityFlowerJar;
 import net.minecraft.core.item.Item;
@@ -39,8 +42,10 @@ public class JarToolTip extends TileTooltip<TileEntityFlowerJar> {
         if (flower != null){
             int x = advancedInfoComponent.getPosX() + advancedInfoComponent.getGame().fontRenderer.getStringWidth(text) + 2;
             y -= 4;
-            itemRender.renderItemIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
-            itemRender.renderItemOverlayIntoGUI(advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
+            Tessellator t = Tessellator.instance;
+            ItemModel model = ItemModelDispatcher.getInstance().getDispatch(flower);
+            model.renderItemIntoGui(t, advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
+            model.renderItemOverlayIntoGUI(t, advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
         }
         Lighting.disable();
     }

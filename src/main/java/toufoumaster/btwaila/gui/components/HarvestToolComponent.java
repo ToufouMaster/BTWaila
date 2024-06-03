@@ -5,15 +5,15 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.hud.Layout;
 import net.minecraft.client.gui.hud.MovableHudComponent;
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.player.gamemode.Gamemode;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.demo.DemoManager;
-
-import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.itemRender;
-
 public class HarvestToolComponent extends MovableHudComponent {
     public HarvestToolComponent(String key, Layout layout) {
         super(key, 18, 18, layout);
@@ -59,7 +59,10 @@ public class HarvestToolComponent extends MovableHudComponent {
         if (itemHarvestTool == null) return;
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        itemRender.renderItemIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, itemHarvestTool.getDefaultStack(), x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1.0F);
+
+        Tessellator t = Tessellator.instance;
+        ItemModel model = ItemModelDispatcher.getInstance().getDispatch(itemHarvestTool);
+        model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, itemHarvestTool.getDefaultStack(), x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1.0F);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
     }
