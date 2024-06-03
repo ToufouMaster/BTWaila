@@ -8,7 +8,9 @@ import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
+import toufoumaster.btwaila.util.Colors;
 import toufoumaster.btwaila.util.ProgressBarOptions;
+import toufoumaster.btwaila.util.TextureOptions;
 
 import java.util.Random;
 

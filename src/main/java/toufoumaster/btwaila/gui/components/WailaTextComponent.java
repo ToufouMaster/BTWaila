@@ -43,6 +43,7 @@ import net.minecraft.core.item.IItemConvertible;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
+import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWailaClient;
@@ -258,20 +259,31 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
         coordinate.parentAtlas.bindTexture();
 
-        double uRepeats = w / coordinate.width;
-        double vRepeats = h / coordinate.height;
         double minU = coordinate.getIconUMin();
         double maxU = coordinate.getIconUMax();
         double minV = coordinate.getIconVMin();
         double maxV = coordinate.getIconVMax();
 
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        GL11.glScissor(
+            0,
+            MathHelper.floor_double(minecraft.resolution.height - h * minecraft.resolution.scale),
+            MathHelper.floor_double(w * minecraft.resolution.scale),
+            minecraft.resolution.height);
+
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x + 0, y + h, activeGUI.zLevel, minU,            maxV * vRepeats);
-        tessellator.addVertexWithUV(x + w, y + h, activeGUI.zLevel, maxU * uRepeats, maxV * vRepeats);
-        tessellator.addVertexWithUV(x + w, y + 0, activeGUI.zLevel, maxU * uRepeats, minV);
-        tessellator.addVertexWithUV(x + 0, y + 0, activeGUI.zLevel, minU,            minV);
+        for (double i = x; i < w; i += coordinate.width) {
+            for (double j = y; j < h; j += coordinate.height) {
+                tessellator.addVertexWithUV(i + 0,                  j + coordinate.height,  activeGUI.zLevel, minU, maxV);
+                tessellator.addVertexWithUV(i + coordinate.width,   j + coordinate.height,  activeGUI.zLevel, maxU, maxV);
+                tessellator.addVertexWithUV(i + coordinate.width,   j + 0,                  activeGUI.zLevel, maxU, minV);
+                tessellator.addVertexWithUV(i + 0,                  j + 0,                  activeGUI.zLevel, minU, minV);
+            }
+        }
         tessellator.draw();
+
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
 
     private String generateTemplateString(String text, int max, boolean values, boolean percentage) {
@@ -339,9 +351,10 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int progress = (int)Math.ceil((boxWidth)*ratio);
 
         IconCoordinate bgCoord = bgOptions.coordinate;
-        IconCoordinate fgCoord = bgOptions.coordinate;
+        IconCoordinate fgCoord = fgOptions.coordinate;
 
         this.drawRect(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, 0xff000000);
+        GL11.glEnable(GL11.GL_BLEND);
         drawIcon(posX+offX, offY, posX+offX+boxWidth, offY+sizeY, bgCoord, bgOptions.color);
         drawIcon(posX+offX, offY, posX+offX+progress, offY+sizeY, fgCoord, fgOptions.color);
         addOffY(sizeY);
