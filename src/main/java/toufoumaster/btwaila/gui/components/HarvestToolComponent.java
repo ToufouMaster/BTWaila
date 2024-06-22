@@ -11,6 +11,7 @@ import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.gamemode.Gamemode;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.demo.DemoManager;
@@ -43,17 +44,17 @@ public class HarvestToolComponent extends MovableHudComponent {
         int x = getLayout().getComponentX(minecraft, this, xScreenSize);
         int y = getLayout().getComponentY(minecraft, this, yScreenSize);
         Item itemHarvestTool = null;
-        if (Item.toolPickaxeSteel.canHarvestBlock(block)) {
+        if (Item.toolPickaxeSteel.canHarvestBlock(minecraft.thePlayer, new ItemStack(block), block)) {
             itemHarvestTool = Item.toolPickaxeSteel;
-        } else if (Item.toolShearsSteel.canHarvestBlock(block)) {
+        } else if (Item.toolShearsSteel.canHarvestBlock(minecraft.thePlayer,new ItemStack(block), block)) {
             itemHarvestTool = Item.toolShearsSteel;
-        } else if (Item.toolAxeSteel.canHarvestBlock(block)) {
+        } else if (Item.toolAxeSteel.canHarvestBlock(minecraft.thePlayer,new ItemStack(block), block)) {
             itemHarvestTool = Item.toolAxeSteel;
-        } else if (Item.toolSwordSteel.canHarvestBlock(block)) {
+        } else if (Item.toolSwordSteel.canHarvestBlock(minecraft.thePlayer,new ItemStack(block),block)) {
             itemHarvestTool = Item.toolSwordSteel;
-        } else if (Item.toolShovelSteel.canHarvestBlock(block)) {
+        } else if (Item.toolShovelSteel.canHarvestBlock(minecraft.thePlayer,new ItemStack(block),block)) {
             itemHarvestTool = Item.toolShovelSteel;
-        } else if (Item.toolHoeSteel.canHarvestBlock(block)) {
+        } else if (Item.toolHoeSteel.canHarvestBlock(minecraft.thePlayer,new ItemStack(block),block)) {
             itemHarvestTool = Item.toolHoeSteel;
         }
         if (itemHarvestTool == null) return;

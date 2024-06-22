@@ -1,35 +1,37 @@
 package toufoumaster.btwaila;
 
-import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.gui.hud.AbsoluteLayout;
-import net.minecraft.client.gui.hud.ComponentAnchor;
-import net.minecraft.client.gui.hud.HudComponent;
-import net.minecraft.client.gui.hud.HudComponents;
-import net.minecraft.client.gui.hud.SnapLayout;
-import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
-import toufoumaster.btwaila.gui.components.BaseInfoComponent;
-import toufoumaster.btwaila.gui.components.DropIconComponent;
-import toufoumaster.btwaila.gui.components.HarvestInfoComponent;
-import toufoumaster.btwaila.gui.components.HarvestToolComponent;
+import net.minecraft.client.gui.hud.*;
+import toufoumaster.btwaila.gui.components.*;
+import turniplabs.halplibe.util.ClientStartEntrypoint;
 
-public class BTWailaComponents implements ClientModInitializer {
-    public static final HudComponent BlockBaseInfoComp = HudComponents.register(
-            new BaseInfoComponent("wailaInfoBase",
-                    new AbsoluteLayout(0.5f, 0.0f, ComponentAnchor.TOP_CENTER)));
-    public static final HudComponent BlockBreakComp = HudComponents.register(
-            new HarvestInfoComponent("wailaInfoHarvest",
-                    new SnapLayout(BlockBaseInfoComp,ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
-    public static final HudComponent BlockAdvancedInfoComp = HudComponents.register(
-            new AdvancedInfoComponent("wailaInfoAdvanced",
-                    new SnapLayout(BlockBreakComp,ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
-    public static final HudComponent BlockDisplayedComp = HudComponents.register(
-            new DropIconComponent("wailaInfoIcon",
-                    new SnapLayout(BlockBaseInfoComp, ComponentAnchor.TOP_LEFT, ComponentAnchor.TOP_RIGHT)));
-    public static final HudComponent BlockToolComp = HudComponents.register(
-            new HarvestToolComponent("wailaInfoTool",
-                    new SnapLayout(BlockDisplayedComp, ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
+public class BTWailaComponents implements ClientStartEntrypoint {
+    public static HudComponent BlockBaseInfoComp;
+    public static HudComponent BlockBreakComp;
+    public static HudComponent BlockAdvancedInfoComp;
+    public static HudComponent BlockDisplayedComp;
+    public static HudComponent BlockToolComp;
+
     @Override
-    public void onInitializeClient() {
+    public void beforeClientStart() {
 
+    }
+
+    @Override
+    public void afterClientStart() {
+        BlockBaseInfoComp = HudComponents.register(
+                new BaseInfoComponent("wailaInfoBase",
+                        new AbsoluteLayout(0.5f, 0.0f, ComponentAnchor.TOP_CENTER)));
+        BlockBreakComp = HudComponents.register(
+                new HarvestInfoComponent("wailaInfoHarvest",
+                        new SnapLayout(BlockBaseInfoComp, ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
+        BlockAdvancedInfoComp = HudComponents.register(
+                new AdvancedInfoComponent("wailaInfoAdvanced",
+                        new SnapLayout(BlockBreakComp, ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
+        BlockDisplayedComp = HudComponents.register(
+                new DropIconComponent("wailaInfoIcon",
+                        new SnapLayout(BlockBaseInfoComp, ComponentAnchor.TOP_LEFT, ComponentAnchor.TOP_RIGHT)));
+        BlockToolComp = HudComponents.register(
+                new HarvestToolComponent("wailaInfoTool",
+                        new SnapLayout(BlockDisplayedComp, ComponentAnchor.BOTTOM_CENTER, ComponentAnchor.TOP_CENTER)));
     }
 }

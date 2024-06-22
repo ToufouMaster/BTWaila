@@ -36,7 +36,7 @@ public class NetServerHandlerMixin implements INetServerHandler {
     public void bTWaila$handleRequestEntityData(PacketRequestEntityData packet) {
         MinecraftServer server = MinecraftServer.getInstance();
         WorldServer worldserver = server.getDimensionWorld(this.playerEntity.dimension);
-        Entity entity = worldserver.func_6158_a(packet.id);
+        Entity entity = worldserver.getEntityFromId(packet.id);
         if (entity != null) {
             CompoundTag tag = new CompoundTag();
             entity.addAdditionalSaveData(tag);

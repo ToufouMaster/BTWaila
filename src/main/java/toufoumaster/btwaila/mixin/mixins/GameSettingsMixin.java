@@ -1,5 +1,6 @@
 package toufoumaster.btwaila.mixin.mixins;
 
+import net.minecraft.client.input.InputDevice;
 import net.minecraft.client.option.BooleanOption;
 import net.minecraft.client.option.EnumOption;
 import net.minecraft.client.option.FloatOption;
@@ -25,9 +26,9 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     private final GameSettings thisAs = (GameSettings)(Object)this;
     @Unique
-    public final KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bindKeyboard(KEY_NUMPAD0);
+    public final KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bind(InputDevice.keyboard, KEY_NUMPAD0);
     @Unique
-    public final KeyBinding keyDemoCycle = new KeyBinding("btwaila.key.democycle").bindKeyboard(KEY_F9);
+    public final KeyBinding keyDemoCycle = new KeyBinding("btwaila.key.democycle").bind(InputDevice.keyboard, KEY_F9);
     @Unique
     public final BooleanOption blockTooltips = new BooleanOption(thisAs, "blockTooltips", true);
     @Unique

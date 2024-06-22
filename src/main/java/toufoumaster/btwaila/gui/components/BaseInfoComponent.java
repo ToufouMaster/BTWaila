@@ -80,7 +80,7 @@ public class BaseInfoComponent extends WailaTextComponent {
         ItemStack renderItem = new ItemStack(block, 1, blockMetadata);
         if (blockDrops != null && blockDrops.length > 0) renderItem = blockDrops[0];
 
-        String languageKey = renderItem.getItemName();
+        String languageKey = renderItem.getItemKey();
 
         String blockName = translator.translateNameKey(languageKey);
         String blockDesc = translator.translateDescKey(languageKey);
