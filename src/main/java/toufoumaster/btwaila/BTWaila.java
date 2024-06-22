@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.entryplugins.waila.BTWailaCustomTooltipPlugin;
 import toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin;
+import toufoumaster.btwaila.gui.components.WailaTextComponent;
 import toufoumaster.btwaila.mixin.mixins.accessors.PacketAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
@@ -51,6 +52,7 @@ public class BTWaila implements GameStartEntrypoint, ModInitializer {
 
     @Override
     public void afterGameStart() {
+        WailaTextComponent.init();
         translator = I18n.getInstance();
         LOGGER.info("Loading implementations.");
 

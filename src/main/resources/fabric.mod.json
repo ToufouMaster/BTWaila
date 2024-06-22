@@ -27,11 +27,11 @@
     "main": [
       "toufoumaster.btwaila.BTWaila"
     ],
-    "client": [
-      "toufoumaster.btwaila.BTWailaComponents"
-    ],
     "afterGameStart": [
       "toufoumaster.btwaila.BTWaila"
+    ],
+    "afterClientStart": [
+      "toufoumaster.btwaila.BTWailaComponents"
     ],
     "btwaila": [
       "toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin"

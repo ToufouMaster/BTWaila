@@ -20,22 +20,8 @@ import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.EntityPainting;
-import net.minecraft.core.entity.animal.EntityChicken;
-import net.minecraft.core.entity.animal.EntityCow;
-import net.minecraft.core.entity.animal.EntityPig;
-import net.minecraft.core.entity.animal.EntitySheep;
-import net.minecraft.core.entity.animal.EntitySquid;
-import net.minecraft.core.entity.animal.EntityWolf;
-import net.minecraft.core.entity.monster.EntityArmoredZombie;
-import net.minecraft.core.entity.monster.EntityCreeper;
-import net.minecraft.core.entity.monster.EntityGhast;
-import net.minecraft.core.entity.monster.EntityPigZombie;
-import net.minecraft.core.entity.monster.EntityScorpion;
-import net.minecraft.core.entity.monster.EntitySkeleton;
-import net.minecraft.core.entity.monster.EntitySlime;
-import net.minecraft.core.entity.monster.EntitySnowman;
-import net.minecraft.core.entity.monster.EntitySpider;
-import net.minecraft.core.entity.monster.EntityZombie;
+import net.minecraft.core.entity.animal.*;
+import net.minecraft.core.entity.monster.*;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.entity.vehicle.EntityBoat;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
@@ -63,7 +49,8 @@ import static toufoumaster.btwaila.BTWaila.translator;
 public abstract class WailaTextComponent extends MovableHudComponent {
     public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
     public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
-    static {
+
+    public static void init(){
         addEntityIcon(EntityPlayer.class, Item.flag);
         addEntityIcon(EntityPlayerSP.class, Item.flag);
         addEntityIcon(EntityPlayerMP.class, Item.flag);
@@ -87,6 +74,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         addEntityIcon(EntityMinecart.class, Item.minecart);
         addEntityIcon(EntityBoat.class, Item.boat);
     }
+
     public static void addEntityIcon(Class<? extends Entity> entityClass, IItemConvertible displayItem){
         addEntityIcon(entityClass, displayItem.getDefaultStack());
     }
