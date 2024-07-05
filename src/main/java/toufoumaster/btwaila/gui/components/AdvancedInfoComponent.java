@@ -103,10 +103,10 @@ public class AdvancedInfoComponent extends WailaTextComponent {
         }
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
-        if (tileEntity != null) {
+        if (tileEntity != null && tileEntity.worldObj != null) {
             boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
             Block block = Block.blocksList[tileEntity.worldObj.getBlockId(tileEntity.x, tileEntity.y, tileEntity.z)];
-            if (block == null || !(block instanceof BlockTileEntity)) return;
+            if (!(block instanceof BlockTileEntity)) return;
             if (!Global.isServer && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
