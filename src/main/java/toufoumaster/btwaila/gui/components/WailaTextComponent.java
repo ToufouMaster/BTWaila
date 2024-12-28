@@ -47,7 +47,7 @@ import java.util.Random;
 import static toufoumaster.btwaila.BTWaila.translator;
 
 public abstract class WailaTextComponent extends MovableHudComponent {
-    public static final ItemEntityRenderer itemRender = new ItemEntityRenderer();
+    public static ItemEntityRenderer itemRender = null;
     public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
 
     public static void init(){
@@ -614,6 +614,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     }
 
     public ItemEntityRenderer getItemRenderer(){
+        if (itemRender == null) itemRender = new ItemEntityRenderer();
         return itemRender;
     }
 
