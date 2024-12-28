@@ -103,7 +103,7 @@ public class AdvancedInfoComponent extends WailaTextComponent {
         }
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
-        if (tileEntity != null) {
+        if (tileEntity != null && tileEntity.worldObj != null) {
             boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
             if (tileEntity.worldObj == null) return;
             Block block = Block.blocksList[tileEntity.worldObj.getBlockId(tileEntity.x, tileEntity.y, tileEntity.z)];
