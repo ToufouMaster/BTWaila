@@ -1,8 +1,8 @@
 package toufoumaster.btwaila.network.packet;
 
-import net.minecraft.core.net.handler.NetHandler;
+import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
-import toufoumaster.btwaila.mixin.interfaces.INetServerHandler;
+import toufoumaster.btwaila.mixin.interfaces.IPacketHandlerServer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,34 +17,34 @@ public class PacketRequestTileEntityData extends Packet {
         this.isChunkDataPacket = true;
     }
 
-    public PacketRequestTileEntityData(int x, int y, int z) {
-        this();
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
     @Override
-    public void readPacketData(DataInputStream dis) throws IOException {
+    public void read(DataInputStream dis) throws IOException {
         this.x = dis.readInt();
         this.y = dis.readInt();
         this.z = dis.readInt();
     }
 
     @Override
-    public void writePacketData(DataOutputStream dos) throws IOException {
+    public void write(DataOutputStream dos) throws IOException {
         dos.writeInt(this.x);
         dos.writeInt(this.y);
         dos.writeInt(this.z);
     }
 
     @Override
-    public void processPacket(NetHandler netHandler) {
-        ((INetServerHandler)netHandler).bTWaila$handleRequestTileEntityData(this);
+    public void handlePacket(PacketHandler packetHandler) {
+        ((IPacketHandlerServer)packetHandler).bTWaila$handleRequestTileEntityData(this);
     }
 
     @Override
-    public int getPacketSize() {
+    public int getEstimatedSize() {
         return 12;
+    }
+
+    public PacketRequestTileEntityData(int x, int y, int z) {
+        this();
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 }

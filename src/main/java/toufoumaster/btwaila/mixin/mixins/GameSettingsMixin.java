@@ -1,13 +1,7 @@
 package toufoumaster.btwaila.mixin.mixins;
 
 import net.minecraft.client.input.InputDevice;
-import net.minecraft.client.option.BooleanOption;
-import net.minecraft.client.option.EnumOption;
-import net.minecraft.client.option.FloatOption;
-import net.minecraft.client.option.GameSettings;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.Option;
-import net.minecraft.client.option.RangeOption;
+import net.minecraft.client.option.*;
 import net.minecraft.core.lang.I18n;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -30,53 +24,53 @@ public class GameSettingsMixin implements IOptions {
     @Unique
     public final KeyBinding keyDemoCycle = new KeyBinding("btwaila.key.democycle").bind(InputDevice.keyboard, KEY_F9);
     @Unique
-    public final BooleanOption blockTooltips = new BooleanOption(thisAs, "blockTooltips", true);
+    public final OptionBoolean blockTooltips = new OptionBoolean(thisAs, "blockTooltips", true);
     @Unique
-    public final BooleanOption blockAdvancedTooltips = new BooleanOption(thisAs, "blockAdvancedTooltips", true);
+    public final OptionBoolean blockAdvancedTooltips = new OptionBoolean(thisAs, "blockAdvancedTooltips", true);
     @Unique
-    public final BooleanOption entityTooltips = new BooleanOption(thisAs, "entityTooltips", true);
+    public final OptionBoolean entityTooltips = new OptionBoolean(thisAs, "entityTooltips", true);
     @Unique
-    public final BooleanOption entityAdvancedTooltips = new BooleanOption(thisAs, "entityAdvancedTooltips", true);
+    public final OptionBoolean entityAdvancedTooltips = new OptionBoolean(thisAs, "entityAdvancedTooltips", true);
     @Unique
-    public final RangeOption smallEntityHealthBar = new RangeOption(thisAs, "smallHealthBar", 0, 6);
+    public final OptionRange smallEntityHealthBar = new OptionRange(thisAs, "smallHealthBar", 0, 6);
     @Unique
-    public final BooleanOption showBlockId = new BooleanOption(thisAs, "showBlockId", false);
+    public final OptionBoolean showBlockId = new OptionBoolean(thisAs, "showBlockId", false);
     @Unique
-    public final BooleanOption showBlockDescriptions = new BooleanOption(thisAs, "showBlockDesc", true);
+    public final OptionBoolean showBlockDescriptions = new OptionBoolean(thisAs, "showBlockDesc", true);
     @Unique
-    public final BooleanOption showHarvestText = new BooleanOption(thisAs, "showHarvestText", true);
+    public final OptionBoolean showHarvestText = new OptionBoolean(thisAs, "showHarvestText", true);
     @Unique
-    public final EnumOption<TooltipFormatting> tooltipFormatting = new EnumOption<>(thisAs, "tooltipFormatting",TooltipFormatting.class,TooltipFormatting.LEFT);
+    public final OptionEnum<TooltipFormatting> tooltipFormatting = new OptionEnum<>(thisAs, "tooltipFormatting",TooltipFormatting.class,TooltipFormatting.LEFT);
     @Unique
-    public final EnumOption<BarStyle> barStyle = new EnumOption<>(thisAs, "barStyle", BarStyle.class, BarStyle.PLAIN);
+    public final OptionEnum<BarStyle> barStyle = new OptionEnum<>(thisAs, "barStyle", BarStyle.class, BarStyle.PLAIN);
     @Unique
-    public final FloatOption scaleTooltips = new FloatOption(thisAs, "scaleTooltips", 0.5f);
+    public final OptionFloat scaleTooltips = new OptionFloat(thisAs, "scaleTooltips", 0.5f);
 
     public KeyBinding bTWaila$getKeyOpenBTWailaMenu() {
         return keyOpenBTWailaMenu;
     }
     public KeyBinding bTWaila$getKeyDemoCycle() {return keyDemoCycle;}
-    public BooleanOption bTWaila$getBlockTooltips() {
+    public OptionBoolean bTWaila$getBlockTooltips() {
         return blockTooltips;
     }
-    public BooleanOption bTWaila$getBlockAdvancedTooltips() {
+    public OptionBoolean bTWaila$getBlockAdvancedTooltips() {
         return blockAdvancedTooltips;
     }
-    public BooleanOption bTWaila$getEntityTooltips() {
+    public OptionBoolean bTWaila$getEntityTooltips() {
         return entityTooltips;
     }
-    public BooleanOption bTWaila$getEntityAdvancedTooltips() {
+    public OptionBoolean bTWaila$getEntityAdvancedTooltips() {
         return entityAdvancedTooltips;
     }
-    public RangeOption bTWaila$getSmallEntityHealthBar() {
+    public OptionRange bTWaila$getSmallEntityHealthBar() {
         return smallEntityHealthBar;
     }
-    public BooleanOption bTWaila$getShowBlockId() {return showBlockId;}
-    public BooleanOption bTWaila$getShowBlockDesc() {return showBlockDescriptions;}
-    public BooleanOption bTWaila$getShowHarvestText() {return showHarvestText;}
-    public EnumOption<TooltipFormatting> bTWaila$getTooltipFormatting() {return tooltipFormatting;}
-    public EnumOption<BarStyle> bTWaila$getBarStyle() {return barStyle;}
-    public FloatOption bTWaila$getScaleTooltips() {return scaleTooltips;}
+    public OptionBoolean bTWaila$getShowBlockId() {return showBlockId;}
+    public OptionBoolean bTWaila$getShowBlockDesc() {return showBlockDescriptions;}
+    public OptionBoolean bTWaila$getShowHarvestText() {return showHarvestText;}
+    public OptionEnum<TooltipFormatting> bTWaila$getTooltipFormatting() {return tooltipFormatting;}
+    public OptionEnum<BarStyle> bTWaila$getBarStyle() {return barStyle;}
+    public OptionFloat bTWaila$getScaleTooltips() {return scaleTooltips;}
     @Inject(method = "getDisplayString(Lnet/minecraft/client/option/Option;)Ljava/lang/String;", at = @At("HEAD"), cancellable = true)
     private void displayStrings(Option<?> option, CallbackInfoReturnable<String> cir){
         I18n translator = I18n.getInstance();

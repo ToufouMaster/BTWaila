@@ -2,18 +2,18 @@ package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiHudDesigner;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.hud.ComponentAnchor;
-import net.minecraft.client.gui.hud.Layout;
-import net.minecraft.core.HitResult;
+import net.minecraft.client.gui.ScreenHudDesigner;
+import net.minecraft.client.gui.hud.HudIngame;
+import net.minecraft.client.gui.hud.component.ComponentAnchor;
+import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityLiving;
-import net.minecraft.core.entity.monster.EntityMonster;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.Mob;
+import net.minecraft.core.entity.monster.MobMonster;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.util.phys.HitResult;
 import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.util.Colors;
@@ -29,13 +29,13 @@ public class BaseInfoComponent extends WailaTextComponent {
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
         if (anchor.yPosition == 0.0f && !(anchor == ComponentAnchor.TOP_CENTER)){
-            return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this))) + topPadding;
+            return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft())) + topPadding;
         }
         return (int)(anchor.yPosition * getYSize(minecraft));
     }
     @Override
     public int getYSize(Minecraft mc) {
-        if (!(mc.currentScreen instanceof GuiHudDesigner) && !this.isVisible(mc)) {
+        if (!(mc.currentScreen instanceof ScreenHudDesigner) && !this.isVisible(mc)) {
             return 0;
         }
         return height();
@@ -46,14 +46,17 @@ public class BaseInfoComponent extends WailaTextComponent {
     }
 
     @Override
-    public void renderPost(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float f) {
+    public void renderPost(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float f) {
         addOffY(topPadding);
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null) {return;}
         if (hitResult.hitType == HitResult.HitType.TILE) {
-            Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
-            int meta = minecraft.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z);
-            ItemStack[] drops = block.getBreakResult(minecraft.theWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
+            Block<?> block = minecraft.currentWorld.getBlock(hitResult.x, hitResult.y, hitResult.z);
+            int meta = minecraft.currentWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z);
+            ItemStack[] drops = null;
+            if (block != null) {
+                drops = block.getBreakResult(minecraft.currentWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.currentWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
+            }
             baseBlockInfo(block, meta, drops);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
             baseEntityInfo(hitResult.entity);
@@ -63,7 +66,7 @@ public class BaseInfoComponent extends WailaTextComponent {
     @Override
     public void renderPreviewPost(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
         addOffY(topPadding);
-        Block block = DemoManager.getCurrentEntry().block;
+        Block<?> block = DemoManager.getCurrentEntry().block;
         int meta = DemoManager.getCurrentEntry().meta;
         ItemStack[] drops = DemoManager.getCurrentEntry().drops;
         Entity entity = DemoManager.getCurrentEntry().entity;
@@ -73,9 +76,9 @@ public class BaseInfoComponent extends WailaTextComponent {
             baseEntityInfo(entity);
         }
     }
-    protected void baseBlockInfo(Block block, int blockMetadata, ItemStack[] blockDrops){
+    protected void baseBlockInfo(Block<?> block, int blockMetadata, ItemStack[] blockDrops){
         if (!modSettings().bTWaila$getBlockTooltips().value) return;
-        if (minecraft.fontRenderer == null) return;
+        if (minecraft.font == null) return;
 
         ItemStack renderItem = new ItemStack(block, 1, blockMetadata);
         if (blockDrops != null && blockDrops.length > 0) renderItem = blockDrops[0];
@@ -90,7 +93,7 @@ public class BaseInfoComponent extends WailaTextComponent {
                 blockSource = BTWailaClient.modIds.get(modId);
             }
         }
-        String idString = block.id + ":" + blockMetadata;
+        String idString = block.id() + ":" + blockMetadata;
         if (modSettings().bTWaila$getShowBlockId().value){
             blockName += " " + idString;
         }
@@ -103,17 +106,17 @@ public class BaseInfoComponent extends WailaTextComponent {
     }
     protected void baseEntityInfo(Entity entity){
         if (!modSettings().bTWaila$getEntityTooltips().value) return;
-        boolean isLivingEntity = (entity instanceof EntityLiving);
-        EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
+        boolean isLivingEntity = (entity instanceof Mob);
+        Mob Mob = isLivingEntity ? (Mob) entity : null;
 
         int color = Colors.WHITE;
         if (isLivingEntity) {
             color = Colors.GREEN;
-            if (entity instanceof EntityMonster) {
+            if (entity instanceof MobMonster) {
                 color = Colors.RED;
             }
-            else if (entity instanceof EntityPlayer) {
-                color = entityLiving.chatColor;
+            else if (entity instanceof Player) {
+                color = Mob.chatColor;
             }
         }
         drawStringJustified(AdvancedInfoComponent.getEntityName(entity), 0, getXSize(minecraft), color);

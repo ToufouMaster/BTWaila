@@ -1,7 +1,7 @@
 package toufoumaster.btwaila.util;
 
-import net.minecraft.client.render.stitcher.IconCoordinate;
-import net.minecraft.client.render.stitcher.TextureRegistry;
+import net.minecraft.client.render.texture.stitcher.IconCoordinate;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 
 public class TextureOptions extends ColorOptions {
     public IconCoordinate coordinate;

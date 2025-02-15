@@ -2,27 +2,28 @@ package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.hud.Layout;
-import net.minecraft.client.gui.hud.MovableHudComponent;
+import net.minecraft.client.gui.hud.HudIngame;
+import net.minecraft.client.gui.hud.component.HudComponentMovable;
+import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.render.Lighting;
 import net.minecraft.client.render.item.model.ItemModel;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tessellator.Tessellator;
-import net.minecraft.core.HitResult;
 import net.minecraft.core.WeightedRandomLootObject;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.entity.Mob;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.Items;
+import net.minecraft.core.util.phys.HitResult;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.demo.DemoManager;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
 
-public class DropIconComponent extends MovableHudComponent {
+public class DropIconComponent extends HudComponentMovable {
     public DropIconComponent(String key, Layout layout) {
         super(key, 18, 18, layout);
     }
@@ -33,18 +34,21 @@ public class DropIconComponent extends MovableHudComponent {
     }
 
     @Override
-    public void render(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float partialTick) {
+    public void render(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick) {
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null) {return;}
         if (hitResult.hitType == HitResult.HitType.TILE) {
-            Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
-            ItemStack[] drops = block.getBreakResult(minecraft.theWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.theWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
-            ItemStack icon = block.getDefaultStack();
-            if (drops != null && drops.length > 0){
-                icon = drops[0];
+            Block<?> block = minecraft.currentWorld.getBlock(hitResult.x, hitResult.y, hitResult.z);
+            ItemStack[] drops = null;
+            if (block != null) {
+                drops = block.getBreakResult(minecraft.currentWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.currentWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
+                ItemStack icon = block.getDefaultStack();
+                if (drops != null && drops.length > 0){
+                    icon = drops[0];
+                }
+                icon.stackSize = 1;
+                renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
             }
-            icon.stackSize = 1;
-            renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
             ItemStack itemToRender = getEntityIcon(hitResult.entity);
             itemToRender.stackSize = 1;
@@ -73,16 +77,16 @@ public class DropIconComponent extends MovableHudComponent {
 
         Tessellator t = Tessellator.instance;
         ItemModel model = ItemModelDispatcher.getInstance().getDispatch(blockResult);
-        model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f, 1.0F);
-        model.renderItemOverlayIntoGUI(t, minecraft.fontRenderer, minecraft.renderEngine, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f);
+        model.renderItemIntoGui(t, minecraft.font, minecraft.textureManager, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f, 1.0F);
+        model.renderItemOverlayIntoGUI(t, minecraft.font, minecraft.textureManager, blockResult, x + (getXSize(minecraft) - 16)/2, y + (getYSize(minecraft) - 16)/2, 1f);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
         Lighting.disable();
     }
     public ItemStack getEntityIcon(Entity entity){
         ItemStack icon = entityIconMap.get(entity.getClass());
-        if (icon == null && entity instanceof EntityLiving){
-            EntityLiving living = (EntityLiving)entity;
+        if (icon == null && entity instanceof Mob){
+            Mob living = (Mob)entity;
             if (!living.mobDrops.isEmpty()){
                 WeightedRandomLootObject lootObject = living.mobDrops.get(0);
                 icon = lootObject.getItemStack();
@@ -92,7 +96,7 @@ public class DropIconComponent extends MovableHudComponent {
         if (icon != null){
             return icon;
         } else {
-            return Item.eggChicken.getDefaultStack();
+            return Items.EGG_CHICKEN.getDefaultStack();
         }
     }
 }

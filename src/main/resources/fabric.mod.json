@@ -31,13 +31,17 @@
       "toufoumaster.btwaila.BTWaila"
     ],
     "afterClientStart": [
-      "toufoumaster.btwaila.BTWailaComponents"
+      "toufoumaster.btwaila.BTWailaComponents",
+      "toufoumaster.btwaila.BTWailaClient"
     ],
     "btwaila": [
       "toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin"
     ],
     "modmenu": [
       "toufoumaster.btwaila.entryplugins.modmenu.ModMenuModule"
+    ],
+    "client": [
+      "toufoumaster.btwaila.BTWailaClient"
     ]
   },
   "mixins": [
@@ -46,8 +50,8 @@
 
   "depends": {
     "fabricloader": ">=0.15.5",
-    "halplibe": ">=3.4.17",
-    "minecraft": "~7.2-beta"
+    "halplibe": ">=5.2.0",
+    "minecraft": "~7.3"
   },
   "suggests": {
   }

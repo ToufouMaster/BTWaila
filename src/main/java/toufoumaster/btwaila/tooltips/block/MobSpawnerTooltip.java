@@ -1,9 +1,11 @@
 package toufoumaster.btwaila.tooltips.block;
 
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityMobSpawner;
 import net.minecraft.core.entity.EntityDispatcher;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.util.collection.NamespaceID;
 import net.minecraft.core.world.World;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
@@ -24,8 +26,8 @@ public class MobSpawnerTooltip extends TileTooltip<TileEntityMobSpawner> {
     public void drawAdvancedTooltip(TileEntityMobSpawner mobSpawner, AdvancedInfoComponent advancedInfoComponent) {
         boolean canSpawn = true;
         int canSpawnColor = Colors.LIGHT_GREEN;
-        World world = advancedInfoComponent.getGame().theWorld;
-        if (world == null || world.difficultySetting == 0 || (mobSpawner.getMobId() == null) || (mobSpawner.getMobId().equalsIgnoreCase("none"))) {
+        World world = advancedInfoComponent.getGame().currentWorld;
+        if (world == null || world.getDifficulty().id() == 0 || (mobSpawner.getMobId() == null) || (mobSpawner.getMobId().equalsIgnoreCase("none"))) {
             canSpawn = false;
             canSpawnColor = Colors.LIGHT_RED;
         }
@@ -40,9 +42,9 @@ public class MobSpawnerTooltip extends TileTooltip<TileEntityMobSpawner> {
     @Override
     public DemoEntry tooltipDemo(Random random){
         TileEntityMobSpawner demoSpawner = new TileEntityMobSpawner();
-        String[] entityIds = EntityDispatcher.keyToClassMap.keySet().toArray(new String[0]);
-        demoSpawner.setMobId(entityIds[random.nextInt(entityIds.length)]);
-        Block spawner = Block.mobspawner;
+        NamespaceID[] entityIds = EntityDispatcher.idToClassMap.keySet().toArray(new NamespaceID[0]);
+        demoSpawner.setMobId(entityIds[random.nextInt(entityIds.length)].toString());
+        Block<?> spawner = Blocks.MOBSPAWNER;
         return new DemoEntry(spawner, 0, demoSpawner, new ItemStack[]{spawner.getDefaultStack()});
     }
 }

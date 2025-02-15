@@ -5,9 +5,11 @@ import net.minecraft.client.render.item.model.ItemModel;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityFlowerJar;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.Items;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
@@ -40,12 +42,12 @@ public class JarToolTip extends TileTooltip<TileEntityFlowerJar> {
 
         Lighting.enableInventoryLight();
         if (flower != null){
-            int x = advancedInfoComponent.getPosX() + advancedInfoComponent.getGame().fontRenderer.getStringWidth(text) + 2;
+            int x = advancedInfoComponent.getPosX() + advancedInfoComponent.getGame().font.getStringWidth(text) + 2;
             y -= 4;
             Tessellator t = Tessellator.instance;
             ItemModel model = ItemModelDispatcher.getInstance().getDispatch(flower);
-            model.renderItemIntoGui(t, advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
-            model.renderItemOverlayIntoGUI(t, advancedInfoComponent.getGame().fontRenderer, advancedInfoComponent.getGame().renderEngine, flower, x, y, 1.0F);
+            model.renderItemIntoGui(t, advancedInfoComponent.getGame().font, advancedInfoComponent.getGame().textureManager, flower, x, y, 1.0F);
+            model.renderItemOverlayIntoGUI(t, advancedInfoComponent.getGame().font, advancedInfoComponent.getGame().textureManager, flower, x, y, 1.0F);
         }
         Lighting.disable();
     }
@@ -53,6 +55,6 @@ public class JarToolTip extends TileTooltip<TileEntityFlowerJar> {
     public DemoEntry tooltipDemo(Random random){
         TileEntityFlowerJar flowerJar = new TileEntityFlowerJar();
         flowerJar.flowerInPot = DemoManager.randomStack(random).getItem().id;
-        return new DemoEntry(Block.jarGlass, 0, flowerJar, new ItemStack[]{Item.jar.getDefaultStack()});
+        return new DemoEntry(Blocks.JAR_GLASS, 0, flowerJar, new ItemStack[]{Items.JAR.getDefaultStack()});
     }
 }

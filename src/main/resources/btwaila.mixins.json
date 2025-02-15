@@ -9,14 +9,14 @@
   ],
   "client": [
     "GameSettingsMixin",
-    "GuiIngameMenuMixin",
-    "GuiIngameMixin",
-    "NetClientHandlerMixin",
+    "ScreenPauseMixin",
+    "HudIngameMixin",
+    "PacketHandlerClientMixin",
     "accessors.IPlayerControllerAccessor"
   ],
   "server": [
     "NetLoginHandlerMixin",
-    "NetServerHandlerMixin"
+    "PacketHandlerServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = Packet.class, remap = false)
 public interface PacketAccessor {
-    @Invoker("addIdClassMapping")
-    static void callAddIdClassMapping(int id, boolean isClientPacket, boolean isServerPacket, Class<? extends Packet> packetClass) {
+    @Invoker("addMapping")
+    static void callAddMapping(int id, boolean isClientPacket, boolean isServerPacket, Class<? extends Packet> packetClass) {
         throw new UnsupportedOperationException();
     }
 }

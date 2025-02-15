@@ -1,11 +1,13 @@
 package toufoumaster.btwaila.tooltips.block;
 
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntitySeat;
-import net.minecraft.core.entity.EntityLiving;
-import net.minecraft.core.entity.monster.EntityHuman;
+import net.minecraft.core.entity.Mob;
+import net.minecraft.core.entity.monster.MobHuman;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.Items;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
@@ -31,10 +33,10 @@ public class SeatTooltip extends TileTooltip<TileEntitySeat> {
     @Override
     public DemoEntry tooltipDemo(Random random){
         TileEntitySeat demoSeat = new TileEntitySeat();
-        EntityLiving demoHuman = new EntityHuman(null);
+        Mob demoHuman = new MobHuman(null);
         demoHuman.nickname = DemoManager.getRandomName(random);
         demoSeat.setPassenger(demoHuman);
-        Block seat = Block.seat;
-        return new DemoEntry(seat, 0, demoSeat, new ItemStack[]{Item.seat.getDefaultStack()});
+        Block seat = Blocks.SEAT;
+        return new DemoEntry(seat, 0, demoSeat, new ItemStack[]{Items.SEAT.getDefaultStack()});
     }
 }

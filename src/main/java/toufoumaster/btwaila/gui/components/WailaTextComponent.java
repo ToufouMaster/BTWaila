@@ -1,36 +1,37 @@
 package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.EntityPlayerSP;
+import net.minecraft.client.entity.player.PlayerLocal;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiHudDesigner;
-import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.ScreenHudDesigner;
 import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
-import net.minecraft.client.gui.hud.Layout;
-import net.minecraft.client.gui.hud.MovableHudComponent;
+import net.minecraft.client.gui.hud.HudIngame;
+import net.minecraft.client.gui.hud.component.HudComponentMovable;
+import net.minecraft.client.gui.hud.component.layout.Layout;
+import net.minecraft.client.gui.modelviewer.categories.entries.entity.EntityEntryArmoredZombie;
 import net.minecraft.client.render.Lighting;
-import net.minecraft.client.render.RenderEngine;
-import net.minecraft.client.render.entity.ItemEntityRenderer;
+import net.minecraft.client.render.TextureManager;
+import net.minecraft.client.render.entity.EntityRendererItem;
 import net.minecraft.client.render.item.model.ItemModel;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
-import net.minecraft.client.render.stitcher.IconCoordinate;
 import net.minecraft.client.render.tessellator.Tessellator;
-import net.minecraft.core.block.Block;
+import net.minecraft.client.render.texture.stitcher.IconCoordinate;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityDispatcher;
-import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.EntityPainting;
+import net.minecraft.core.entity.Mob;
 import net.minecraft.core.entity.animal.*;
 import net.minecraft.core.entity.monster.*;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.entity.vehicle.EntityBoat;
 import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.IItemConvertible;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.player.inventory.IInventory;
+import net.minecraft.core.item.Items;
+import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.helper.MathHelper;
-import net.minecraft.server.entity.player.EntityPlayerMP;
+import net.minecraft.server.entity.player.PlayerServer;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
@@ -46,33 +47,33 @@ import java.util.Random;
 
 import static toufoumaster.btwaila.BTWaila.translator;
 
-public abstract class WailaTextComponent extends MovableHudComponent {
-    public static ItemEntityRenderer itemRender = null;
+public abstract class WailaTextComponent extends HudComponentMovable {
+    public static EntityRendererItem itemRender = null;
     public static final HashMap<Class<? extends Entity>, ItemStack> entityIconMap = new HashMap<>();
 
     public static void init(){
-        addEntityIcon(EntityPlayer.class, Item.flag);
-        addEntityIcon(EntityPlayerSP.class, Item.flag);
-        addEntityIcon(EntityPlayerMP.class, Item.flag);
-        addEntityIcon(EntityArmoredZombie.class, Item.chainlink);
-        addEntityIcon(EntityCreeper.class, Item.sulphur);
-        addEntityIcon(EntityGhast.class, Item.ammoFireball);
-        addEntityIcon(EntityPigZombie.class, Item.foodPorkchopCooked);
-        addEntityIcon(EntityPig.class, Item.foodPorkchopRaw);
-        addEntityIcon(EntityScorpion.class, Item.string);
-        addEntityIcon(EntitySpider.class, Item.string);
-        addEntityIcon(EntitySkeleton.class, Item.bone);
-        addEntityIcon(EntitySlime.class, Item.slimeball);
-        addEntityIcon(EntitySnowman.class, Item.ammoSnowball);
-        addEntityIcon(EntityZombie.class, Item.cloth);
-        addEntityIcon(EntityChicken.class, Item.featherChicken);
-        addEntityIcon(EntityCow.class, Item.leather);
-        addEntityIcon(EntityPainting.class, Item.painting);
-        addEntityIcon(EntitySheep.class, Block.wool);
-        addEntityIcon(EntitySquid.class, Item.dye);
-        addEntityIcon(EntityWolf.class, Item.bone);
-        addEntityIcon(EntityMinecart.class, Item.minecart);
-        addEntityIcon(EntityBoat.class, Item.boat);
+        addEntityIcon(Player.class, Items.FLAG);
+        addEntityIcon(PlayerLocal.class, Items.FLAG);
+        //addEntityIcon(PlayerServer.class, Items.FLAG);
+        addEntityIcon(MobZombieArmored.class, Items.CHAINLINK);
+        addEntityIcon(MobCreeper.class, Items.SULPHUR);
+        addEntityIcon(MobGhast.class, Items.AMMO_FIREBALL);
+        addEntityIcon(MobZombiePig.class, Items.FOOD_PORKCHOP_COOKED);
+        addEntityIcon(MobPig.class, Items.FOOD_PORKCHOP_RAW);
+        addEntityIcon(MobScorpion.class, Items.STRING);
+        addEntityIcon(MobSpider.class, Items.STRING);
+        addEntityIcon(MobSkeleton.class, Items.BONE);
+        addEntityIcon(MobSlime.class, Items.SLIMEBALL);
+        addEntityIcon(MobSnowman.class, Items.AMMO_SNOWBALL);
+        addEntityIcon(MobZombie.class, Items.CLOTH);
+        addEntityIcon(MobChicken.class, Items.FEATHER_CHICKEN);
+        addEntityIcon(MobCow.class, Items.LEATHER);
+        addEntityIcon(EntityPainting.class, Items.PAINTING);
+        addEntityIcon(MobSheep.class, Blocks.WOOL);
+        addEntityIcon(MobSquid.class, Items.DYE);
+        addEntityIcon(MobWolf.class, Items.BONE);
+        addEntityIcon(EntityMinecart.class, Items.MINECART);
+        addEntityIcon(EntityBoat.class, Items.BOAT);
     }
 
     public static void addEntityIcon(Class<? extends Entity> entityClass, IItemConvertible displayItem){
@@ -87,7 +88,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     protected int offY = padding;
     protected int posX = 0;
     protected float scale = 1f;
-    public Minecraft minecraft = Minecraft.getMinecraft(Minecraft.class);
+    public Minecraft minecraft = Minecraft.getMinecraft();
     public IOptions modSettings(){
         return BTWailaClient.modSettings;
     }
@@ -104,15 +105,15 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public int getXSize(Minecraft mc) {
         return componentTextWidth;
     }
-    public void render(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float partialTick){
+    public void render(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick){
         this.minecraft = minecraft;
-        this.activeGUI = guiIngame;
+        this.activeGUI = HudIngame;
         this.xScreenSize = xScreenSize;
         this.yScreenSize = yScreenSize;
-        if (minecraft.currentScreen instanceof GuiHudDesigner) return; // Fixes weird placement issues while editing HUD in world
+        if (minecraft.currentScreen instanceof ScreenHudDesigner) return; // Fixes weird placement issues while editing HUD in world
         startY = offY = generateOriginalPosY();
         posX = generateOriginalPosX();
-        renderPost(minecraft, guiIngame, xScreenSize, yScreenSize, partialTick);
+        renderPost(minecraft, HudIngame, xScreenSize, yScreenSize, partialTick);
     }
 
     public void renderPreview(Minecraft minecraft, Gui gui, Layout layout, int xScreenSize, int yScreenSize){
@@ -130,7 +131,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     public int height(){
         return offY - startY;
     }
-    public abstract void renderPost(Minecraft minecraft, GuiIngame guiIngame, int i, int j, float f);
+    public abstract void renderPost(Minecraft minecraft, HudIngame HudIngame, int i, int j, float f);
 
     public abstract void renderPreviewPost(Minecraft minecraft, Gui gui, Layout layout, int i, int j);
     public Minecraft getGame() {
@@ -162,8 +163,8 @@ public abstract class WailaTextComponent extends MovableHudComponent {
     }
 
     public void drawStringWithShadow(String text, int offX, int color) {
-        int width = minecraft.fontRenderer.getStringWidth(text);
-        minecraft.fontRenderer.drawStringWithShadow(text, posX+offX + getStartingX(width), offY, color);
+        int width = minecraft.font.getStringWidth(text);
+        minecraft.font.drawStringWithShadow(text, posX+offX + getStartingX(width), offY, color);
         addOffY(getLineHeight());
     }
     public int getStartingX(int width){
@@ -197,7 +198,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
             prevline = new StringBuilder(line.toString());
             line.append(word).append(" ");
             wordCount++;
-            if (minecraft.fontRenderer.getStringWidth(line.toString().trim()) > maxWidth){
+            if (minecraft.font.getStringWidth(line.toString().trim()) > maxWidth){
                 if (wordCount <= 1){
                     drawStringWithShadow(line.toString(), offX, color);
                     line = new StringBuilder(word).append(" ");
@@ -218,7 +219,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         drawStringCentered(text, Colors.WHITE);
     }
     public void drawStringCentered(String text, int color){
-        minecraft.fontRenderer.drawCenteredString(text, posX + (componentTextWidth/2), offY, color);
+        minecraft.font.drawCenteredString(text, posX + (componentTextWidth/2), offY, color);
         addOffY(getLineHeight());
     }
 
@@ -229,7 +230,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         float b = (float)(color & 0xFF) / 255.0f;
         GL11.glColor4f(r, g, b, 1f);
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor(0, minecraft.resolution.height - h * minecraft.resolution.scale, w * minecraft.resolution.scale, minecraft.resolution.height);
+        GL11.glScissor(0, minecraft.resolution.getWidthScreenCoords() - h * minecraft.resolution.getScale(), w * minecraft.resolution.getScale(), minecraft.resolution.getHeightScreenCoords());
 
         for (int i = x; i < w; i += tileWidth) {
             for (int j = y; j < h; j += tileWidth) {
@@ -245,7 +246,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         float b = (float)(color & 0xFF) / 255.0f;
         GL11.glColor4f(r, g, b, 1f);
 
-        coordinate.parentAtlas.bindTexture();
+        coordinate.parentAtlas.bind();
 
         double minU = coordinate.getIconUMin();
         double maxU = coordinate.getIconUMax();
@@ -255,9 +256,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor(
             0,
-            MathHelper.floor_double(minecraft.resolution.height - h * minecraft.resolution.scale),
-            MathHelper.floor_double(w * minecraft.resolution.scale),
-            minecraft.resolution.height);
+            MathHelper.floor(minecraft.resolution.getHeightScreenCoords() - h * minecraft.resolution.getScale()),
+            MathHelper.floor(w * minecraft.resolution.getScale()),
+            minecraft.resolution.getHeightScreenCoords());
 
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
@@ -320,12 +321,12 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1, 1, 1, 1);
-        RenderEngine renderEngine = minecraft.renderEngine;
+        TextureManager textureManager = minecraft.textureManager;
         String style = modSettings().bTWaila$getBarStyle().value.name();
-        renderEngine.bindTexture(renderEngine.getTexture("/assets/btwaila/gui/progressBg_" + style + ".png"));
+        textureManager.bindTexture(textureManager.loadTexture("/assets/btwaila/gui/progressBg_" + style + ".png"));
         drawTexturedModalRect(posX + offX, offY, boxWidth, sizeY, 1.f);
         if (progress > 0) {
-            renderEngine.bindTexture(renderEngine.getTexture("/assets/btwaila/gui/progressOverlay_" + style + ".png"));
+            textureManager.bindTexture(textureManager.loadTexture("/assets/btwaila/gui/progressOverlay_" + style + ".png"));
             drawTexturedModalRect(posX + offX, offY, progress, sizeY, ratio);
         }
         GL11.glDisable(GL11.GL_BLEND);
@@ -350,9 +351,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
     public void drawProgressBarWithText(int value, int max, ProgressBarOptions options, int offX) {
         int stringPadding = 5;
-        int stringWidth = minecraft.fontRenderer.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));
+        int stringWidth = minecraft.font.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));
         String toDrawText = generateProgressBarString(options.text, value, max, options.values, options.percentage);
-        int textWidthDif = stringWidth - minecraft.fontRenderer.getStringWidth(toDrawText);
+        int textWidthDif = stringWidth - minecraft.font.getStringWidth(toDrawText);
         int width = options.boxWidth;
         if (width == 0) {
             width = stringWidth + stringPadding * 2;
@@ -368,9 +369,9 @@ public abstract class WailaTextComponent extends MovableHudComponent {
 
     public void drawProgressBarTextureWithText(int value, int max, ProgressBarOptions options, int offX) {
         int stringPadding = 5;
-        int stringWidth = minecraft.fontRenderer.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));
+        int stringWidth = minecraft.font.getStringWidth(generateTemplateString(options.text, max, options.values, options.percentage));
         String toDrawText = generateProgressBarString(options.text, value, max, options.values, options.percentage);
-        int textWidthDif = stringWidth - minecraft.fontRenderer.getStringWidth(toDrawText);
+        int textWidthDif = stringWidth - minecraft.font.getStringWidth(toDrawText);
         int width = options.boxWidth;
         if (width == 0) {
             width = stringWidth + stringPadding * 2;
@@ -384,10 +385,10 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         addOffY(4);
     }
 
-    public void drawInfiniteStackSizeInventory(IInventory inventory, int offX) {
+    public void drawInfiniteStackSizeInventory(Container inventory, int offX) {
         HashMap<Integer, ItemStack> itemList = new HashMap<>();
-        for (int i = 0; i < inventory.getSizeInventory(); i++) {
-            ItemStack itemStack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack itemStack = inventory.getItem(i);
             if(itemStack != null){
                 int itemId = itemStack.getItem().id;
                 int stackSize = itemStack.stackSize;
@@ -417,8 +418,8 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         for (ItemStack itemStack : itemList) {
             if (itemStack != null) {
                 ItemModel model = ItemModelDispatcher.getInstance().getDispatch(itemStack);
-                model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
-                model.renderItemOverlayIntoGUI(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
+                model.renderItemIntoGui(t, minecraft.font, minecraft.textureManager, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
+                model.renderItemOverlayIntoGUI(t, minecraft.font, minecraft.textureManager, itemStack, posX + offX + itemX * 16, offY + itemY * 16, 1.0F);
                 itemX++;
                 if (itemX >= 9) {
                     itemX = 0;
@@ -432,7 +433,7 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         Lighting.disable();
     }
 
-    public void drawInventory(IInventory inventory, int offX) {
+    public void drawInventory(Container inventory, int offX) {
         Lighting.enableInventoryLight();
         GL11.glEnable(32826);
 
@@ -441,10 +442,10 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int invArea = invHeight * invWidth;
         final int maxLength = 16;
         float iconLength;
-        if (inventory.getSizeInventory() < 1){
+        if (inventory.getContainerSize() < 1){
             iconLength = maxLength;
         } else {
-            iconLength = (float) Math.sqrt(((double) invArea) /inventory.getSizeInventory());
+            iconLength = (float) Math.sqrt(((double) invArea) /inventory.getContainerSize());
         }
         iconLength = Math.min(maxLength, iconLength); // Min is correct, the intent is to cap the size at 16
         iconLength = Math.max(iconLength, 1);
@@ -458,14 +459,14 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         int itemX = 0;
         int itemY = 0;
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        for (int i = 0; i < inventory.getSizeInventory(); i++) {
-            ItemStack itemStack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack itemStack = inventory.getItem(i);
             if (itemStack != null) {
                 int renderX = (int) ((posX + offX + itemX * iconLength) /scale);
                 int renderY = (int) ((offY + itemY * iconLength)/scale);
                 ItemModel model = ItemModelDispatcher.getInstance().getDispatch(itemStack);
-                model.renderItemIntoGui(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
-                model.renderItemOverlayIntoGUI(t, minecraft.fontRenderer, minecraft.renderEngine, itemStack, renderX, renderY, 1.0F);
+                model.renderItemIntoGui(t, minecraft.font, minecraft.textureManager, itemStack, renderX, renderY, 1.0F);
+                model.renderItemOverlayIntoGUI(t, minecraft.font, minecraft.textureManager, itemStack, renderX, renderY, 1.0F);
                 itemX++;
                 if (itemX >= itemsWide) {
                     itemX = 0;
@@ -483,12 +484,12 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         Lighting.disable();
     }
 
-    protected void drawEntityHealth(EntityLiving entity) {
+    protected void drawEntityHealth(Mob entity) {
         Random rand = new Random();
 
         Lighting.disable();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.renderEngine.bindTexture(minecraft.renderEngine.getTexture("/gui/icons.png"));
+        minecraft.textureManager.bindTexture(minecraft.textureManager.loadTexture("/gui/icons.png"));
 
         boolean heartsFlash;
         heartsFlash = entity.heartsFlashTime / 3 % 2 == 1;
@@ -613,8 +614,8 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         GL11.glDisable(3042);
     }
 
-    public ItemEntityRenderer getItemRenderer(){
-        if (itemRender == null) itemRender = new ItemEntityRenderer();
+    public EntityRendererItem getItemRenderer(){
+        if (itemRender == null) itemRender = new EntityRendererItem();
         return itemRender;
     }
 
@@ -622,14 +623,14 @@ public abstract class WailaTextComponent extends MovableHudComponent {
         if (entity == null){
             return translator.translateKey("btwaila.tooltip.general.entity.null");
         }
-        String entityName = entity instanceof EntityLiving ? ((EntityLiving)entity).getDisplayName() : null;
+        String entityName = entity instanceof Mob ? ((Mob)entity).getDisplayName() : null;
 
         if (entityName == null || entityName.equalsIgnoreCase("§0")) {
             MobInfoRegistry.MobInfo info = MobInfoRegistry.getMobInfo(entity.getClass());
             if (info != null){
                 entityName = translator.translateKey(info.getNameTranslationKey());
             } else {
-                entityName = EntityDispatcher.classToKeyMap.get(entity.getClass());
+                entityName = EntityDispatcher.classToIdMap.get(entity.getClass()).toString();
             }
         }
 
