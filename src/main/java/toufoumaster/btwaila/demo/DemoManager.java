@@ -34,7 +34,7 @@ public class DemoManager {
         add("Useless7695");
         add("MaggAndGeez");
         add("jonkadelic");
-        add("AnActualSign");
+        add("ShignBright");
         add("Herobrine");
         add("Bfells");
     }};
