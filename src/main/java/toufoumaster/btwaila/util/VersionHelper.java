@@ -2,7 +2,7 @@ package toufoumaster.btwaila.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.net.packet.Packet;
-import net.minecraft.core.net.packet.Packet250CustomPayload;
+import net.minecraft.core.net.packet.PacketCustomPayload;
 import toufoumaster.btwaila.BTWaila;
 
 public class VersionHelper {
@@ -52,27 +52,27 @@ public class VersionHelper {
         String text = "§eThe current BTWaila version installed §0[§5"+BTWaila.modVersion.major+"."+BTWaila.modVersion.minor+"."+BTWaila.modVersion.patch+"§0]§e is outdated.";
         String text2 = "Server requirement §0[§5"+versionHelper.major+"."+versionHelper.minor+".x§0]";
         BTWaila.LOGGER.warn(text+text2);
-        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-        mc.ingameGUI.addChatMessage((text));
-        mc.ingameGUI.addChatMessage((text2));
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.hudIngame.addChatMessage((text));
+        mc.hudIngame.addChatMessage((text2));
     }
 
     private static void upgradeAvailablePrint(VersionHelper versionHelper) {
         String text = "§4The current BTWaila version installed §0[§5"+BTWaila.modVersion.major+"."+BTWaila.modVersion.minor+"."+BTWaila.modVersion.patch+"§0]§4 got an update. ";
         String text2 = "§4The actual server is using it §0[§5"+versionHelper.major+"."+versionHelper.minor+"."+versionHelper.patch+"§0]§4, don't forget to update";
         BTWaila.LOGGER.info(text+text2);
-        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-        mc.ingameGUI.addChatMessage((text));
-        mc.ingameGUI.addChatMessage((text2));
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.hudIngame.addChatMessage((text));
+        mc.hudIngame.addChatMessage((text2));
     }
 
     private static void serverOutDatedPrint(VersionHelper versionHelper) {
         String text = "§eThe current BTWaila version installed on this server is ";
         String text2 = "§eoutdated §0[§5"+versionHelper.major+"."+versionHelper.minor+"."+versionHelper.patch+"§0]§e. Please contact the server owner";
         BTWaila.LOGGER.warn(text+text2);
-        Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-        mc.ingameGUI.addChatMessage((text));
-        mc.ingameGUI.addChatMessage((text2));
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.hudIngame.addChatMessage((text));
+        mc.hudIngame.addChatMessage((text2));
     }
 
     @Override
@@ -86,13 +86,13 @@ public class VersionHelper {
 //    }
 
     public Packet getPacket(){
-        return new Packet250CustomPayload("BTWaila|VersionCheck", compilePayload());
+        return new PacketCustomPayload("BTWaila|VersionCheck", compilePayload());
     }
     public byte[] compilePayload(){
         final byte payloadVersion = 1; // Change if the data format changes
         return new byte[]{payloadVersion, major, minor, patch};
     }
-    public static void handlePacket(Packet250CustomPayload payloadPacket){
+    public static void handlePacket(PacketCustomPayload payloadPacket){
         byte version = payloadPacket.data[0];
         switch (version){
             case 1:

@@ -1,9 +1,11 @@
 package toufoumaster.btwaila.tooltips.block;
 
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityBasket;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.Items;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
@@ -27,6 +29,6 @@ public class BasketTooltip extends TileTooltip<TileEntityBasket> {
     }
     @Override
     public DemoEntry tooltipDemo(Random random){
-        return new DemoEntry(Block.basket, 0, new TileEntityBasket(), new ItemStack[]{Item.basket.getDefaultStack()});
+        return new DemoEntry(Blocks.BASKET, 0, new TileEntityBasket(), new ItemStack[]{Items.BASKET.getDefaultStack()});
     }
 }

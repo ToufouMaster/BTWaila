@@ -1,9 +1,9 @@
 package toufoumaster.btwaila.network.packet;
 
-import com.mojang.nbt.CompoundTag;
-import net.minecraft.core.net.handler.NetHandler;
+import com.mojang.nbt.tags.CompoundTag;
+import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
-import toufoumaster.btwaila.mixin.interfaces.INetClientHandler;
+import toufoumaster.btwaila.mixin.interfaces.IPacketHandlerClient;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,31 +17,31 @@ public class PacketEntityData extends Packet {
         this.isChunkDataPacket = true;
     }
 
-    public PacketEntityData(int id, CompoundTag tag) {
-        this();
-        this.id = id;
-        this.tag = tag;
-    }
-
     @Override
-    public void readPacketData(DataInputStream dis) throws IOException {
+    public void read(DataInputStream dis) throws IOException {
         this.id = dis.readInt();
         this.tag = readCompressedCompoundTag(dis);
     }
 
     @Override
-    public void writePacketData(DataOutputStream dos) throws IOException {
+    public void write(DataOutputStream dos) throws IOException {
         dos.writeInt(this.id);
         writeCompressedCompoundTag(this.tag, dos);
     }
 
     @Override
-    public void processPacket(NetHandler netHandler) {
-        ((INetClientHandler)netHandler).bTWaila$handleEntityData(this);
+    public void handlePacket(PacketHandler packetHandler) {
+        ((IPacketHandlerClient)packetHandler).bTWaila$handleEntityData(this);
     }
 
     @Override
-    public int getPacketSize() {
+    public int getEstimatedSize() {
         return 12;
+    }
+
+    public PacketEntityData(int id, CompoundTag tag) {
+        this();
+        this.id = id;
+        this.tag = tag;
     }
 }

@@ -50,8 +50,8 @@ public class DemoManager {
         Item item = allRealItems.get(random.nextInt(allRealItems.size()));
         int stackSize;
         int meta;
-        if (item.getItemStackLimit() > 1){
-            stackSize = random.nextInt(item.getItemStackLimit() - 1) + 1;
+        if (item.getItemStackLimit(item.getDefaultStack()) > 1){
+            stackSize = random.nextInt(item.getItemStackLimit(item.getDefaultStack()) - 1) + 1;
         } else {
             stackSize = 1;
         }

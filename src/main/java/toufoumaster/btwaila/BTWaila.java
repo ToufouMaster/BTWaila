@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toufoumaster.btwaila.entryplugins.waila.BTWailaCustomTooltipPlugin;
 import toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin;
-import toufoumaster.btwaila.gui.components.WailaTextComponent;
 import toufoumaster.btwaila.mixin.mixins.accessors.PacketAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
@@ -52,16 +51,7 @@ public class BTWaila implements GameStartEntrypoint, ModInitializer {
 
     @Override
     public void afterGameStart() {
-        WailaTextComponent.init();
         translator = I18n.getInstance();
-        LOGGER.info("Loading implementations.");
-
-        if (!Global.isServer){
-            BTWailaClient.onLoad();
-        }
-
-        new BTWailaPlugin().initializePlugin(TooltipRegistry.getInstance(), LOGGER); // Load BTWaila tooltips first
-        FabricLoader.getInstance().getEntrypointContainers("btwaila", BTWailaCustomTooltipPlugin.class).forEach(plugin -> plugin.getEntrypoint().initializePlugin(TooltipRegistry.getInstance(), LOGGER));
 
         LOGGER.info("BTWaila initialized.");
         System.out.println(modVersion);
@@ -69,8 +59,8 @@ public class BTWaila implements GameStartEntrypoint, ModInitializer {
 
     @Override
     public void onInitialize() {
-        PacketAccessor.callAddIdClassMapping(220, false, true, PacketRequestTileEntityData.class);
-        PacketAccessor.callAddIdClassMapping(221, false, true, PacketRequestEntityData.class);
-        PacketAccessor.callAddIdClassMapping(222, true, false, PacketEntityData.class);
+        PacketAccessor.callAddMapping(220, false, true, PacketRequestTileEntityData.class);
+        PacketAccessor.callAddMapping(221, false, true, PacketRequestEntityData.class);
+        PacketAccessor.callAddMapping(222, true, false, PacketEntityData.class);
     }
 }

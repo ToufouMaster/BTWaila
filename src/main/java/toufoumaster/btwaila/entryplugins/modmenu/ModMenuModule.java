@@ -1,7 +1,7 @@
 package toufoumaster.btwaila.entryplugins.modmenu;
 
 import io.github.prospector.modmenu.api.ModMenuApi;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.Screen;
 import toufoumaster.btwaila.BTWaila;
 import toufoumaster.btwaila.BTWailaClient;
 
@@ -14,7 +14,7 @@ public class ModMenuModule implements ModMenuApi {
     }
 
     @Override
-    public Function<GuiScreen, ? extends GuiScreen> getConfigScreenFactory() {
-        return (BTWailaClient::getOptionsPage);
+    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
+        return BTWailaClient::getOptionsPage;
     }
 }

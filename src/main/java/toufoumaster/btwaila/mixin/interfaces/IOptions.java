@@ -1,25 +1,25 @@
 package toufoumaster.btwaila.mixin.interfaces;
 
-import net.minecraft.client.option.BooleanOption;
-import net.minecraft.client.option.EnumOption;
-import net.minecraft.client.option.FloatOption;
+import net.minecraft.client.option.OptionBoolean;
+import net.minecraft.client.option.OptionEnum;
+import net.minecraft.client.option.OptionFloat;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.RangeOption;
+import net.minecraft.client.option.OptionRange;
 import toufoumaster.btwaila.util.BarStyle;
 import toufoumaster.btwaila.util.TooltipFormatting;
 
 public interface IOptions {
-    BooleanOption bTWaila$getBlockTooltips();
-    BooleanOption bTWaila$getBlockAdvancedTooltips();
-    BooleanOption bTWaila$getEntityTooltips();
-    BooleanOption bTWaila$getEntityAdvancedTooltips();
-    RangeOption bTWaila$getSmallEntityHealthBar();
-    BooleanOption bTWaila$getShowBlockId();
-    BooleanOption bTWaila$getShowBlockDesc();
-    BooleanOption bTWaila$getShowHarvestText();
-    FloatOption bTWaila$getScaleTooltips();
-    EnumOption<TooltipFormatting> bTWaila$getTooltipFormatting();
-    EnumOption<BarStyle> bTWaila$getBarStyle();
+    OptionBoolean bTWaila$getBlockTooltips();
+    OptionBoolean bTWaila$getBlockAdvancedTooltips();
+    OptionBoolean bTWaila$getEntityTooltips();
+    OptionBoolean bTWaila$getEntityAdvancedTooltips();
+    OptionRange bTWaila$getSmallEntityHealthBar();
+    OptionBoolean bTWaila$getShowBlockId();
+    OptionBoolean bTWaila$getShowBlockDesc();
+    OptionBoolean bTWaila$getShowHarvestText();
+    OptionFloat bTWaila$getScaleTooltips();
+    OptionEnum<TooltipFormatting> bTWaila$getTooltipFormatting();
+    OptionEnum<BarStyle> bTWaila$getBarStyle();
     KeyBinding bTWaila$getKeyOpenBTWailaMenu();
     KeyBinding bTWaila$getKeyDemoCycle();
 }

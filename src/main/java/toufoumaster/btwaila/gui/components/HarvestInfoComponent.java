@@ -2,14 +2,14 @@ package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiHudDesigner;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.hud.ComponentAnchor;
-import net.minecraft.client.gui.hud.Layout;
-import net.minecraft.core.HitResult;
+import net.minecraft.client.gui.ScreenHudDesigner;
+import net.minecraft.client.gui.hud.HudIngame;
+import net.minecraft.client.gui.hud.component.ComponentAnchor;
+import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.player.gamemode.Gamemode;
+import net.minecraft.core.util.phys.HitResult;
 import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.mixin.mixins.accessors.IPlayerControllerAccessor;
 import toufoumaster.btwaila.util.Colors;
@@ -22,11 +22,11 @@ public class HarvestInfoComponent extends WailaTextComponent {
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
-        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
+        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft()));
     }
     @Override
     public int getYSize(Minecraft mc) {
-        if (!(mc.currentScreen instanceof GuiHudDesigner) && !this.isVisible(mc)) {
+        if (!(mc.currentScreen instanceof ScreenHudDesigner) && !this.isVisible(mc)) {
             return 0;
         }
         return height();
@@ -37,14 +37,14 @@ public class HarvestInfoComponent extends WailaTextComponent {
     }
 
     @Override
-    public void renderPost(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float f) {
-        EntityPlayer player = minecraft.thePlayer;
+    public void renderPost(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float f) {
+        Player player = minecraft.thePlayer;
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null || player == null) {
             renderHarvestInfo(Colors.RED, "You shouldn't ever see this message.");
             return;
         }
-        Block block = Block.getBlock(minecraft.theWorld.getBlockId(hitResult.x, hitResult.y, hitResult.z));
+        Block<?> block = minecraft.currentWorld.getBlock(hitResult.x, hitResult.y, hitResult.z);
         if (player.getGamemode() == Gamemode.survival) {
             int miningLevelColor = Colors.LIGHT_GREEN;
             String harvestString = translator.translateKey("btwaila.component.harvest.info.harvestable");

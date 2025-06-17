@@ -1,21 +1,21 @@
 package toufoumaster.btwaila.gui.components;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.EntityClientPlayerMP;
+import net.minecraft.client.entity.player.PlayerLocalMultiplayer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.hud.ComponentAnchor;
-import net.minecraft.client.gui.hud.Layout;
+import net.minecraft.client.gui.hud.HudIngame;
+import net.minecraft.client.gui.hud.component.ComponentAnchor;
+import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.core.Global;
-import net.minecraft.core.HitResult;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.BlockChest;
-import net.minecraft.core.block.BlockTileEntity;
+import net.minecraft.core.block.BlockLogic;
+import net.minecraft.core.block.BlockLogicChest;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityChest;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.EntityLiving;
+import net.minecraft.core.entity.Mob;
 import net.minecraft.core.util.helper.Direction;
+import net.minecraft.core.util.phys.HitResult;
 import net.minecraft.core.world.World;
 import org.lwjgl.input.Keyboard;
 import toufoumaster.btwaila.BTWaila;
@@ -33,7 +33,7 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     }
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
-        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft(this)));
+        return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft()));
     }
     @Override
     public boolean isVisible(Minecraft minecraft) {
@@ -41,11 +41,11 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     }
 
     @Override
-    public void renderPost(Minecraft minecraft, GuiIngame guiIngame, int xScreenSize, int yScreenSize, float partialTick) {
+    public void renderPost(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick) {
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null) {return;}
         if (hitResult.hitType == HitResult.HitType.TILE) {
-            TileEntity tileEntity = minecraft.theWorld.getBlockTileEntity(hitResult.x, hitResult.y, hitResult.z);
+            TileEntity tileEntity = minecraft.currentWorld.getTileEntity(hitResult.x, hitResult.y, hitResult.z);
             renderBlockOverlay(tileEntity);
         } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
             renderEntityOverlay(hitResult.entity);
@@ -76,7 +76,7 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     private void renderBlockOverlay(TileEntity tileEntity){
         setScale(modSettings().bTWaila$getScaleTooltips().value+0.5f);
         if (!modSettings().bTWaila$getBlockTooltips().value) return;
-        if (minecraft.fontRenderer != null) {
+        if (minecraft.font != null) {
             if (modSettings().bTWaila$getBlockAdvancedTooltips().value) {
                 drawFunctionalBlocksData(tileEntity);
             }
@@ -85,16 +85,16 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     private void renderEntityOverlay(Entity entity){
         setScale(modSettings().bTWaila$getScaleTooltips().value+0.5f);
         if (!modSettings().bTWaila$getEntityTooltips().value) return;
-        boolean isLivingEntity = (entity instanceof EntityLiving);
-        EntityLiving entityLiving = isLivingEntity ? (EntityLiving) entity : null;
+        boolean isLivingEntity = (entity instanceof Mob);
+        Mob Mob = isLivingEntity ? (Mob) entity : null;
 
         if (modSettings().bTWaila$getEntityAdvancedTooltips().value) {
-            if (minecraft.thePlayer instanceof EntityClientPlayerMP && BTWaila.canUseAdvancedTooltips) {
-                EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
+            if (minecraft.thePlayer instanceof PlayerLocalMultiplayer && BTWaila.canUseAdvancedTooltips) {
+                PlayerLocalMultiplayer playerMP = (PlayerLocalMultiplayer) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestEntityData(entity.id));
             }
 
-            if (isLivingEntity) drawEntityHealth(entityLiving);
+            if (isLivingEntity) drawEntityHealth(Mob);
             for (EntityTooltip<?> tooltip : TooltipRegistry.entityTooltips) {
                 if (tooltip.isInstance(entity) && tooltip.isInList(entity.getClass())) {
                     tooltip._drawAdvancedTooltip(entity, this);
@@ -103,13 +103,11 @@ public class AdvancedInfoComponent extends WailaTextComponent {
         }
     }
     private void drawFunctionalBlocksData(TileEntity tileEntity) {
-        if (tileEntity != null) {
+        if (tileEntity != null && tileEntity.worldObj != null) {
             boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
             if (tileEntity.worldObj == null) return;
-            Block block = Block.blocksList[tileEntity.worldObj.getBlockId(tileEntity.x, tileEntity.y, tileEntity.z)];
-            if (!(block instanceof BlockTileEntity)) return;
             if (!Global.isServer && BTWaila.canUseAdvancedTooltips && askTileEntity) {
-                EntityClientPlayerMP playerMP = (EntityClientPlayerMP) minecraft.thePlayer;
+                PlayerLocalMultiplayer playerMP = (PlayerLocalMultiplayer) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
                 if (tileEntity instanceof TileEntityChest){
                     requestOtherHalfOfChest(playerMP.world,tileEntity.x, tileEntity.y, tileEntity.z, playerMP);
@@ -122,49 +120,49 @@ public class AdvancedInfoComponent extends WailaTextComponent {
             }
         }
     }
-    private void requestOtherHalfOfChest(World world, int x, int y, int z, EntityClientPlayerMP playerMP) {
+    private void requestOtherHalfOfChest(World world, int x, int y, int z, PlayerLocalMultiplayer playerMP) {
         int meta = world.getBlockMetadata(x, y, z);
-        BlockChest.Type type = BlockChest.getTypeFromMeta(meta);
-        if (type != BlockChest.Type.SINGLE) {
+        BlockLogicChest.Type type = BlockLogicChest.getTypeFromMeta(meta);
+        if (type != BlockLogicChest.Type.SINGLE) {
             int otherMeta;
-            Direction direction = BlockChest.getDirectionFromMeta(meta);
+            Direction direction = BlockLogicChest.getDirectionFromMeta(meta);
             int otherChestX = x;
             int otherChestZ = z;
             if (direction == Direction.NORTH) {
-                if (type == BlockChest.Type.LEFT) {
+                if (type == BlockLogicChest.Type.LEFT) {
                     --otherChestX;
                 }
-                if (type == BlockChest.Type.RIGHT) {
+                if (type == BlockLogicChest.Type.RIGHT) {
                     ++otherChestX;
                 }
             }
             if (direction == Direction.EAST) {
-                if (type == BlockChest.Type.LEFT) {
+                if (type == BlockLogicChest.Type.LEFT) {
                     --otherChestZ;
                 }
-                if (type == BlockChest.Type.RIGHT) {
+                if (type == BlockLogicChest.Type.RIGHT) {
                     ++otherChestZ;
                 }
             }
             if (direction == Direction.SOUTH) {
-                if (type == BlockChest.Type.LEFT) {
+                if (type == BlockLogicChest.Type.LEFT) {
                     ++otherChestX;
                 }
-                if (type == BlockChest.Type.RIGHT) {
+                if (type == BlockLogicChest.Type.RIGHT) {
                     --otherChestX;
                 }
             }
             if (direction == Direction.WEST) {
-                if (type == BlockChest.Type.LEFT) {
+                if (type == BlockLogicChest.Type.LEFT) {
                     ++otherChestZ;
                 }
-                if (type == BlockChest.Type.RIGHT) {
+                if (type == BlockLogicChest.Type.RIGHT) {
                     --otherChestZ;
                 }
             }
-            if (BlockChest.isChest(world, otherChestX, y, otherChestZ) && BlockChest.getDirectionFromMeta(otherMeta = world.getBlockMetadata(otherChestX, y, otherChestZ)) == direction) {
-                BlockChest.Type otherType = BlockChest.getTypeFromMeta(otherMeta);
-                if (type == BlockChest.Type.LEFT && otherType == BlockChest.Type.RIGHT || type == BlockChest.Type.RIGHT && otherType == BlockChest.Type.LEFT) {
+            if (BlockLogicChest.isChest(world, otherChestX, y, otherChestZ) && BlockLogicChest.getDirectionFromMeta(otherMeta = world.getBlockMetadata(otherChestX, y, otherChestZ)) == direction) {
+                BlockLogicChest.Type otherType = BlockLogicChest.getTypeFromMeta(otherMeta);
+                if (type == BlockLogicChest.Type.LEFT && otherType == BlockLogicChest.Type.RIGHT || type == BlockLogicChest.Type.RIGHT && otherType == BlockLogicChest.Type.LEFT) {
                     playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(otherChestX, y, otherChestZ));
                 }
             }

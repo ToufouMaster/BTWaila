@@ -2,7 +2,6 @@ package toufoumaster.btwaila.tooltips.entity;
 
 import net.minecraft.core.entity.vehicle.EntityMinecart;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.player.inventory.IInventory;
 import toufoumaster.btwaila.demo.DemoEntry;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.EntityTooltip;
@@ -19,7 +18,7 @@ public class MinecartTooltip extends EntityTooltip<EntityMinecart> {
 
     @Override
     public void drawAdvancedTooltip(EntityMinecart entityMinecart, AdvancedInfoComponent advancedInfoComponent) {
-        switch (entityMinecart.minecartType) {
+        switch (entityMinecart.getType()) {
             case 0: // Minecart
                 String entityName = AdvancedInfoComponent.getEntityName(entityMinecart.passenger);
                 advancedInfoComponent.drawStringWithShadow(
@@ -27,10 +26,10 @@ public class MinecartTooltip extends EntityTooltip<EntityMinecart> {
                                 .replace("{name}", entityName), 0);
                 break;
             case 1: // Chest
-                int max = ((IInventory) entityMinecart).getSizeInventory();
+                int max = entityMinecart.getContainerSize();
                 int current = 0;
                 for (int i = 0; i < max; i++) {
-                    ItemStack itemStack = ((IInventory) entityMinecart).getStackInSlot(i);
+                    ItemStack itemStack = entityMinecart.getItem(i);
                     if (itemStack != null) {
                         current += itemStack.stackSize;
                     }
@@ -38,20 +37,20 @@ public class MinecartTooltip extends EntityTooltip<EntityMinecart> {
                 advancedInfoComponent.drawStringWithShadow(
                         translator.translateKey("btwaila.tooltip.minecart.storage")
                                 .replace("{current}", String.valueOf(current))
-                                .replace("{max}", String.valueOf(max * ((IInventory) entityMinecart).getInventoryStackLimit())), 0);
+                                .replace("{max}", String.valueOf(max * entityMinecart.getMaxStackSize())), 0);
 
                 advancedInfoComponent.drawInventory(entityMinecart, 0);
                 break;
             case 2: // Furnace
                 advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.minecart.fuel")
-                        .replace("{fuel}", String.valueOf(entityMinecart.fuel)), 0);
+                        .replace("{fuel}", String.valueOf(entityMinecart.getFuel())), 0);
                 break;
         }
     }
     @Override
     public DemoEntry tooltipDemo(Random random){
         EntityMinecart demoMinecart = new EntityMinecart(null);
-        demoMinecart.minecartType = random.nextInt(3);
+        demoMinecart.setType((byte) random.nextInt(3));
         return new DemoEntry(demoMinecart);
     }
 }
