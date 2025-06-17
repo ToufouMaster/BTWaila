@@ -30,6 +30,7 @@ import toufoumaster.btwaila.tooltips.entity.PaintingTooltip;
 import toufoumaster.btwaila.tooltips.entity.PigTooltip;
 import toufoumaster.btwaila.tooltips.entity.PlayerTooltip;
 
+@SuppressWarnings("unused")
 public class BTWailaPlugin implements BTWailaCustomTooltipPlugin {
     public static TooltipRegistry registry = TooltipRegistry.getInstance();
     public static TileTooltip<Container> INVENTORY = registry.register(new InventoryTooltip());
