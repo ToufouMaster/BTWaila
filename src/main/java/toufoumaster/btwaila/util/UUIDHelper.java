@@ -29,10 +29,12 @@ public class UUIDHelper {
         }catch (Exception e) {
             System.err.println("Can't connect to Mojang API.");
             e.printStackTrace();
+            UUIDtoNameMap.put(uuid, null);
             return null;
         }
         if(string.isEmpty()) {
             System.err.println("UUID [" + uuid + "] doesn't exist!");
+            UUIDtoNameMap.put(uuid, null);
             return null;
         }
         String username;
@@ -41,6 +43,7 @@ public class UUIDHelper {
             username = contentParsed.getString("name");
         }catch (Exception e) {
             e.printStackTrace();
+            UUIDtoNameMap.put(uuid, null);
             return null;
         }
 
