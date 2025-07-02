@@ -8,7 +8,6 @@ import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.gui.hud.component.HudComponents;
 import net.minecraft.client.gui.hud.component.layout.Layout;
-import net.minecraft.client.option.enums.TooltipStyle;
 import net.minecraft.client.render.TextureManager;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.client.render.texture.Texture;
@@ -26,7 +25,6 @@ import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.util.Colors;
 
 import static toufoumaster.btwaila.BTWaila.translator;
-import static toufoumaster.btwaila.BTWailaClient.gameSettings;
 import static toufoumaster.btwaila.BTWailaClient.modSettings;
 
 public class BaseInfoComponent extends WailaTextComponent {
