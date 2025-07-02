@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
+import toufoumaster.btwaila.util.BackgroundStyle;
 import toufoumaster.btwaila.util.TooltipFormatting;
 import toufoumaster.btwaila.util.BarStyle;
 
@@ -45,6 +46,10 @@ public class GameSettingsMixin implements IOptions {
     public final OptionEnum<BarStyle> barStyle = new OptionEnum<>(thisAs, "barStyle", BarStyle.class, BarStyle.PLAIN);
     @Unique
     public final OptionFloat scaleTooltips = new OptionFloat(thisAs, "scaleTooltips", 0.5f);
+    @Unique
+    public final OptionEnum<BackgroundStyle> backgroundStyle = new OptionEnum<>(thisAs, "backgroundStyle", BackgroundStyle.class, BackgroundStyle.DEFAULT);
+    @Unique
+    public final OptionFloat backgroundOpacity = new OptionFloat(thisAs, "backgroundOpacity", 1.0F);
 
     public KeyBinding bTWaila$getKeyOpenBTWailaMenu() {
         return keyOpenBTWailaMenu;
@@ -71,11 +76,21 @@ public class GameSettingsMixin implements IOptions {
     public OptionEnum<TooltipFormatting> bTWaila$getTooltipFormatting() {return tooltipFormatting;}
     public OptionEnum<BarStyle> bTWaila$getBarStyle() {return barStyle;}
     public OptionFloat bTWaila$getScaleTooltips() {return scaleTooltips;}
+    public OptionEnum<BackgroundStyle> bTWaila$getBackgroundStyle() {return backgroundStyle;}
+    public OptionFloat bTWaila$getBackgroundOpacity() {return backgroundOpacity;}
     @Inject(method = "getDisplayString(Lnet/minecraft/client/option/Option;)Ljava/lang/String;", at = @At("HEAD"), cancellable = true)
     private void displayStrings(Option<?> option, CallbackInfoReturnable<String> cir){
         I18n translator = I18n.getInstance();
-        if (option == smallEntityHealthBar){
+        if (option == smallEntityHealthBar) {
             cir.setReturnValue(translator.translateKey("options.rowAmount").replace("{x}", String.valueOf(smallEntityHealthBar.value)));
+        }
+        if (option == backgroundStyle) {
+            cir.setReturnValue(translator.translateKey(backgroundStyle.value.getTranslationKey()));
+        }
+        if (option == this.backgroundOpacity) {
+            float value = (float) option.value;
+            int percent = (int) (value * 100.0F);
+            cir.setReturnValue(percent + "%");
         }
     }
 }

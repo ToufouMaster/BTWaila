@@ -3,11 +3,14 @@ package toufoumaster.btwaila.gui.components;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.PlayerLocal;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.ScreenHudDesigner;
 import net.minecraft.client.gui.guidebook.mobs.MobInfoRegistry;
 import net.minecraft.client.gui.hud.HudIngame;
+import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.gui.hud.component.HudComponentMovable;
 import net.minecraft.client.gui.hud.component.layout.Layout;
+import net.minecraft.client.gui.hud.component.layout.LayoutSnap;
 import net.minecraft.client.gui.modelviewer.categories.entries.entity.EntityEntryArmoredZombie;
 import net.minecraft.client.render.Lighting;
 import net.minecraft.client.render.TextureManager;
@@ -427,7 +430,8 @@ public abstract class WailaTextComponent extends HudComponentMovable {
                 }
             }
         }
-        addOffY(8*(1+itemY));
+        if (itemY == 0 && itemX != 0) itemY = 1;
+        addOffY(16*itemY);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
         Lighting.disable();
@@ -436,19 +440,25 @@ public abstract class WailaTextComponent extends HudComponentMovable {
     public void drawInventory(Container inventory, int offX) {
         Lighting.enableInventoryLight();
         GL11.glEnable(32826);
-
         int invWidth = getXSize(minecraft);
-        int invHeight = getYSize(minecraft) - (offY - generateOriginalPosY());
+        int invHeight = getYSize(minecraft);
+
         int invArea = invHeight * invWidth;
         final int maxLength = 16;
         float iconLength;
-        if (inventory.getContainerSize() < 1){
+        int itemCount = 0;
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack itemStack = inventory.getItem(i);
+            if (itemStack != null) itemCount ++;
+        }
+        int linecount = (int) Math.ceil(itemCount/9.0);
+        if (linecount <= 3){
             iconLength = maxLength;
         } else {
-            iconLength = (float) Math.sqrt(((double) invArea) /inventory.getContainerSize());
+            iconLength = (48f/(linecount*16))*16;
         }
         iconLength = Math.min(maxLength, iconLength); // Min is correct, the intent is to cap the size at 16
-        iconLength = Math.max(iconLength, 1);
+        iconLength = Math.max(iconLength, 4);
         int itemsWide = (int) Math.floor(invWidth/iconLength);
         double scale = iconLength/16d;
 
@@ -479,7 +489,8 @@ public abstract class WailaTextComponent extends HudComponentMovable {
 
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LIGHTING);
-        addOffY(8*(1+itemY));
+        if (itemX == 0) itemY-=1;
+        addOffY((int)iconLength*(1+itemY));
 
         Lighting.disable();
     }
@@ -659,5 +670,27 @@ public abstract class WailaTextComponent extends HudComponentMovable {
     @Nullable
     public String getDescFromEntity(Entity entity){
         return getEntityDesc(entity);
+    }
+
+    static public boolean isComponentAnchoredTo(HudComponent component, HudComponent targetComponent) {
+        if (!(component.getLayout() instanceof LayoutSnap)) return false;
+        LayoutSnap snapLayout = (LayoutSnap) component.getLayout();
+        return snapLayout.getParent() == targetComponent;
+    }
+
+    static public boolean isComponentDeepAnchoredTo(HudComponent component, HudComponent targetComponent) {
+        if (component == null) return false;
+        if (!(component.getLayout() instanceof LayoutSnap)) return false;
+        LayoutSnap snapLayout = (LayoutSnap) component.getLayout();
+        if (snapLayout.getParent() == targetComponent) return true;
+        return isComponentDeepAnchoredTo(snapLayout.getParent(), targetComponent);
+    }
+
+    public boolean isAnchoredTo(HudComponent targetComponent) {
+        return isComponentAnchoredTo(this, targetComponent);
+    }
+
+    public boolean isDeepAnchoredTo(HudComponent targetComponent) {
+        return isComponentDeepAnchoredTo(this, targetComponent);
     }
 }

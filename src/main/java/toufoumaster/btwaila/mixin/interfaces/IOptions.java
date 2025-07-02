@@ -5,6 +5,8 @@ import net.minecraft.client.option.OptionEnum;
 import net.minecraft.client.option.OptionFloat;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.OptionRange;
+import net.minecraft.client.option.enums.TooltipStyle;
+import toufoumaster.btwaila.util.BackgroundStyle;
 import toufoumaster.btwaila.util.BarStyle;
 import toufoumaster.btwaila.util.TooltipFormatting;
 
@@ -22,4 +24,6 @@ public interface IOptions {
     OptionEnum<BarStyle> bTWaila$getBarStyle();
     KeyBinding bTWaila$getKeyOpenBTWailaMenu();
     KeyBinding bTWaila$getKeyDemoCycle();
+    OptionEnum<BackgroundStyle> bTWaila$getBackgroundStyle();
+    OptionFloat bTWaila$getBackgroundOpacity();
 }

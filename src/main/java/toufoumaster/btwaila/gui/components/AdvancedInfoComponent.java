@@ -3,6 +3,7 @@ package toufoumaster.btwaila.gui.components;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.PlayerLocalMultiplayer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScreenHudDesigner;
 import net.minecraft.client.gui.hud.HudIngame;
 import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
@@ -34,6 +35,13 @@ public class AdvancedInfoComponent extends WailaTextComponent {
     @Override
     public int getAnchorY(ComponentAnchor anchor) {
         return (int)(anchor.yPosition * getYSize(Minecraft.getMinecraft()));
+    }
+    @Override
+    public int getYSize(Minecraft mc) {
+        if (!(mc.currentScreen instanceof ScreenHudDesigner) && !this.isVisible(mc)) {
+            return 0;
+        }
+        return height();
     }
     @Override
     public boolean isVisible(Minecraft minecraft) {

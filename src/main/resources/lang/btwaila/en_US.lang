@@ -25,6 +25,23 @@ options.barStyle.probe2=The One Probe 2
 options.barStyle.probe=The One Probe
 options.barStyle.plain=Plain
 options.barStyle.lava=Lava
+options.backgroundStyle=Background Style
+options.backgroundStyle.default=Default
+options.backgroundStyle.stone=Stone
+options.backgroundStyle.planks=Planks
+options.backgroundStyle.rpg=RPG
+options.backgroundStyle.crt=CRT
+options.backgroundStyle.detailed=Detailed
+options.backgroundStyle.comfy=Comfy
+options.backgroundStyle.noteblock=Noteblock
+options.backgroundStyle.retro=Retro
+options.backgroundStyle.picnic=Picnic
+options.backgroundStyle.battle_ui=Battle UI
+options.backgroundStyle.interdimensional=Interdimensional
+options.backgroundStyle.redstone_goggles=Redstone Goggles
+options.backgroundStyle.creep-o-vision=Creep-o-vision
+options.backgroundStyle.steve=Steve
+options.backgroundOpacity=Background Opacity
 
 # --Keys--
 btwaila.key.menu=Open Menu
