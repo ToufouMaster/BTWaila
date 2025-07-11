@@ -7,10 +7,7 @@ import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.options.ScreenOptions;
-import net.minecraft.client.gui.options.components.BooleanOptionComponent;
-import net.minecraft.client.gui.options.components.KeyBindingComponent;
-import net.minecraft.client.gui.options.components.OptionsCategory;
-import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
+import net.minecraft.client.gui.options.components.*;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.option.GameSettings;
@@ -41,7 +38,9 @@ public class BTWailaClient implements ClientModInitializer, ClientStartEntrypoin
         modSettings = (IOptions) gameSettings;
         wailaOptions = new OptionsPage("btwaila.options.title", Items.BASKET.getDefaultStack())
                 .withComponent(new OptionsCategory("btwaila.options.category.general")
-                        .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getTooltipFormatting())))
+                        .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getTooltipFormatting()))
+                        .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getBackgroundStyle()))
+                        .withComponent(new FloatOptionComponent(modSettings.bTWaila$getBackgroundOpacity())))
                 .withComponent(new OptionsCategory("btwaila.options.category.block")
                         .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getBlockTooltips()))
                         .withComponent(new BooleanOptionComponent(modSettings.bTWaila$getBlockAdvancedTooltips()))

@@ -19,6 +19,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.Items;
 import net.minecraft.core.util.phys.HitResult;
 import org.lwjgl.opengl.GL11;
+import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.demo.DemoManager;
 
 import static toufoumaster.btwaila.gui.components.AdvancedInfoComponent.entityIconMap;
@@ -35,6 +36,8 @@ public class DropIconComponent extends HudComponentMovable {
 
     @Override
     public void render(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick) {
+        if (!BTWailaClient.modSettings.bTWaila$getBlockTooltips().value) return;
+
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null) {return;}
         if (hitResult.hitType == HitResult.HitType.TILE) {

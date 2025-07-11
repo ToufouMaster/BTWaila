@@ -2,20 +2,16 @@ package toufoumaster.btwaila;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.core.Global;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityFlag;
 import net.minecraft.core.block.entity.TileEntitySign;
 import net.minecraft.core.lang.I18n;
+import net.minecraft.core.net.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import toufoumaster.btwaila.entryplugins.waila.BTWailaCustomTooltipPlugin;
-import toufoumaster.btwaila.entryplugins.waila.BTWailaPlugin;
-import toufoumaster.btwaila.mixin.mixins.accessors.PacketAccessor;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestEntityData;
 import toufoumaster.btwaila.network.packet.PacketRequestTileEntityData;
-import toufoumaster.btwaila.tooltips.TooltipRegistry;
 import toufoumaster.btwaila.util.VersionHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
@@ -54,13 +50,13 @@ public class BTWaila implements GameStartEntrypoint, ModInitializer {
         translator = I18n.getInstance();
 
         LOGGER.info("BTWaila initialized.");
-        System.out.println(modVersion);
+        LOGGER.info("{}", modVersion);
     }
 
     @Override
     public void onInitialize() {
-        PacketAccessor.callAddMapping(220, false, true, PacketRequestTileEntityData.class);
-        PacketAccessor.callAddMapping(221, false, true, PacketRequestEntityData.class);
-        PacketAccessor.callAddMapping(222, true, false, PacketEntityData.class);
+        Packet.addMapping(220, false, true, PacketRequestTileEntityData.class);
+        Packet.addMapping(221, false, true, PacketRequestEntityData.class);
+        Packet.addMapping(222, true, false, PacketEntityData.class);
     }
 }
