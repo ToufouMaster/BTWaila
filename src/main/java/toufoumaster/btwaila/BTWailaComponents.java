@@ -8,8 +8,9 @@ import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.hud.component.layout.LayoutSnap;
 import toufoumaster.btwaila.gui.components.*;
 import turniplabs.halplibe.util.ClientStartEntrypoint;
+import toufoumaster.btwaila.interfaces.HudComponentsRegisteredEntryPoint;
 
-public class BTWailaComponents implements ClientStartEntrypoint {
+public class BTWailaComponents implements ClientStartEntrypoint, HudComponentsRegisteredEntryPoint {
     public static HudComponent BlockBaseInfoComp;
     public static HudComponent BlockBreakComp;
     public static HudComponent BlockAdvancedInfoComp;
@@ -23,6 +24,11 @@ public class BTWailaComponents implements ClientStartEntrypoint {
 
     @Override
     public void afterClientStart() {
+
+    }
+
+    @Override
+    public void afterComponentsRegistered() {
         BlockBaseInfoComp = HudComponents.register(
                 new BaseInfoComponent("wailaInfoBase",
                         new LayoutAbsolute(0.5f, 0.0f, ComponentAnchor.TOP_CENTER)));
