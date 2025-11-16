@@ -3,15 +3,12 @@ package toufoumaster.btwaila.tooltips.block;
 import net.minecraft.client.render.item.model.ItemModel;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tessellator.Tessellator;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntityFlag;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.Items;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.demo.DemoEntry;
-import toufoumaster.btwaila.demo.DemoManager;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;
 import toufoumaster.btwaila.util.UUIDHelper;
@@ -30,7 +27,11 @@ public class FlagTooltip extends TileTooltip<TileEntityFlag> {
         ItemStack color1 = flag.items[0];
         ItemStack color2 = flag.items[1];
         ItemStack color3 = flag.items[2];
-        advancedInfoComponent.drawStringWithShadow(translator.translateKey("btwaila.tooltip.flag.owner").replace("{name}", flag.owner == null ? translator.translateKey("btwaila.tooltip.flag.owner.none") : String.valueOf(UUIDHelper.getNameFromUUID(flag.owner))), 0);
+
+        String username = UUIDHelper.getNameI18nFromUUID(flag.owner, flag.worldObj);
+        String ownerStr = translator.translateKey(TileTooltip.KEY_TILE_ENTITY_OWNER);
+        advancedInfoComponent.drawStringWithShadow(String.format("%s: %s", ownerStr, username), 0);
+
         advancedInfoComponent.addOffY(2);
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "1") + "    " +  ((color1 != null) ? translator.translateNameKey(color1.getItemKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color1);
         renderStringAndStack(advancedInfoComponent,translator.translateKey("btwaila.tooltip.flag.color").replace("{id}", "2") + "    " +  ((color2 != null) ? translator.translateNameKey(color2.getItemKey()) : translator.translateKey("btwaila.tooltip.flag.empty")), 0, color2);

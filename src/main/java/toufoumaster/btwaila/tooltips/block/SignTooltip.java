@@ -19,7 +19,10 @@ public class SignTooltip extends TileTooltip<TileEntitySign> {
     @Override
     public void drawAdvancedTooltip(TileEntitySign interfaceObject, AdvancedInfoComponent advancedInfoComponent) {
         UUID owner = ((TileEntitySignAccessor)interfaceObject).getOwner();
-        String text = translator.translateKey("btwaila.tooltip.sign.owner").replace("{id}", owner == null ? translator.translateKey("btwaila.tooltip.sign.owner.none") : String.valueOf(UUIDHelper.getNameFromUUID(owner)));
-        advancedInfoComponent.drawStringWithShadow(text, 0);
+
+        String username = UUIDHelper.getNameI18nFromUUID(owner, interfaceObject.worldObj);
+        String ownerStr = translator.translateKey(TileTooltip.KEY_TILE_ENTITY_OWNER);
+
+        advancedInfoComponent.drawStringWithShadow(String.format("%s: %s", ownerStr, username), 0);
     }
 }

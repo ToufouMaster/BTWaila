@@ -7,7 +7,6 @@ import net.minecraft.client.gui.ScreenHudDesigner;
 import net.minecraft.client.gui.hud.HudIngame;
 import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
-import net.minecraft.core.Global;
 import net.minecraft.core.block.BlockLogicChest;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.entity.TileEntityChest;
@@ -112,11 +111,11 @@ public class AdvancedInfoComponent extends WailaTextComponent {
         if (tileEntity != null && tileEntity.worldObj != null) {
             boolean askTileEntity = !(BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) != null ? BTWaila.excludeContinuousTileEntityData.get(tileEntity.getClass()) : false);
             if (tileEntity.worldObj == null) return;
-            if (!Global.isServer && BTWaila.canUseAdvancedTooltips && askTileEntity) {
+            if (minecraft.thePlayer instanceof PlayerLocalMultiplayer && BTWaila.canUseAdvancedTooltips && askTileEntity) {
                 PlayerLocalMultiplayer playerMP = (PlayerLocalMultiplayer) minecraft.thePlayer;
                 playerMP.sendQueue.addToSendQueue(new PacketRequestTileEntityData(tileEntity.x, tileEntity.y, tileEntity.z));
                 if (tileEntity instanceof TileEntityChest){
-                    requestOtherHalfOfChest(playerMP.world,tileEntity.x, tileEntity.y, tileEntity.z, playerMP);
+                    requestOtherHalfOfChest(playerMP.world, tileEntity.x, tileEntity.y, tileEntity.z, playerMP);
                 }
             }
             for (TileTooltip<?> tooltip : TooltipRegistry.tileTooltips) {

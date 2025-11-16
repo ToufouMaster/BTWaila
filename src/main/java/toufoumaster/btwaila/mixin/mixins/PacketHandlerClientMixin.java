@@ -3,6 +3,7 @@ package toufoumaster.btwaila.mixin.mixins;
 import net.minecraft.client.net.handler.PacketHandlerClient;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.Mob;
+import net.minecraft.core.net.packet.PacketAddPlayer;
 import net.minecraft.core.net.packet.PacketCustomPayload;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import toufoumaster.btwaila.mixin.interfaces.IPacketHandlerClient;
 import toufoumaster.btwaila.network.packet.PacketEntityData;
+import toufoumaster.btwaila.util.UUIDHelper;
 import toufoumaster.btwaila.util.VersionHelper;
 
 @Mixin(value = PacketHandlerClient.class, remap = false)
@@ -35,5 +37,10 @@ public abstract class PacketHandlerClientMixin implements IPacketHandlerClient {
             VersionHelper.handlePacket(packet);
             ci.cancel();
         }
+    }
+
+    @Inject(method = "handleNamedEntitySpawn", at = @At("TAIL"))
+    public void mapUUIDToUsername(PacketAddPlayer addPlayerPacket, CallbackInfo ci) {
+        UUIDHelper.addMapping(addPlayerPacket.uuid, addPlayerPacket.name);
     }
 }

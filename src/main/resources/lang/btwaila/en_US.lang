@@ -74,8 +74,10 @@ btwaila.tooltip.boat.passenger=Passenger: {name}
 
 btwaila.tooltip.pig.passenger=Passenger: {name}
 
-btwaila.tooltip.flag.owner=Owner: {name}
-btwaila.tooltip.flag.owner.none=None
+btwaila.tooltip.tile_entity.owner=Owner
+btwaila.tooltip.username.unknown=Unknown
+btwaila.tooltip.username.none=None
+
 btwaila.tooltip.flag.color=Color {id}:
 btwaila.tooltip.flag.empty=No Item
 
@@ -98,9 +100,6 @@ btwaila.tooltip.noteblock.material.wood=Wood
 btwaila.tooltip.noteblock.material.none=None
 
 btwaila.tooltip.jukebox.disc=Disc id: {id}
-
-btwaila.tooltip.sign.owner=Owner: {id}
-btwaila.tooltip.sign.owner.none=None
 
 btwaila.tooltip.trommel.progress=Progress: §r
 
