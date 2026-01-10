@@ -631,21 +631,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
         if (entity == null){
             return translator.translateKey("btwaila.tooltip.general.entity.null");
         }
-        String entityName = entity instanceof Mob ? ((Mob)entity).getDisplayName() : null;
-
-        if (entityName == null || entityName.equalsIgnoreCase("§0")) {
-            MobInfoRegistry.MobInfo info = MobInfoRegistry.getMobInfo(entity.getClass());
-            if (info != null){
-                entityName = translator.translateKey(info.getNameTranslationKey());
-            } else {
-                entityName = EntityDispatcher.classToIdMap.get(entity.getClass()).toString();
-            }
-        }
-
-        if (entityName == null){
-            entityName = entity.getClass().getSimpleName();
-        }
-        return entityName;
+        return Entity.getNameFromEntity(entity, false);
     }
 
     public String getNameFromEntity(Entity entity){
