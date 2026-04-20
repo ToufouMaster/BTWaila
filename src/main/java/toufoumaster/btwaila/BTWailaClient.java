@@ -54,7 +54,9 @@ public class BTWailaClient implements ClientModInitializer, ClientStartEntrypoin
                         .withComponent(new ToggleableOptionComponent<>(modSettings.bTWaila$getSmallEntityHealthBar())))
                 .withComponent(new OptionsCategory("btwaila.options.category.keybinds")
                         .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyOpenBTWailaMenu()))
-                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle())));
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle()))
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyToggleBlockTooltips()))
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyToggleEntityTooltips())));
 
         OptionsPages.register(wailaOptions);
         for (ModContainer container : FabricLoader.getInstance().getAllMods()) {
@@ -64,7 +66,9 @@ public class BTWailaClient implements ClientModInitializer, ClientStartEntrypoin
         OptionsPages.CONTROLS.withComponent(
                 new OptionsCategory("btwaila.options.category.keybinds.explicit")
                         .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyOpenBTWailaMenu()))
-                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle())));
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyDemoCycle()))
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyToggleBlockTooltips()))
+                        .withComponent(new KeyBindingComponent(modSettings.bTWaila$getKeyToggleEntityTooltips())));
 
     }
     public static Screen getOptionsPage(Screen parent){

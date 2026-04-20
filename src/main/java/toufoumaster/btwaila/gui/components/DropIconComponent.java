@@ -14,7 +14,6 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.Mob;
 import net.minecraft.core.enums.EnumDropCause;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.Items;
 import net.minecraft.core.util.phys.HitResult;
@@ -36,13 +35,12 @@ public class DropIconComponent extends HudComponentMovable {
 
     @Override
     public void render(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick) {
-        if (!BTWailaClient.modSettings.bTWaila$getBlockTooltips().value) return;
 
         HitResult hitResult = minecraft.objectMouseOver;
-        if (hitResult == null) {return;}
-        if (hitResult.hitType == HitResult.HitType.TILE) {
+        if (hitResult == null) return;
+        if (hitResult.hitType == HitResult.HitType.TILE && BTWailaClient.modSettings.bTWaila$getBlockTooltips().value) {
             Block<?> block = minecraft.currentWorld.getBlock(hitResult.x, hitResult.y, hitResult.z);
-            ItemStack[] drops = null;
+            ItemStack[] drops;
             if (block != null) {
                 drops = block.getBreakResult(minecraft.currentWorld, EnumDropCause.PICK_BLOCK, hitResult.x, hitResult.y, hitResult.z, minecraft.currentWorld.getBlockMetadata(hitResult.x, hitResult.y, hitResult.z), null);
                 ItemStack icon = block.getDefaultStack();
@@ -52,7 +50,7 @@ public class DropIconComponent extends HudComponentMovable {
                 icon.stackSize = 1;
                 renderItemDisplayer(minecraft,icon, xScreenSize, yScreenSize);
             }
-        } else if (hitResult.hitType == HitResult.HitType.ENTITY) {
+        } else if (hitResult.hitType == HitResult.HitType.ENTITY && BTWailaClient.modSettings.bTWaila$getEntityTooltips().value) {
             ItemStack itemToRender = getEntityIcon(hitResult.entity);
             itemToRender.stackSize = 1;
             renderItemDisplayer(minecraft, itemToRender, xScreenSize, yScreenSize);

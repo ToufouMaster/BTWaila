@@ -46,6 +46,8 @@ options.backgroundOpacity=Background Opacity
 # --Keys--
 btwaila.key.menu=Open Menu
 btwaila.key.democycle=Cycle Demo
+btwaila.key.toggleBlockTooltips=Toggle Block Tooltips
+btwaila.key.toggleEntityTooltips=Toggle Entity Tooltips
 
 # --Gui--
 btwaila.component.harvest.info.harvestable=Harvestable with current tool

@@ -13,17 +13,20 @@ import toufoumaster.btwaila.util.BackgroundStyle;
 import toufoumaster.btwaila.util.TooltipFormatting;
 import toufoumaster.btwaila.util.BarStyle;
 
-import static org.lwjgl.input.Keyboard.KEY_F9;
-import static org.lwjgl.input.Keyboard.KEY_NUMPAD0;
+import static org.lwjgl.input.Keyboard.*;
 
 @Mixin(value = GameSettings.class, remap = false)
 public class GameSettingsMixin implements IOptions {
     @Unique
     private final GameSettings thisAs = (GameSettings)(Object)this;
     @Unique
-    public final KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bind(InputDevice.keyboard, KEY_NUMPAD0);
+    public final KeyBinding keyOpenBTWailaMenu = new KeyBinding("btwaila.key.menu").bind(InputDevice.keyboard, KEY_NUMPAD0).setDefault(InputDevice.keyboard, KEY_NUMPAD0);
     @Unique
-    public final KeyBinding keyDemoCycle = new KeyBinding("btwaila.key.democycle").bind(InputDevice.keyboard, KEY_F9);
+    public final KeyBinding keyToggleBlockTooltips = new KeyBinding("btwaila.key.toggleBlockTooltips").bind(InputDevice.keyboard, KEY_BACKSLASH).setDefault(InputDevice.keyboard, KEY_BACKSLASH);
+    @Unique
+    public final KeyBinding keyToggleEntityTooltips = new KeyBinding("btwaila.key.toggleEntityTooltips").bind(InputDevice.keyboard, KEY_BACKSLASH).setDefault(InputDevice.keyboard, KEY_BACKSLASH);
+    @Unique
+    public final KeyBinding keyDemoCycle = new KeyBinding("btwaila.key.democycle").bind(InputDevice.keyboard, KEY_F9).setDefault(InputDevice.keyboard, KEY_F9);
     @Unique
     public final OptionBoolean blockTooltips = new OptionBoolean(thisAs, "blockTooltips", true);
     @Unique
@@ -55,6 +58,8 @@ public class GameSettingsMixin implements IOptions {
         return keyOpenBTWailaMenu;
     }
     public KeyBinding bTWaila$getKeyDemoCycle() {return keyDemoCycle;}
+    public KeyBinding bTWaila$getKeyToggleBlockTooltips() {return keyToggleBlockTooltips;}
+    public KeyBinding bTWaila$getKeyToggleEntityTooltips() {return keyToggleEntityTooltips;}
     public OptionBoolean bTWaila$getBlockTooltips() {
         return blockTooltips;
     }
