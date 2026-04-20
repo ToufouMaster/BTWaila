@@ -32,6 +32,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.Items;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.helper.MathHelper;
+import org.jspecify.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 import toufoumaster.btwaila.BTWailaClient;
 import toufoumaster.btwaila.mixin.interfaces.IOptions;
@@ -40,7 +41,6 @@ import toufoumaster.btwaila.util.Colors;
 import toufoumaster.btwaila.util.ProgressBarOptions;
 import toufoumaster.btwaila.util.TextureOptions;
 
-import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Random;
