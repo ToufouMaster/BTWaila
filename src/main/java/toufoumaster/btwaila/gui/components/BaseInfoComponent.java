@@ -170,7 +170,6 @@ public class BaseInfoComponent extends WailaTextComponent {
     public void render(Minecraft minecraft, HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick) {
         HitResult hitResult = minecraft.objectMouseOver;
         if (hitResult == null) return;
-        System.out.println(hitResult.hitType+", "+modSettings().bTWaila$getBlockTooltips().value+", "+modSettings().bTWaila$getEntityTooltips().value);
         if ((hitResult.hitType == HitResult.HitType.TILE && modSettings().bTWaila$getBlockTooltips().value) ||
             (hitResult.hitType == HitResult.HitType.ENTITY && modSettings().bTWaila$getEntityTooltips().value)) {
             renderBackground(xScreenSize, yScreenSize);
