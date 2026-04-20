@@ -88,7 +88,7 @@ public class GameSettingsMixin implements IOptions {
             cir.setReturnValue(translator.translateKey(backgroundStyle.value.getTranslationKey()));
         }
         if (option == this.backgroundOpacity) {
-            float value = (float) option.value;
+            float value = this.backgroundOpacity.value;
             int percent = (int) (value * 100.0F);
             cir.setReturnValue(percent + "%");
         }

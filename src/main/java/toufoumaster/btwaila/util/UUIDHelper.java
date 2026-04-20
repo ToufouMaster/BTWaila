@@ -3,7 +3,7 @@ package toufoumaster.btwaila.util;
 import com.b100.json.JsonParser;
 import com.b100.json.element.JsonObject;
 import com.b100.utils.StringUtils;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;

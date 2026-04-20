@@ -1,8 +1,10 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "toufoumaster.btwaila.mixin.mixins",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_${java}",
+  "injectors": {
+    "defaultRequire": 1
+  },
   "mixins": [
     "accessors.TileEntitySignAccessor"
   ],
@@ -17,8 +19,5 @@
   "server": [
     "NetLoginHandlerMixin",
     "PacketHandlerServerMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+  ]
 }
