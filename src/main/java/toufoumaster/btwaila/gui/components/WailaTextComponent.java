@@ -201,7 +201,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
             if (minecraft.font.getStringWidth(line.toString().trim()) > maxWidth){
                 if (wordCount <= 1){
                     drawStringWithShadow(line.toString(), offX, color);
-                    line = new StringBuilder(word).append(" ");
+                    line.setLength(0);
                     wordCount = 0;
                     continue;
                 }
