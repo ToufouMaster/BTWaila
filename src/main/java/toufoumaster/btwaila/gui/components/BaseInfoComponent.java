@@ -113,7 +113,7 @@ public class BaseInfoComponent extends WailaTextComponent {
             tl.drawRectangleWithUV(maxX - 3 - finalWidth2, y, finalWidth2, 8, 0.4375F, 0.4375F, ((float)finalWidth2 / 32.0F), 0.25F);
         }
 
-        tl.drawRectangleWithUV(maxX - 3 - finalWidth2, maxY - 3 - finalHeight2, finalWidth2, finalHeight2, 0.4375F, 0.4375F, ((float)finalWidth / 32.0F), ((float)finalWidth2 / 32.0F));
+        tl.drawRectangleWithUV(maxX - 3 - finalWidth2, maxY - 3 - finalHeight2, finalWidth2, finalHeight2, 0.4375F, 0.4375F, ((float)finalWidth2 / 32.0F), ((float)finalHeight2 / 32.0F));
         tl.draw();
         GL11.glColor4f(1, 1, 1 , 1);
     }
