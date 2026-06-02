@@ -253,6 +253,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
 			MathHelper.floor(minecraft.resolution.getHeightScreenCoords() - h * minecraft.resolution.getScale()),
 			MathHelper.floor(w * minecraft.resolution.getScale()),
 			minecraft.resolution.getHeightScreenCoords());
+		GLRenderer.enableState(State.SCISSOR_TEST);
 
         TessellatorGeneral tessellator = GLRenderer.getTessellator();
         tessellator.startDrawingQuads();
