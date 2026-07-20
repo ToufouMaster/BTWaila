@@ -283,7 +283,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
     }
 
     private String generateProgressBarString(String text, int value, int max, boolean values , boolean percentage) {
-        float ratio = (float) value / (float) max;
+		float ratio = Math.min((float) value / (float) max, 1.f);
         String template = text;
         if (values) {
             template += translator.translateKey("btwaila.util.template.values").replace("{max}", String.valueOf(max)).replace("{current}", String.valueOf(value));
@@ -330,7 +330,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
     }
 
     public void drawProgressBarTexture(int value, int max, int boxWidth, TextureOptions bgOptions, TextureOptions fgOptions, int offX) {
-        float ratio = (float) value / (float) max;
+        float ratio = Math.min((float) value / (float) max, 1.f);
         final int sizeY = 16;
         int progress = (int)Math.ceil((boxWidth)*ratio);
 
