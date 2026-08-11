@@ -4,15 +4,15 @@ plugins {
 	alias(libs.plugins.lwjgl)
     java
 }
-val modVersion: Provider<String> = providers.gradleProperty("mod_version")
-val modGroup: Provider<String> = providers.gradleProperty("mod_group")
-val modName: Provider<String> = providers.gradleProperty("mod_name")
+val modVersion: String = project.properties["mod_version"].toString()
+val modGroup: String = project.properties["mod_group"].toString()
+val modName: String = project.properties["mod_name"].toString()
 
 val javaVersion: Provider<Int> = libs.versions.java.map { it.toInt() }
 
 base.archivesName = modName
-group = modGroup.get()
-version = modVersion.get()
+group = modGroup
+version = modVersion
 loom {
     customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
 }
@@ -116,7 +116,7 @@ tasks {
 	}
 	processResources {
 		val resourceMap = mapOf(
-			"version" to modVersion.get(),
+			"version" to modVersion,
 			"fabricloader" to libs.versions.loader.get(),
 			"halplibe" to libs.versions.halplibe.get(),
 			"java" to libs.versions.java.get(),
