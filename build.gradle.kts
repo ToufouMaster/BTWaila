@@ -1,18 +1,25 @@
 import com.smushytaco.lwjgl_gradle.Preset
+import groovy.namespace.QName
+import groovy.util.Node
+import groovy.xml.XmlParser
+import java.io.IOException
+import java.net.URL
+
 plugins {
 	alias(libs.plugins.loom)
 	alias(libs.plugins.lwjgl)
     java
+	`maven-publish`
 }
-val modVersion: Provider<String> = providers.gradleProperty("mod_version")
-val modGroup: Provider<String> = providers.gradleProperty("mod_group")
-val modName: Provider<String> = providers.gradleProperty("mod_name")
+val modVersion: String = project.properties["mod_version"].toString()
+val modGroup: String = project.properties["mod_group"].toString()
+val modName: String = project.properties["mod_name"].toString()
 
 val javaVersion: Provider<Int> = libs.versions.java.map { it.toInt() }
 
 base.archivesName = modName
-group = modGroup.get()
-version = modVersion.get()
+group = modGroup
+version = modVersion
 loom {
     customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
 }
@@ -22,10 +29,7 @@ repositories {
     maven("https://maven.thesignalumproject.net/infrastructure") { name = "SignalumMavenInfrastructure" }
     maven("https://maven.thesignalumproject.net/releases") { name = "SignalumMavenReleases" }
 	maven("https://maven.thesignalumproject.net/nightly") { name = "SignalumMavenNightly" }
-    ivy("https://github.com/Better-than-Adventure") {
-        patternLayout { artifact("[organisation]/releases/download/[revision]/[module]-bta-[revision].jar") }
-        metadataSources { artifact() }
-    }
+
     ivy("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/") {
         patternLayout { artifact("/v[revision]/client.jar") }
         metadataSources { artifact() }
@@ -98,9 +102,11 @@ tasks {
 		targetCompatibility = javaVersion.get().toString()
 		if (javaVersion.get() > 8) options.release = javaVersion
 	}
-	named<UpdateDaemonJvm>("updateDaemonJvm") {
-		languageVersion = libs.versions.gradleJava.map { JavaLanguageVersion.of(it.toInt()) }
-		vendor = JvmVendorSpec.ADOPTIUM
+	if(rootProject == this){
+		named<UpdateDaemonJvm>("updateDaemonJvm") {
+			languageVersion = libs.versions.gradleJava.map { JavaLanguageVersion.of(it.toInt()) }
+			vendor = JvmVendorSpec.ADOPTIUM
+		}
 	}
 	withType<JavaExec>().configureEach { defaultCharacterEncoding = "UTF-8" }
 	withType<Javadoc>().configureEach { options.encoding = "UTF-8" }
@@ -114,7 +120,7 @@ tasks {
 	}
 	processResources {
 		val resourceMap = mapOf(
-			"version" to modVersion.get(),
+			"version" to modVersion,
 			"fabricloader" to libs.versions.loader.get(),
 			"halplibe" to libs.versions.halplibe.get(),
 			"java" to libs.versions.java.get(),
@@ -127,3 +133,48 @@ tasks {
 }
 // Removes LWJGL2 dependencies
 configurations.configureEach { exclude(group = "org.lwjgl.lwjgl") }
+
+publishing {
+	if(checkVersion(modGroup, modName, modVersion)){
+		repositories {
+			maven {
+				name = "signalumMaven"
+				url = uri("https://maven.thesignalumproject.net/releases")
+				credentials(PasswordCredentials::class)
+				authentication {
+					create<BasicAuthentication>("basic")
+				}
+			}
+
+			publications {
+				create<MavenPublication>("maven") {
+					groupId = modGroup
+					artifactId = modName
+					version = modVersion
+					from(components["java"])
+				}
+			}
+		}
+	}
+}
+
+fun checkVersion(group: String, name: String, version: String): Boolean {
+	return !(rootProject.property("check_versions") as String).toBoolean() || try {
+		val xml = URL("https://maven.thesignalumproject.net/releases/$group/$name/maven-metadata.xml").readText()
+		val metadata = XmlParser().parseText(xml)
+
+		val versions = metadata.getAt(QName("versioning")).getAt("versions").getAt("version").map { (it as Node).text() }
+
+		if (version in versions) {
+			System.err.println("Version $version of $group.$name already exists!")
+			false
+		} else {
+			System.out.println("Version $version of $group.$name ready to release!")
+			true
+		}
+	} catch (e: IOException) {
+		System.err.println("Failed to check version for $group.$name!")
+		e.printStackTrace()
+		true
+	}
+}

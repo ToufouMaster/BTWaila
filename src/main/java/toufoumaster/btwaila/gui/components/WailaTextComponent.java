@@ -39,6 +39,7 @@ import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.helper.LightIndexHelper;
 import net.minecraft.core.util.helper.MathHelper;
 import org.jspecify.annotations.Nullable;
+import org.lwjgl.opengl.GL41;
 import toufoumaster.btwaila.BTWailaOptions;
 import toufoumaster.btwaila.util.ColorOptions;
 import toufoumaster.btwaila.util.Colors;
@@ -209,6 +210,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
         }
     }
     public void drawStringCentered(String text){
+		GLRenderer.setColor4f(1,1,1,1);
         drawStringCentered(text, Colors.WHITE);
     }
     public void drawStringCentered(String text, int color){
@@ -239,17 +241,19 @@ public abstract class WailaTextComponent extends HudComponentMovable {
         GLRenderer.setColor4f(r, g, b, 1f);
 
         coordinate.parentAtlas.bind();
+		GLRenderer.setShader(Shaders.WORLD);
 
         double minU = coordinate.getIconUMin();
         double maxU = coordinate.getIconUMax();
         double minV = coordinate.getIconVMin();
         double maxV = coordinate.getIconVMax();
 
-        Scissor.enable(
-            0,
-            MathHelper.floor(minecraft.resolution.getHeightScreenCoords() - h * minecraft.resolution.getScale()),
-            MathHelper.floor(w * minecraft.resolution.getScale()),
-            minecraft.resolution.getHeightScreenCoords());
+		GL41.glScissor(
+			0,
+			MathHelper.floor(minecraft.resolution.getHeightScreenCoords() - h * minecraft.resolution.getScale()),
+			MathHelper.floor(w * minecraft.resolution.getScale()),
+			minecraft.resolution.getHeightScreenCoords());
+		GLRenderer.enableState(State.SCISSOR_TEST);
 
         TessellatorGeneral tessellator = GLRenderer.getTessellator();
         tessellator.startDrawingQuads();
@@ -279,7 +283,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
     }
 
     private String generateProgressBarString(String text, int value, int max, boolean values , boolean percentage) {
-        float ratio = (float) value / (float) max;
+		float ratio = Math.min((float) value / (float) max, 1.f);
         String template = text;
         if (values) {
             template += translator.translateKey("btwaila.util.template.values").replace("{max}", String.valueOf(max)).replace("{current}", String.valueOf(value));
@@ -326,7 +330,7 @@ public abstract class WailaTextComponent extends HudComponentMovable {
     }
 
     public void drawProgressBarTexture(int value, int max, int boxWidth, TextureOptions bgOptions, TextureOptions fgOptions, int offX) {
-        float ratio = (float) value / (float) max;
+        float ratio = Math.min((float) value / (float) max, 1.f);
         final int sizeY = 16;
         int progress = (int)Math.ceil((boxWidth)*ratio);
 
